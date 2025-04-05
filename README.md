@@ -7,7 +7,6 @@ Option Calculator is a Streamlit-based web application that allows users to visu
 
 <img width="1680" alt="image" src="https://github.com/user-attachments/assets/04b3fa7c-c478-46be-bb84-03cdf3bec08f" />
 
-
 <img width="1680" alt="image" src="https://github.com/user-attachments/assets/9ce20a5d-6155-468e-a5bc-bc2ef7444250" />
 
 <img width="1680" alt="image" src="https://github.com/user-attachments/assets/40cbccd3-770c-4943-ac4b-220fccc28e1a" />
@@ -69,6 +68,13 @@ streamlit run app.py
    - Set option parameters (underlying price, expiry date, volatility, etc.).
    - Select an option strategy and position.
    - Click the 'Show Plot' button to view the profit/loss curve and Greeks.
+   
+4. Special features:
+   - Option prices are automatically calculated based on the Black-Scholes model when parameters are entered. Users can modify these prices if needed.
+   - The "+" and "-" signs before call and put in the option price section indicate buying and selling positions: "+" for buying (long) and "-" for selling (short).
+   - The volatility shown is the 52-week historical volatility, which users can modify.
+   - Strategy selection is made through the side, option type, and strategy selection fields. For example, selecting side: short, option type: call, and strategy: single creates a call option short strategy.
+   - The risk-free rate uses the U.S. 10-year Treasury yield as a benchmark.
 
 ## Project Structure
 
@@ -138,12 +144,9 @@ If you have any questions or suggestions, please contact: pmh621@naver.com
 
 <img width="1680" alt="image" src="https://github.com/user-attachments/assets/04b3fa7c-c478-46be-bb84-03cdf3bec08f" />
 
-
 <img width="1680" alt="image" src="https://github.com/user-attachments/assets/9ce20a5d-6155-468e-a5bc-bc2ef7444250" />
 
 <img width="1680" alt="image" src="https://github.com/user-attachments/assets/40cbccd3-770c-4943-ac4b-220fccc28e1a" />
-
-
 
 ## 기능
 
@@ -201,6 +204,13 @@ streamlit run app.py
    - 옵션 파라미터를 설정합니다 (기초 자산 가격, 만기일, 변동성 등).
    - 옵션 전략과 포지션을 선택합니다.
    - 'Show Plot' 버튼을 클릭하여 손익 곡선과 그릭스를 확인합니다.
+
+4. 특별 기능:
+   - 옵션 가격은 사용자가 파라미터를 입력하면 블랙-숄즈 모형을 기반으로 자동으로 계산되어 입력창에 나타납니다. 사용자가 필요에 따라 이 가격을 수정할 수 있습니다.
+   - 옵션 가격 섹션에서 콜과 풋 앞의 "+"와 "-" 기호는 매수와 매도 포지션을 나타냅니다: "+"는 매수(롱), "-"는 매도(숏)를 의미합니다.
+   - 표시되는 변동성은 52주 역사적 변동성이며, 사용자가 수정할 수 있습니다.
+   - 전략 선택은 사이드, 옵션 유형 및 전략 선택 필드를 통해 이루어집니다. 예를 들어, 사이드: short, 옵션 유형: call, 전략: single을 선택하면 콜 옵션 숏 전략을 생성합니다.
+   - 무위험 금리는 미국 10년 국채 수익률을 기준으로 사용합니다.
 
 ## 프로젝트 구조
 
@@ -270,11 +280,9 @@ MIT License
 
 <img width="1680" alt="image" src="https://github.com/user-attachments/assets/04b3fa7c-c478-46be-bb84-03cdf3bec08f" />
 
-
 <img width="1680" alt="image" src="https://github.com/user-attachments/assets/9ce20a5d-6155-468e-a5bc-bc2ef7444250" />
 
 <img width="1680" alt="image" src="https://github.com/user-attachments/assets/40cbccd3-770c-4943-ac4b-220fccc28e1a" />
-
 
 
 ## 功能
@@ -333,6 +341,13 @@ streamlit run app.py
    - 设置期权参数（标的资产价格、到期日、波动率等）。
    - 选择期权策略和持仓方向。
    - 点击"Show Plot"按钮查看盈亏曲线和希腊字母值。
+
+4. 特殊功能：
+   - 输入参数后，期权价格会根据布莱克-斯科尔斯模型自动计算并显示在输入框中。用户可以根据需要修改这些价格。
+   - 期权价格部分中看涨和看跌期权前的"+"和"-"符号表示买入和卖出持仓："+"表示买入（做多），"-"表示卖出（做空）。
+   - 显示的波动率是52周历史波动率，用户可以修改。
+   - 策略选择通过方向（side）、期权类型（option type）和策略（strategy）选择字段完成。例如，选择方向：short，期权类型：call，策略：single将创建看涨期权卖空策略。
+   - 无风险利率使用美国10年期国债收益率作为基准。
 
 ## 项目结构
 
