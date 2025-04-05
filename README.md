@@ -136,7 +136,14 @@ If you have any questions or suggestions, please contact: pmh621@naver.com
 
 옵션 계산기는 다양한 옵션 거래 전략의 손익과 그릭스를 시각화하고 분석할 수 있는 Streamlit 기반 웹 애플리케이션입니다.
 
-![스크린샷](https://via.placeholder.com/800x400?text=Option+Calculator+Screenshot)
+<img width="1680" alt="image" src="https://github.com/user-attachments/assets/04b3fa7c-c478-46be-bb84-03cdf3bec08f" />
+
+
+<img width="1680" alt="image" src="https://github.com/user-attachments/assets/9ce20a5d-6155-468e-a5bc-bc2ef7444250" />
+
+<img width="1680" alt="image" src="https://github.com/user-attachments/assets/40cbccd3-770c-4943-ac4b-220fccc28e1a" />
+
+
 
 ## 기능
 
@@ -261,7 +268,14 @@ MIT License
 
 期权计算器是一个基于Streamlit的网络应用程序，用户可以可视化和分析各种期权交易策略的盈亏和希腊字母值。
 
-![截图](https://via.placeholder.com/800x400?text=Option+Calculator+Screenshot)
+<img width="1680" alt="image" src="https://github.com/user-attachments/assets/04b3fa7c-c478-46be-bb84-03cdf3bec08f" />
+
+
+<img width="1680" alt="image" src="https://github.com/user-attachments/assets/9ce20a5d-6155-468e-a5bc-bc2ef7444250" />
+
+<img width="1680" alt="image" src="https://github.com/user-attachments/assets/40cbccd3-770c-4943-ac4b-220fccc28e1a" />
+
+
 
 ## 功能
 
