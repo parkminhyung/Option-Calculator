@@ -75,7 +75,7 @@ def fetch_data(ticker):
         except:
             rf = 3.95
 
-        dividend_yield = stock_info.get("dividendYield", 0.0) * 100
+        dividend_yield = stock_info.get("dividendYield", 0.0)
 
         open_price = stock_info.get("open", None)
         high = stock_info.get("dayHigh", None)
