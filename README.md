@@ -1,411 +1,283 @@
-# Option Calculator / 옵션 계산기 / 期权计算器
+# Options Calculator
 
-<details>
-<summary>English</summary>
+<div align="center">
+  
+[한국어](#한국어) | [English](#english) | [中文](#中文) | [日本語](#日本語)
 
-Option Calculator is a Streamlit-based web application that allows users to visualize and analyze the profit/loss and Greeks of various option trading strategies.
+</div>
 
-<img width="1680" alt="image" src="https://github.com/user-attachments/assets/04b3fa7c-c478-46be-bb84-03cdf3bec08f" />
+---
 
-<img width="1680" alt="image" src="https://github.com/user-attachments/assets/9ce20a5d-6155-468e-a5bc-bc2ef7444250" />
+<a id="한국어"></a>
+## 한국어
 
-<img width="1680" alt="image" src="https://github.com/user-attachments/assets/40cbccd3-770c-4943-ac4b-220fccc28e1a" />
+# 옵션 계산기
 
+금융 투자자를 위한 강력한 옵션 전략 시뮬레이션 및 분석 도구
 
-## Features
+<img width="1671" alt="image" src="https://github.com/user-attachments/assets/4b458818-ff41-4510-a9cd-af7a28f6cbb9" />
 
-- Real-time stock information and option chain lookup
-- Theoretical option price calculation using the Black-Scholes model
-- Visualization of profit/loss curves for various option strategies
-- Analysis of option Greeks (Delta, Gamma, Vega, Theta, Rho)
-- Support for multiple option strategies:
-  - Single option
-  - Covered Call/Put
-  - Protective Put/Call
-  - Spread
-  - Straddle
-  - Strangle
-  - Strip
-  - Strap
-  - Butterfly
-  - Ladder
-  - Jade Lizard
-  - Reverse Jade Lizard
-  - Condor
+<img width="1671" alt="image" src="https://github.com/user-attachments/assets/44535153-5417-4d12-b9d8-d080582c0719" />
 
-## Installation
+<img width="1673" alt="image" src="https://github.com/user-attachments/assets/2483ddce-1df5-4aae-9c14-10543384181f" />
 
-1. Clone the repository:
+<img width="1668" alt="image" src="https://github.com/user-attachments/assets/ef85e353-f66f-40a4-b79d-a5282f7c1d82" />
+
+<img width="1671" alt="image" src="https://github.com/user-attachments/assets/aa6cc085-0502-4394-8f74-bbca63f865a9" />
+
+## 주요 기능
+
+- **실시간 주식 데이터 가져오기**: 주식 티커 심볼을 입력하여 실시간 주가 및 기본 정보 확인
+- **옵션 전략 시뮬레이션**: 다양한 옵션 전략의 손익 구조를 시각화
+- **그릭스 분석**: 델타, 감마, 베가, 세타, 로 등 옵션 그릭스 계산 및 시각화
+- **내재 변동성 분석**: 변동성 스마일/스큐 및 3D 변동성 표면 생성
+- **옵션 체인 조회**: 특정 만기일에 대한 전체 옵션 체인 데이터 확인 (yfinance 패키지 사용)
+
+## 사용 가능한 옵션 전략
+
+1. **단일(Single)**: 기본 콜/풋 옵션 매수/매도
+2. **커버드(Covered)**: 커버드 콜(주식 매수 + 콜 매도) 또는 커버드 풋(주식 매도 + 풋 매도)
+3. **보호(Protective)**: 보호 풋(주식 매수 + 풋 매수) 또는 보호 콜(주식 매도 + 콜 매수)
+4. **스프레드(Spread)**: 콜/풋을 사용한 불/베어 스프레드
+5. **스트래들(Straddle)**: 동일 행사가의 콜과 풋 동시 매수/매도
+6. **스트랭글(Strangle)**: 서로 다른 행사가의 콜과 풋 동시 매수/매도
+7. **스트립(Strip)**: 동일 행사가에서 콜 1개, 풋 2개 매수 (베어리시 전략)
+8. **스트랩(Strap)**: 동일 행사가에서 콜 2개, 풋 1개 매수 (불리시 전략)
+9. **버터플라이(Butterfly)**: 제한된 위험과 보상의 3단계 전략
+10. **래더(Ladder)**: 일정 간격의 행사가를 가진 다중 단계 전략
+11. **제이드 리저드(Jade Lizard)**: 풋 매도 + 콜 스프레드 매도 (불리시 전략)
+12. **리버스 제이드 리저드(Reverse Jade Lizard)**: 풋 스프레드 매수 + 콜 매도 (베어리시 전략)
+13. **콘도르(Condor)**: 제한된 위험과 보상의 4단계 전략
+
+## 설치 및 실행
+
 ```bash
-git clone https://github.com/yourusername/option-calculator.git
-cd option-calculator
-```
+# 저장소 복제
+git clone https://github.com/your-username/options-calculator.git
+cd options-calculator
 
-2. Create and activate a virtual environment:
-```bash
-python -m venv venv
-source venv/bin/activate  # Linux/Mac
-# or
-venv\Scripts\activate  # Windows
-```
+# 필요한 패키지 설치
+pip install streamlit pandas numpy yfinance plotly scipy
 
-3. Install the required packages:
-```bash
-pip install -r requirements.txt
-```
-
-## Usage
-
-1. Run the application:
-```bash
+# 애플리케이션 실행
 streamlit run app.py
-```
-
-2. A web browser will automatically open with the application running. If it doesn't, enter the URL displayed in your terminal into your browser.
-
-3. How to use:
-   - Enter a stock ticker symbol in the left sidebar and click the 'Fetch Data' button.
-   - Set option parameters (underlying price, expiry date, volatility, etc.).
-   - Select an option strategy and position.
-   - Click the 'Show Plot' button to view the profit/loss curve and Greeks.
-   
-4. Special features:
-   - Option prices are automatically calculated based on the Black-Scholes model when parameters are entered. Users can modify these prices if needed.
-   - The "+" and "-" signs before call and put in the option price section indicate buying and selling positions: "+" for buying (long) and "-" for selling (short).
-   - The volatility shown is the 52-week historical volatility, which users can modify.
-   - Strategy selection is made through the side, option type, and strategy selection fields. For example, selecting side: short, option type: call, and strategy: single creates a call option short strategy.
-   - The risk-free rate uses the U.S. 10-year Treasury yield as a benchmark.
-
-## Project Structure
-
-```
-option-calculator/
-│
-├── app.py                  # Main application file
-├── utils/
-│   ├── __init__.py
-│   ├── data_utils.py       # Data-related utility functions
-│   ├── option_pricing.py   # Option pricing functions
-│   ├── payoff.py           # Profit/loss calculation functions
-│   └── plotting.py         # Visualization functions
-│
-├── styles.py               # Style definitions
-├── requirements.txt        # List of required packages
-└── README.md               # Project description
-```
-
-## Required Packages
-
-Main packages:
-- streamlit
-- pandas
-- numpy
-- yfinance
-- plotly
-- scipy
-
-For a complete list, see the requirements.txt file.
-
-## Reference
-
-### Black-Scholes Model
-
-The Black-Scholes model is the most widely used option pricing model:
-
-```
-d₁ = [ln(S₀/K) + (rf - y + 0.5σ²)τ] / (σ√τ)
-d₂ = d₁ - σ√τ
-
-Call price: C(S₀, τ) = S₀N(d₁)e^(-yτ) - Ke^(-rfτ)N(d₂)
-Put price: P(S₀, τ) = Ke^(-rfτ)N(-d₂) - S₀N(-d₁)e^(-yτ)
-```
-
-where,
-- S₀: Underlying asset price
-- K: Strike price
-- rf: Risk-free interest rate
-- y: Dividend yield
-- τ: Time to expiration
-- N(x): Standard normal cumulative distribution function
-
-## License
-
-MIT License
-
-## Contact
-
-If you have any questions or suggestions, please contact: pmh621@naver.com
-</details>
-
-<details>
-<summary>한국어</summary>
-
-옵션 계산기는 다양한 옵션 거래 전략의 손익과 그릭스를 시각화하고 분석할 수 있는 Streamlit 기반 웹 애플리케이션입니다.
-
-<img width="1680" alt="image" src="https://github.com/user-attachments/assets/04b3fa7c-c478-46be-bb84-03cdf3bec08f" />
-
-<img width="1680" alt="image" src="https://github.com/user-attachments/assets/9ce20a5d-6155-468e-a5bc-bc2ef7444250" />
-
-<img width="1680" alt="image" src="https://github.com/user-attachments/assets/40cbccd3-770c-4943-ac4b-220fccc28e1a" />
-
-## 기능
-
-- 실시간 주식 정보 및 옵션 체인 조회
-- 블랙-숄즈 모델을 이용한 이론적 옵션 가격 계산
-- 다양한 옵션 전략의 손익 곡선 시각화
-- 옵션 그릭스 (Delta, Gamma, Vega, Theta, Rho) 분석
-- 다양한 옵션 전략 지원:
-  - Single (단일 옵션)
-  - Covered Call/Put (커버드 콜/풋)
-  - Protective Put/Call (보호적 풋/콜)
-  - Spread (스프레드)
-  - Straddle (스트래들)
-  - Strangle (스트랭글)
-  - Strip (스트립)
-  - Strap (스트랩)
-  - Butterfly (버터플라이)
-  - Ladder (래더)
-  - Jade Lizard (제이드 리저드)
-  - Reverse Jade Lizard (리버스 제이드 리저드)
-  - Condor (콘도르)
-
-## 설치 방법
-
-1. 저장소를 클론합니다:
-```bash
-git clone https://github.com/yourusername/option-calculator.git
-cd option-calculator
-```
-
-2. 가상 환경을 생성하고 활성화합니다:
-```bash
-python -m venv venv
-source venv/bin/activate  # 리눅스/맥
-# 또는
-venv\Scripts\activate  # 윈도우
-```
-
-3. 필요한 패키지를 설치합니다:
-```bash
-pip install -r requirements.txt
 ```
 
 ## 사용 방법
 
-1. 애플리케이션을 실행합니다:
+1. 사이드바에 주식 티커 심볼을 입력하고 "Fetch Data" 버튼을 클릭합니다.
+2. 원하는 옵션 전략, 행사가, 만기일 등의 파라미터를 설정합니다.
+3. "Show Plot" 버튼을 클릭하여 전략의 손익 구조와 그릭스를 시각화합니다.
+4. "Option Chain" 탭에서는 특정 만기일에 대한 옵션 체인 정보를 확인할 수 있습니다.
+
+## 참고 사항
+
+- Option Chain 정보는 yfinance 패키지에 의존하므로 일부 시장이나 종목에서는 데이터가 제한될 수 있습니다.
+- Option Prices 하단에 나타나는 가격은 블랙숄즈모형을 기반으로 도출한 이론가격이며, 옵션 앞 +는 매수, -는 매도를 나타냅니다. 예를 들어 - call은 콜매도를 의미하며, +2x call은 콜을 2배로 매수한다는 뜻입니다.
+
+---
+
+<a id="english"></a>
+## English
+
+# Options Calculator
+
+A powerful option strategy simulation and analysis tool for financial investors
+
+<img width="1671" alt="image" src="https://github.com/user-attachments/assets/4b458818-ff41-4510-a9cd-af7a28f6cbb9" />
+
+<img width="1671" alt="image" src="https://github.com/user-attachments/assets/44535153-5417-4d12-b9d8-d080582c0719" />
+
+<img width="1673" alt="image" src="https://github.com/user-attachments/assets/2483ddce-1df5-4aae-9c14-10543384181f" />
+
+<img width="1668" alt="image" src="https://github.com/user-attachments/assets/ef85e353-f66f-40a4-b79d-a5282f7c1d82" />
+
+<img width="1671" alt="image" src="https://github.com/user-attachments/assets/aa6cc085-0502-4394-8f74-bbca63f865a9" />
+
+## Key Features
+
+- **Real-time Stock Data Fetching**: Input a stock ticker symbol to get real-time prices and basic information
+- **Option Strategy Simulation**: Visualize the profit/loss structure of various option strategies
+- **Greeks Analysis**: Calculate and visualize option Greeks including Delta, Gamma, Vega, Theta, and Rho
+- **Implied Volatility Analysis**: Generate volatility smiles/skews and 3D volatility surfaces
+- **Option Chain Lookup**: View complete option chain data for specific expiry dates (using yfinance package)
+
+## Available Option Strategies
+
+1. **Single**: Basic long/short positions in call/put options
+2. **Covered**: Covered call (long stock + short call) or covered put (short stock + short put)
+3. **Protective**: Protective put (long stock + long put) or protective call (short stock + long call)
+4. **Spread**: Bull/bear spreads using calls or puts
+5. **Straddle**: Long/short positions in both a call and put with the same strike
+6. **Strangle**: Long/short positions in both a call and put with different strikes
+7. **Strip**: Long 1 call and 2 puts at the same strike (bearish strategy)
+8. **Strap**: Long 2 calls and 1 put at the same strike (bullish strategy)
+9. **Butterfly**: A three-leg strategy with limited risk and reward
+10. **Ladder**: A multi-leg strategy with strike prices at regular intervals
+11. **Jade Lizard**: Short put + short call spread (bullish strategy)
+12. **Reverse Jade Lizard**: Long put spread + short call (bearish strategy)
+13. **Condor**: A four-leg strategy with limited risk and reward
+
+## Installation and Running
+
 ```bash
+# Clone the repository
+git clone https://github.com/your-username/options-calculator.git
+cd options-calculator
+
+# Install required packages
+pip install streamlit pandas numpy yfinance plotly scipy
+
+# Run the application
 streamlit run app.py
 ```
 
-2. 웹 브라우저가 자동으로 열리고 애플리케이션이 실행됩니다. 실행되지 않는 경우, 터미널에 표시된 URL을 브라우저에 입력하세요.
+## How to Use
 
-3. 사용 방법:
-   - 왼쪽 사이드바에 주식 티커 심볼을 입력하고 'Fetch Data' 버튼을 클릭합니다.
-   - 옵션 파라미터를 설정합니다 (기초 자산 가격, 만기일, 변동성 등).
-   - 옵션 전략과 포지션을 선택합니다.
-   - 'Show Plot' 버튼을 클릭하여 손익 곡선과 그릭스를 확인합니다.
+1. Enter a stock ticker symbol in the sidebar and click the "Fetch Data" button.
+2. Set your desired parameters including option strategy, strike prices, expiry date, etc.
+3. Click the "Show Plot" button to visualize the strategy's profit/loss structure and Greeks.
+4. Use the "Option Chain" tab to view option chain information for specific expiry dates.
 
-4. 특별 기능:
-   - 옵션 가격은 사용자가 파라미터를 입력하면 블랙-숄즈 모형을 기반으로 자동으로 계산되어 입력창에 나타납니다. 사용자가 필요에 따라 이 가격을 수정할 수 있습니다.
-   - 옵션 가격 섹션에서 콜과 풋 앞의 "+"와 "-" 기호는 매수와 매도 포지션을 나타냅니다: "+"는 매수(롱), "-"는 매도(숏)를 의미합니다.
-   - 표시되는 변동성은 52주 역사적 변동성이며, 사용자가 수정할 수 있습니다.
-   - 전략 선택은 사이드, 옵션 유형 및 전략 선택 필드를 통해 이루어집니다. 예를 들어, 사이드: short, 옵션 유형: call, 전략: single을 선택하면 콜 옵션 숏 전략을 생성합니다.
-   - 무위험 금리는 미국 10년 국채 수익률을 기준으로 사용합니다.
+## Notes
 
-## 프로젝트 구조
+- Option Chain information depends on the yfinance package, so data may be limited for some markets or securities.
+- The prices shown under Option Prices are theoretical prices based on the Black-Scholes model. The + sign in front of options indicates buying, while - indicates selling. For example, - call means selling a call, and +2x call means buying two call options.
 
-```
-option-calculator/
-│
-├── app.py                  # 메인 애플리케이션 파일
-├── utils/
-│   ├── __init__.py
-│   ├── data_utils.py       # 데이터 관련 유틸리티 함수
-│   ├── option_pricing.py   # 옵션 가격 계산 함수
-│   ├── payoff.py           # 손익 계산 함수
-│   └── plotting.py         # 시각화 함수
-│
-├── styles.py               # 스타일 정의
-├── requirements.txt        # 필요한 패키지 목록
-└── README.md               # 프로젝트 설명
-```
+---
 
-## 필요한 패키지
+<a id="中文"></a>
+## 中文
 
-주요 패키지:
-- streamlit
-- pandas
-- numpy
-- yfinance
-- plotly
-- scipy
+# 期权计算器
 
-자세한 목록은 requirements.txt 파일을 참조하세요.
+为金融投资者提供的强大期权策略模拟和分析工具
 
-## 참고 자료
+<img width="1671" alt="image" src="https://github.com/user-attachments/assets/4b458818-ff41-4510-a9cd-af7a28f6cbb9" />
 
-### 블랙-숄즈 모델
+<img width="1671" alt="image" src="https://github.com/user-attachments/assets/44535153-5417-4d12-b9d8-d080582c0719" />
 
-블랙-숄즈 모델은 가장 널리 사용되는 옵션 가격 결정 모델입니다:
+<img width="1673" alt="image" src="https://github.com/user-attachments/assets/2483ddce-1df5-4aae-9c14-10543384181f" />
 
-```
-d₁ = [ln(S₀/K) + (rf - y + 0.5σ²)τ] / (σ√τ)
-d₂ = d₁ - σ√τ
+<img width="1668" alt="image" src="https://github.com/user-attachments/assets/ef85e353-f66f-40a4-b79d-a5282f7c1d82" />
 
-콜 가격: C(S₀, τ) = S₀N(d₁)e^(-yτ) - Ke^(-rfτ)N(d₂)
-풋 가격: P(S₀, τ) = Ke^(-rfτ)N(-d₂) - S₀N(-d₁)e^(-yτ)
-```
+<img width="1671" alt="image" src="https://github.com/user-attachments/assets/aa6cc085-0502-4394-8f74-bbca63f865a9" />
 
-여기서,
-- S₀: 기초 자산 가격
-- K: 행사가
-- rf: 무위험 이자율
-- y: 배당 수익률
-- τ: 만기까지 남은 시간
-- N(x): 표준 정규 누적 분포 함수
+## 主要功能
 
-## 라이센스
+- **实时股票数据获取**：输入股票代码获取实时价格和基本信息
+- **期权策略模拟**：可视化各种期权策略的盈亏结构
+- **希腊字母分析**：计算并可视化期权希腊字母，包括Delta、Gamma、Vega、Theta和Rho
+- **隐含波动率分析**：生成波动率微笑/偏斜和3D波动率曲面
+- **期权链查询**：查看特定到期日的完整期权链数据（使用yfinance包）
 
-MIT License
+## 可用期权策略
 
-## 연락처
+1. **单一(Single)**：期权多空基本持仓
+2. **备兑(Covered)**：备兑认购期权（买入股票+卖出认购期权）或备兑认沽期权（卖出股票+卖出认沽期权）
+3. **保护(Protective)**：保护性认沽期权（买入股票+买入认沽期权）或保护性认购期权（卖出股票+买入认购期权）
+4. **价差(Spread)**：使用认购期权或认沽期权的牛市/熊市价差策略
+5. **跨式(Straddle)**：同时买入/卖出相同行权价的认购期权和认沽期权
+6. **宽跨式(Strangle)**：同时买入/卖出不同行权价的认购期权和认沽期权
+7. **看跌组合(Strip)**：在相同行权价买入1个认购期权和2个认沽期权（看跌策略）
+8. **看涨组合(Strap)**：在相同行权价买入2个认购期权和1个认沽期权（看涨策略）
+9. **蝶式(Butterfly)**：具有有限风险和回报的三腿策略
+10. **阶梯(Ladder)**：具有等间距行权价的多腿策略
+11. **翡翠蜥蜴(Jade Lizard)**：卖出认沽期权+卖出认购期权价差（看涨策略）
+12. **反翡翠蜥蜴(Reverse Jade Lizard)**：买入认沽期权价差+卖出认购期权（看跌策略）
+13. **秃鹰(Condor)**：具有有限风险和回报的四腿策略
 
-질문이나 제안이 있으시면 연락해 주세요: pmh621@naver.com
-</details>
+## 安装和运行
 
-<details>
-<summary>中文</summary>
-
-期权计算器是一个基于Streamlit的网络应用程序，用户可以可视化和分析各种期权交易策略的盈亏和希腊字母值。
-
-<img width="1680" alt="image" src="https://github.com/user-attachments/assets/04b3fa7c-c478-46be-bb84-03cdf3bec08f" />
-
-<img width="1680" alt="image" src="https://github.com/user-attachments/assets/9ce20a5d-6155-468e-a5bc-bc2ef7444250" />
-
-<img width="1680" alt="image" src="https://github.com/user-attachments/assets/40cbccd3-770c-4943-ac4b-220fccc28e1a" />
-
-
-## 功能
-
-- 实时股票信息和期权链查询
-- 使用布莱克-斯科尔斯模型计算理论期权价格
-- 可视化各种期权策略的盈亏曲线
-- 分析期权希腊字母（Delta, Gamma, Vega, Theta, Rho）
-- 支持多种期权策略：
-  - 单一期权（Single）
-  - 备兑看涨/看跌期权（Covered Call/Put）
-  - 保护性看跌/看涨期权（Protective Put/Call）
-  - 价差策略（Spread）
-  - 跨式策略（Straddle）
-  - 宽跨式策略（Strangle）
-  - 多头看跌偏置策略（Strip）
-  - 多头看涨偏置策略（Strap）
-  - 蝶式策略（Butterfly）
-  - 阶梯策略（Ladder）
-  - 玉蜥蜴策略（Jade Lizard）
-  - 反向玉蜥蜴策略（Reverse Jade Lizard）
-  - 秃鹰策略（Condor）
-
-## 安装方法
-
-1. 克隆仓库：
 ```bash
-git clone https://github.com/yourusername/option-calculator.git
-cd option-calculator
-```
+# 克隆仓库
+git clone https://github.com/your-username/options-calculator.git
+cd options-calculator
 
-2. 创建并激活虚拟环境：
-```bash
-python -m venv venv
-source venv/bin/activate  # Linux/Mac
-# 或者
-venv\Scripts\activate  # Windows
-```
+# 安装所需包
+pip install streamlit pandas numpy yfinance plotly scipy
 
-3. 安装所需的包：
-```bash
-pip install -r requirements.txt
+# 运行应用
+streamlit run app.py
 ```
 
 ## 使用方法
 
-1. 运行应用程序：
+1. 在侧边栏输入股票代码并点击"Fetch Data"按钮。
+2. 设置所需参数，包括期权策略、行权价、到期日等。
+3. 点击"Show Plot"按钮可视化策略的盈亏结构和希腊字母。
+4. 使用"Option Chain"标签页查看特定到期日的期权链信息。
+
+## 注意事项
+
+- 期权链信息依赖于yfinance包，因此某些市场或证券的数据可能有限。
+- Option Prices下显示的价格是基于Black-Scholes模型的理论价格。期权前的+号表示买入，-号表示卖出。例如，-call表示卖出认购期权，+2x call表示买入两个认购期权。
+
+---
+
+<a id="日本語"></a>
+## 日本語
+
+# オプション計算機
+
+金融投資家のための強力なオプション戦略シミュレーションおよび分析ツール
+
+<img width="1671" alt="image" src="https://github.com/user-attachments/assets/4b458818-ff41-4510-a9cd-af7a28f6cbb9" />
+
+<img width="1671" alt="image" src="https://github.com/user-attachments/assets/44535153-5417-4d12-b9d8-d080582c0719" />
+
+<img width="1673" alt="image" src="https://github.com/user-attachments/assets/2483ddce-1df5-4aae-9c14-10543384181f" />
+
+<img width="1668" alt="image" src="https://github.com/user-attachments/assets/ef85e353-f66f-40a4-b79d-a5282f7c1d82" />
+
+<img width="1671" alt="image" src="https://github.com/user-attachments/assets/aa6cc085-0502-4394-8f74-bbca63f865a9" />
+
+## 主な機能
+
+- **リアルタイム株式データ取得**：株式ティッカーシンボルを入力してリアルタイム価格と基本情報を取得
+- **オプション戦略シミュレーション**：様々なオプション戦略の損益構造を視覚化
+- **ギリシャ指標分析**：デルタ、ガンマ、ベガ、シータ、ローなどのオプションギリシャ指標を計算・視覚化
+- **インプライドボラティリティ分析**：ボラティリティスマイル/スキューおよび3Dボラティリティサーフェスを生成
+- **オプションチェーン検索**：特定の満期日の完全なオプションチェーンデータを表示（yfinanceパッケージ使用）
+
+## 利用可能なオプション戦略
+
+1. **シングル(Single)**：コール/プットオプションの基本的なロング/ショートポジション
+2. **カバード(Covered)**：カバードコール（株式ロング+コールショート）またはカバードプット（株式ショート+プットショート）
+3. **プロテクティブ(Protective)**：プロテクティブプット（株式ロング+プットロング）またはプロテクティブコール（株式ショート+コールロング）
+4. **スプレッド(Spread)**：コールまたはプットを使用したブル/ベアスプレッド
+5. **ストラドル(Straddle)**：同じ行使価格のコールとプットの両方をロング/ショート
+6. **ストラングル(Strangle)**：異なる行使価格のコールとプットの両方をロング/ショート
+7. **ストリップ(Strip)**：同じ行使価格でコール1つとプット2つをロング（ベアリッシュ戦略）
+8. **ストラップ(Strap)**：同じ行使価格でコール2つとプット1つをロング（ブリッシュ戦略）
+9. **バタフライ(Butterfly)**：限定されたリスクとリワードを持つ3レッグ戦略
+10. **ラダー(Ladder)**：一定間隔の行使価格を持つマルチレッグ戦略
+11. **ジェイドリザード(Jade Lizard)**：プットショート+コールスプレッドショート（ブリッシュ戦略）
+12. **リバースジェイドリザード(Reverse Jade Lizard)**：プットスプレッドロング+コールショート（ベアリッシュ戦略）
+13. **コンドル(Condor)**：限定されたリスクとリワードを持つ4レッグ戦略
+
+## インストールと実行
+
 ```bash
+# リポジトリをクローン
+git clone https://github.com/your-username/options-calculator.git
+cd options-calculator
+
+# 必要なパッケージをインストール
+pip install streamlit pandas numpy yfinance plotly scipy
+
+# アプリケーションを実行
 streamlit run app.py
 ```
 
-2. 网络浏览器将自动打开并运行应用程序。如果没有自动打开，请在浏览器中输入终端显示的URL。
+## 使用方法
 
-3. 使用说明：
-   - 在左侧边栏输入股票代码，并点击"Fetch Data"按钮。
-   - 设置期权参数（标的资产价格、到期日、波动率等）。
-   - 选择期权策略和持仓方向。
-   - 点击"Show Plot"按钮查看盈亏曲线和希腊字母值。
+1. サイドバーに株式ティッカーシンボルを入力し、「Fetch Data」ボタンをクリックします。
+2. オプション戦略、行使価格、満期日などの希望するパラメータを設定します。
+3. 「Show Plot」ボタンをクリックして、戦略の損益構造とギリシャ指標を視覚化します。
+4. 「Option Chain」タブを使用して、特定の満期日のオプションチェーン情報を表示します。
 
-4. 特殊功能：
-   - 输入参数后，期权价格会根据布莱克-斯科尔斯模型自动计算并显示在输入框中。用户可以根据需要修改这些价格。
-   - 期权价格部分中看涨和看跌期权前的"+"和"-"符号表示买入和卖出持仓："+"表示买入（做多），"-"表示卖出（做空）。
-   - 显示的波动率是52周历史波动率，用户可以修改。
-   - 策略选择通过方向（side）、期权类型（option type）和策略（strategy）选择字段完成。例如，选择方向：short，期权类型：call，策略：single将创建看涨期权卖空策略。
-   - 无风险利率使用美国10年期国债收益率作为基准。
+## 注意事項
 
-## 项目结构
-
-```
-option-calculator/
-│
-├── app.py                  # 主应用程序文件
-├── utils/
-│   ├── __init__.py
-│   ├── data_utils.py       # 数据相关的实用函数
-│   ├── option_pricing.py   # 期权定价函数
-│   ├── payoff.py           # 盈亏计算函数
-│   └── plotting.py         # 可视化函数
-│
-├── styles.py               # 样式定义
-├── requirements.txt        # 所需包列表
-└── README.md               # 项目描述
-```
-
-## 所需包
-
-主要包：
-- streamlit
-- pandas
-- numpy
-- yfinance
-- plotly
-- scipy
-
-完整列表请参见requirements.txt文件。
-
-## 参考资料
-
-### 布莱克-斯科尔斯模型
-
-布莱克-斯科尔斯模型是最广泛使用的期权定价模型：
-
-```
-d₁ = [ln(S₀/K) + (rf - y + 0.5σ²)τ] / (σ√τ)
-d₂ = d₁ - σ√τ
-
-看涨期权价格: C(S₀, τ) = S₀N(d₁)e^(-yτ) - Ke^(-rfτ)N(d₂)
-看跌期权价格: P(S₀, τ) = Ke^(-rfτ)N(-d₂) - S₀N(-d₁)e^(-yτ)
-```
-
-其中，
-- S₀: 标的资产价格
-- K: 行权价格
-- rf: 无风险利率
-- y: 股息收益率
-- τ: 到期时间
-- N(x): 标准正态累积分布函数
-
-## 许可证
-
-MIT许可证
-
-## 联系方式
-
-如有任何问题或建议，请联系：pmh621@naver.com
-</details>
+- オプションチェーン情報はyfinanceパッケージに依存しているため、一部の市場や証券ではデータが制限される場合があります。
+- Option Prices下に表示される価格はブラック・ショールズモデルに基づく理論価格です。オプションの前の+は買い、-は売りを示します。例えば、- callはコールの売りを意味し、+2x callはコールを2倍買うことを意味します。
