@@ -54,7 +54,7 @@
 ```bash
 # 저장소 복제
 git clone https://github.com/parkminhyung/Option-Calculator.git
-cd options-calculator
+cd Option-Calculator
 
 # 필요한 패키지 설치
 pip install streamlit pandas numpy yfinance plotly scipy
@@ -123,7 +123,7 @@ A powerful option strategy simulation and analysis tool for financial investors
 ```bash
 # Clone the repository
 git clone https://github.com/parkminhyung/Option-Calculator.git
-cd options-calculator
+cd Option-Calculator
 
 # Install required packages
 pip install streamlit pandas numpy yfinance plotly scipy
@@ -192,7 +192,7 @@ streamlit run app.py
 ```bash
 # 克隆仓库
 git clone https://github.com/parkminhyung/Option-Calculator.git
-cd options-calculator
+cd Option-Calculator
 
 # 安装所需包
 pip install streamlit pandas numpy yfinance plotly scipy
@@ -261,7 +261,7 @@ streamlit run app.py
 ```bash
 # リポジトリをクローン
 git clone https://github.com/parkminhyung/Option-Calculator.git
-cd options-calculator
+cd Option-Calculator
 
 # 必要なパッケージをインストール
 pip install streamlit pandas numpy yfinance plotly scipy
