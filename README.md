@@ -53,7 +53,7 @@
 
 ```bash
 # 저장소 복제
-git clone https://github.com/your-username/options-calculator.git
+git clone https://github.com/parkminhyung/Option-Calculator.git
 cd options-calculator
 
 # 필요한 패키지 설치
@@ -122,7 +122,7 @@ A powerful option strategy simulation and analysis tool for financial investors
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/options-calculator.git
+git clone https://github.com/parkminhyung/Option-Calculator.git
 cd options-calculator
 
 # Install required packages
@@ -191,7 +191,7 @@ streamlit run app.py
 
 ```bash
 # 克隆仓库
-git clone https://github.com/your-username/options-calculator.git
+git clone https://github.com/parkminhyung/Option-Calculator.git
 cd options-calculator
 
 # 安装所需包
@@ -260,7 +260,7 @@ streamlit run app.py
 
 ```bash
 # リポジトリをクローン
-git clone https://github.com/your-username/options-calculator.git
+git clone https://github.com/parkminhyung/Option-Calculator.git
 cd options-calculator
 
 # 必要なパッケージをインストール
