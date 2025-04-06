@@ -973,14 +973,15 @@ def plot_option_strategy(df, s, greeks, strategy_info):
     )
 
     fig.add_annotation(
-        x=s,
+        x=s-8,
         y=y_max,
         text=f"Current Price: {s:.2f}",
         showarrow=False,
-        bgcolor="rgba(0, 0, 0, 0.4)",  # 반투명한 검은색 배경
-        font=dict(color="white"),  # 흰색 폰트
+        bgcolor="rgba(242, 242, 242, 0.4)",  # 반투명한 검은색 배경
+        font=dict(color="black"),  # 흰색 폰트
         borderwidth=0,  # 테두리 제거
-        borderpad=6  # 텍스트와 배경 사이의 여백을 조금 더 늘림
+        borderpad=5,  # 텍스트와 배경 사이의 여백을 조금 더 늘림
+        yanchor="top"
     )
 
     if strategy_info["bep1"] is not None:
@@ -994,14 +995,15 @@ def plot_option_strategy(df, s, greeks, strategy_info):
         )
         
         fig.add_annotation(
-            x=strategy_info["bep1"],
-            y=0,
+            x=strategy_info["bep1"]-5,
+            y=y_min,
             text=f"BEP: {strategy_info['bep1']:.2f}",
             showarrow=False,
-            bgcolor="rgba(0, 0, 0, 0.4)",  # 반투명한 검은색 배경
-            font=dict(color="white"),  # 흰색 폰트
+            bgcolor="rgba(242, 242, 242, 0.4)",  # 반투명한 검은색 배경
+            font=dict(color="black"),  # 흰색 폰트 
             borderwidth=0,  # 테두리 제거
-            borderpad=6  # 텍스트와 배경 사이의 여백을 조금 더 늘림
+            borderpad=5,  # 텍스트와 배경 사이의 여백을 조금 더 늘림
+            yanchor="bottom"  # 텍스트를 위로 정렬
         )
 
     if strategy_info["bep2"] is not None:
@@ -1015,14 +1017,15 @@ def plot_option_strategy(df, s, greeks, strategy_info):
         )
         
         fig.add_annotation(
-            x=strategy_info["bep2"],
-            y=0,
+            x=strategy_info["bep2"]+5,
+            y=y_min,
             text=f"BEP: {strategy_info['bep2']:.2f}",
             showarrow=False,
-            bgcolor="rgba(0, 0, 0, 0.4)",  # 반투명한 검은색 배경
-            font=dict(color="white"),  # 흰색 폰트
+            bgcolor="rgba(242, 242, 242, 0.4)",  # 반투명한 검은색 배경
+            font=dict(color="black"),  # 흰색 폰트 
             borderwidth=0,  # 테두리 제거
-            borderpad=6  # 텍스트와 배경 사이의 여백을 조금 더 늘림
+            borderpad=5, # 텍스트와 배경 사이의 여백을 조금 더 늘림 
+            yanchor="bottom" 
         )
 
     fig.update_layout(
