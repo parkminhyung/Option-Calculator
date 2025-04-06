@@ -166,8 +166,12 @@ def bs_model(s, k, rf, tau, sigma, y, option_type="c"):
     d1 = (np.log(s / k) + (rf - y + 0.5 * sigma**2) * tau) / (sigma * np.sqrt(tau))
     d2 = d1 - sigma * np.sqrt(tau)
 
-    call_price = s * np.exp(-y * tau) * stats.norm.cdf(d1) - k * np.exp(-rf * tau) * stats.norm.cdf(d2)
-    put_price = k * np.exp(-rf * tau) * stats.norm.cdf(-d2) - s * np.exp(-y * tau) * stats.norm.cdf(-d1)
+    call_price = s * np.exp(-y * tau) * stats.norm.cdf(d1) - k * np.exp(
+        -rf * tau
+    ) * stats.norm.cdf(d2)
+    put_price = k * np.exp(-rf * tau) * stats.norm.cdf(-d2) - s * np.exp(
+        -y * tau
+    ) * stats.norm.cdf(-d1)
 
     if option_type == "c":
         return call_price
@@ -177,26 +181,28 @@ def bs_model(s, k, rf, tau, sigma, y, option_type="c"):
         return {"call_price": call_price, "put_price": put_price}
 
 
-def calculate_implied_volatility(market_price, s, k, rf, tau, y, option_type="c", max_iter=100, tolerance=1e-5):
+def calculate_implied_volatility(
+    market_price, s, k, rf, tau, y, option_type="c", max_iter=100, tolerance=1e-5
+):
     """Newton-Raphson 방법을 사용하여 implied volatility 계산"""
     # 초기 추정값 (30%)
     sigma = 0.3  # 이미 소수점 형태로 시작
-    
+
     # 시장 가격이 0이거나 음수인 경우 처리
     if market_price <= 0:
         return 30.0  # 기본값 반환
-    
+
     for i in range(max_iter):
         # 현재 sigma로 옵션 가격 계산 (sigma는 이미 소수점 형태)
         price = bs_model(s, k, rf, tau, sigma * 100, y, option_type)
-        
+
         # 가격 차이 계산
         diff = price - market_price
-        
+
         # 차이가 허용 오차보다 작으면 종료
         if abs(diff) < tolerance:
             return sigma * 100  # 퍼센트로 변환하여 반환
-        
+
         # vega 계산 (가격의 sigma에 대한 도함수)
         T = 252
         pct = 100
@@ -204,26 +210,28 @@ def calculate_implied_volatility(market_price, s, k, rf, tau, y, option_type="c"
         sigma_scaled = sigma  # 이미 소수점 형태
         rf_scaled = rf / pct
         y_scaled = y / pct
-        
+
         # Black-Scholes 모델의 vega 계산
-        d1 = (np.log(s / k) + (rf_scaled - y_scaled + 0.5 * sigma_scaled**2) * tau_scaled) / (sigma_scaled * np.sqrt(tau_scaled))
+        d1 = (
+            np.log(s / k) + (rf_scaled - y_scaled + 0.5 * sigma_scaled**2) * tau_scaled
+        ) / (sigma_scaled * np.sqrt(tau_scaled))
         vega = s * np.sqrt(tau_scaled) * (1 / np.sqrt(2 * np.pi)) * np.exp(-(d1**2) / 2)
-        
+
         # vega가 0에 가까운 경우 처리
         if abs(vega) < 1e-10:
             sigma = sigma * 1.5  # sigma를 증가시켜 다시 시도
             continue
-        
+
         # Newton-Raphson 업데이트
         sigma = sigma - diff / vega
-        
+
         # 음수 방지
         sigma = max(sigma, 0.0001)
-        
+
         # sigma가 너무 큰 경우 처리
         if sigma > 5.0:  # 500% 이상의 변동성은 비현실적
             return 30.0  # 기본값 반환
-    
+
     # 최대 반복 횟수에 도달하면 현재 sigma 반환
     return sigma * 100  # 퍼센트로 변환하여 반환
 
@@ -968,13 +976,11 @@ def plot_option_strategy(df, s, greeks, strategy_info):
         x=s,
         y=y_max,
         text=f"Current Price: {s:.2f}",
-        showarrow=True,
-        arrowhead=2,
-        arrowsize=1,
-        arrowwidth=1,
-        arrowcolor="green",
-        ax=0,
-        ay=-40,
+        showarrow=False,
+        bgcolor="rgba(0, 0, 0, 0.4)",  # 반투명한 검은색 배경
+        font=dict(color="white"),  # 흰색 폰트
+        borderwidth=0,  # 테두리 제거
+        borderpad=6  # 텍스트와 배경 사이의 여백을 조금 더 늘림
     )
 
     if strategy_info["bep1"] is not None:
@@ -984,20 +990,18 @@ def plot_option_strategy(df, s, greeks, strategy_info):
             x1=strategy_info["bep1"],
             y0=y_min,
             y1=y_max,
-            line=dict(dash="dot", color="black", width=1),
+            line=dict(dash="dot", color="blue", width=1),
         )
-
+        
         fig.add_annotation(
             x=strategy_info["bep1"],
             y=0,
             text=f"BEP: {strategy_info['bep1']:.2f}",
-            showarrow=True,
-            arrowhead=2,
-            arrowsize=1,
-            arrowwidth=1,
-            arrowcolor="black",
-            ax=0,
-            ay=-40,
+            showarrow=False,
+            bgcolor="rgba(0, 0, 0, 0.4)",  # 반투명한 검은색 배경
+            font=dict(color="white"),  # 흰색 폰트
+            borderwidth=0,  # 테두리 제거
+            borderpad=6  # 텍스트와 배경 사이의 여백을 조금 더 늘림
         )
 
     if strategy_info["bep2"] is not None:
@@ -1007,20 +1011,18 @@ def plot_option_strategy(df, s, greeks, strategy_info):
             x1=strategy_info["bep2"],
             y0=y_min,
             y1=y_max,
-            line=dict(dash="dot", color="black", width=1),
+            line=dict(dash="dot", color="blue", width=1),
         )
-
+        
         fig.add_annotation(
             x=strategy_info["bep2"],
             y=0,
             text=f"BEP: {strategy_info['bep2']:.2f}",
-            showarrow=True,
-            arrowhead=2,
-            arrowsize=1,
-            arrowwidth=1,
-            arrowcolor="black",
-            ax=0,
-            ay=-40,
+            showarrow=False,
+            bgcolor="rgba(0, 0, 0, 0.4)",  # 반투명한 검은색 배경
+            font=dict(color="white"),  # 흰색 폰트
+            borderwidth=0,  # 테두리 제거
+            borderpad=6  # 텍스트와 배경 사이의 여백을 조금 더 늘림
         )
 
     fig.update_layout(
@@ -1063,7 +1065,7 @@ def main():
     st.sidebar.title("Option Calculator")
 
     ticker = st.sidebar.text_input("Enter Ticker Symbol:", "AAPL").upper()
-    
+
     fetch_button = st.sidebar.button("Fetch Data")
 
     if fetch_button:
@@ -1151,7 +1153,7 @@ def main():
                 expiry = st.selectbox(
                     "Expiry Date",
                     options=data["expiry_dates"] if "expiry_dates" in data else [],
-                    key="expiry_date_select"
+                    key="expiry_date_select",
                 )
 
                 if expiry:
@@ -1182,8 +1184,12 @@ def main():
                 )
 
             with param_cols[1]:
-                side = st.selectbox("Side", options=["LONG", "SHORT"], key="side_select")
-                option_type = st.selectbox("Option Type", options=["CALL", "PUT"], key="option_type_select")
+                side = st.selectbox(
+                    "Side", options=["LONG", "SHORT"], key="side_select"
+                )
+                option_type = st.selectbox(
+                    "Option Type", options=["CALL", "PUT"], key="option_type_select"
+                )
 
                 strategy = st.selectbox(
                     "Strategy",
@@ -1202,17 +1208,19 @@ def main():
                         "Reverse Jade Lizard",
                         "Condor",
                     ],
-                    key="strategy_select"
+                    key="strategy_select",
                 )
 
                 greeks = st.selectbox(
-                    "Greeks", options=["Delta", "Gamma", "Vega", "Theta", "Rho"], key="greeks_select"
+                    "Greeks",
+                    options=["Delta", "Gamma", "Vega", "Theta", "Rho"],
+                    key="greeks_select",
                 )
                 sigma = st.number_input(
                     "Volatility (%)",
                     value=float(data["vol"]),
                     step=0.1,
-                    format="%.1f",
+                    format="%.2f",
                     label_visibility="visible",
                 )
 
@@ -1229,7 +1237,7 @@ def main():
                                 "Strike Price (k1; Lower)",
                                 options=all_strikes,
                                 index=min(len(all_strikes) // 2 - 1, 0),
-                                key="k1_select_strangle_spread"
+                                key="k1_select_strangle_spread",
                             )
                             k2 = st.selectbox(
                                 "Strike Price (k2; Higher)",
@@ -1237,7 +1245,7 @@ def main():
                                 index=min(
                                     len(all_strikes) // 2 + 1, len(all_strikes) - 1
                                 ),
-                                key="k2_select_strangle_spread"
+                                key="k2_select_strangle_spread",
                             )
                             k3, k4 = None, None
                         else:
@@ -1290,13 +1298,13 @@ def main():
                                 "Strike (k1; Lower)",
                                 options=all_strikes,
                                 index=min(len(all_strikes) // 2 - 2, 0),
-                                key="k1_select_butterfly"
+                                key="k1_select_butterfly",
                             )
                             k2 = st.selectbox(
                                 "Strike (k2; Middle)",
                                 options=all_strikes,
                                 index=min(len(all_strikes) // 2, len(all_strikes) - 1),
-                                key="k2_select_butterfly"
+                                key="k2_select_butterfly",
                             )
                             k3 = st.selectbox(
                                 "Strike (k3; Higher)",
@@ -1304,7 +1312,7 @@ def main():
                                 index=min(
                                     len(all_strikes) // 2 + 2, len(all_strikes) - 1
                                 ),
-                                key="k3_select_butterfly"
+                                key="k3_select_butterfly",
                             )
                             k4 = None
                         else:
@@ -1366,7 +1374,7 @@ def main():
                                 "Strike (k1; Lowest)",
                                 options=all_strikes,
                                 index=min(len(all_strikes) // 2 - 3, 0),
-                                key="k1_select_condor"
+                                key="k1_select_condor",
                             )
                             k2 = st.selectbox(
                                 "Strike (k2; Lower-Mid)",
@@ -1374,7 +1382,7 @@ def main():
                                 index=min(
                                     len(all_strikes) // 2 - 1, len(all_strikes) - 3
                                 ),
-                                key="k2_select_condor"
+                                key="k2_select_condor",
                             )
                             k3 = st.selectbox(
                                 "Strike (k3; Upper-Mid)",
@@ -1382,7 +1390,7 @@ def main():
                                 index=min(
                                     len(all_strikes) // 2 + 1, len(all_strikes) - 2
                                 ),
-                                key="k3_select_condor"
+                                key="k3_select_condor",
                             )
                             k4 = st.selectbox(
                                 "Strike (k4; Highest)",
@@ -1390,7 +1398,7 @@ def main():
                                 index=min(
                                     len(all_strikes) // 2 + 3, len(all_strikes) - 1
                                 ),
-                                key="k4_select_condor"
+                                key="k4_select_condor",
                             )
                         else:
                             k1 = st.number_input(
@@ -1461,7 +1469,7 @@ def main():
                                 "Strike Price (k)",
                                 options=all_strikes,
                                 index=len(all_strikes) // 2,
-                                key="k1_select_single"
+                                key="k1_select_single",
                             )
                             k2, k3, k4 = k1, None, None
                         else:
@@ -1492,10 +1500,18 @@ def main():
                     calls, puts = get_option_chain(ticker, expiry)
                     if calls is not None and puts is not None:
                         if option_type == "CALL":
-                            implied_vol = calls[calls["strike"] == k1]["impliedVolatility"].iloc[0] * 100
+                            implied_vol = (
+                                calls[calls["strike"] == k1]["impliedVolatility"].iloc[
+                                    0
+                                ]
+                                * 100
+                            )
                         else:
-                            implied_vol = puts[puts["strike"] == k1]["impliedVolatility"].iloc[0] * 100
-                        
+                            implied_vol = (
+                                puts[puts["strike"] == k1]["impliedVolatility"].iloc[0]
+                                * 100
+                            )
+
                         # 텍스트 대신 number_input으로 변경
                         st.number_input(
                             "Implied Volatility (%)",
@@ -1503,7 +1519,7 @@ def main():
                             step=0.1,
                             format="%.1f",
                             disabled=True,
-                            label_visibility="visible"
+                            label_visibility="visible",
                         )
 
             # Option Prices 섹션을 4번째 컬럼으로 이동
@@ -1546,7 +1562,7 @@ def main():
                             label_visibility="collapsed",
                         )
                         price2, price3, price4 = None, None, None
-                
+
                 elif strategy == "Spread":
                     if option_type == "CALL":
                         sign1 = "+" if side == "LONG" else "-"
@@ -1608,7 +1624,7 @@ def main():
                             label_visibility="collapsed",
                         )
                         price3, price4 = None, None
-                
+
                 elif strategy == "Straddle":
                     sign = "+" if side == "LONG" else "-"
                     css_class = "positive" if side == "LONG" else "negative"
@@ -1637,7 +1653,7 @@ def main():
                         label_visibility="collapsed",
                     )
                     price3, price4 = None, None
-                
+
                 elif strategy == "Strangle":
                     sign = "+" if side == "LONG" else "-"
                     css_class = "positive" if side == "LONG" else "negative"
@@ -1666,7 +1682,7 @@ def main():
                         label_visibility="collapsed",
                     )
                     price3, price4 = None, None
-                
+
                 elif strategy == "Strip":
                     st.markdown(
                         f"<div class='option-label'><span class='positive'>+</span> 2x Put (k)</div>",
@@ -1693,7 +1709,7 @@ def main():
                         label_visibility="collapsed",
                     )
                     price3, price4 = None, None
-                
+
                 elif strategy == "Strap":
                     st.markdown(
                         f"<div class='option-label'><span class='positive'>+</span> Put (k)</div>",
@@ -1720,7 +1736,7 @@ def main():
                         label_visibility="collapsed",
                     )
                     price3, price4 = None, None
-                
+
                 elif strategy == "Butterfly":
                     if option_type == "CALL":
                         sign1 = "+" if side == "LONG" else "-"
@@ -1810,7 +1826,7 @@ def main():
                             label_visibility="collapsed",
                         )
                         price4 = None
-                
+
                 elif strategy == "Condor":
                     if option_type == "CALL":
                         sign1 = "+" if side == "LONG" else "-"
@@ -1926,7 +1942,7 @@ def main():
                             key="condor_put_price4",
                             label_visibility="collapsed",
                         )
-                
+
                 elif strategy == "Ladder":
                     if option_type == "CALL":
                         sign1 = "+" if side == "LONG" else "-"
@@ -2016,7 +2032,7 @@ def main():
                             label_visibility="collapsed",
                         )
                         price4 = None
-                
+
                 elif strategy == "Jade Lizard":
                     st.markdown(
                         f"<div class='option-label'><span class='negative'>-</span> Put (k1)</div>",
@@ -2055,7 +2071,7 @@ def main():
                         label_visibility="collapsed",
                     )
                     price4 = None
-                
+
                 elif strategy == "Reverse Jade Lizard":
                     st.markdown(
                         f"<div class='option-label'><span class='positive'>+</span> Put (k1)</div>",
@@ -2094,7 +2110,7 @@ def main():
                         label_visibility="collapsed",
                     )
                     price4 = None
-                
+
                 elif strategy == "Covered":
                     if option_type == "CALL":
                         st.markdown(
@@ -2134,7 +2150,7 @@ def main():
                             label_visibility="collapsed",
                         )
                         price3, price4 = None, None
-                
+
                 elif strategy == "Protective":
                     if option_type == "CALL":
                         st.markdown(
@@ -2292,348 +2308,420 @@ def main():
 
         if "data" in st.session_state:
             data = st.session_state.data
-            
+
             # 티커 변경 감지 및 볼라틸리티 데이터 캐싱을 위한 session_state 초기화
-            if 'current_vol_ticker' not in st.session_state:
+            if "current_vol_ticker" not in st.session_state:
                 st.session_state.current_vol_ticker = None
                 st.session_state.vol_data = []
                 st.session_state.all_vols_data_call = []
                 st.session_state.all_vols_data_put = []
-            
+
             # 티커가 변경되었는지 확인 또는 데이터가 비어있는지 확인
-            ticker_changed = (st.session_state.current_vol_ticker != ticker) or (not st.session_state.vol_data)
-            
+            ticker_changed = (st.session_state.current_vol_ticker != ticker) or (
+                not st.session_state.vol_data
+            )
+
             # 디버깅 정보 (테스트 후 제거 가능)
             # st.write(f"Current ticker: {ticker}, Saved ticker: {st.session_state.current_vol_ticker}")
             # st.write(f"Ticker changed: {ticker_changed}")
             # st.write(f"Data available: {len(st.session_state.vol_data) > 0}")
-            
+
             # Volatility Surface & Smile/Skew 섹션
             st.subheader("Volatility Surface & Smile/Skew")
-            
+
             # 티커가 변경된 경우에만 데이터 새로 계산
             if ticker_changed:
-                with st.spinner("Generating volatility data... (only runs when ticker changes)"):
+                with st.spinner("Generating volatility data... "):
                     # 현재 티커 저장
                     st.session_state.current_vol_ticker = ticker
-                    
+
                     # 데이터 수집 초기화
                     all_vols_data_call = []
                     all_vols_data_put = []
-                    colors = ['#636EFA', '#EF553B', '#00CC96', '#AB63FA', '#FFA15A', '#19D3F3', '#FF6692']
+                    colors = [
+                        "#636EFA",
+                        "#EF553B",
+                        "#00CC96",
+                        "#AB63FA",
+                        "#FFA15A",
+                        "#19D3F3",
+                        "#FF6692",
+                    ]
                     vol_data = []
-                    
+
                     # 모든 만기일에 대한 데이터 수집
                     expiry_dates = data["expiry_dates"]
-                    
+
                     # 최대 7개의 만기일만 사용
-                    selected_expiries = expiry_dates[:min(7, len(expiry_dates))]
-                    
+                    selected_expiries = expiry_dates[: min(7, len(expiry_dates))]
+
                     for i, exp_date in enumerate(selected_expiries):
                         try:
                             exp_calls, exp_puts = get_option_chain(ticker, exp_date)
                             if exp_calls is not None and exp_puts is not None:
                                 # 만기일까지 남은 일수 계산
                                 days_to_exp = calculate_days_to_expiry(exp_date)
-                                
+
                                 # 만기일이 현재 이후인 경우만 포함
                                 if days_to_exp <= 0:
                                     continue
-                                
+
                                 # 콜 옵션 내재 변동성 계산
-                                exp_calls['implied_volatility'] = exp_calls.apply(
+                                exp_calls["implied_volatility"] = exp_calls.apply(
                                     lambda row: calculate_implied_volatility(
-                                        row['lastPrice'], 
-                                        s, 
-                                        row['strike'], 
-                                        rf, 
-                                        days_to_exp, 
-                                        y, 
-                                        "c"
-                                    ), 
-                                    axis=1
+                                        row["lastPrice"],
+                                        s,
+                                        row["strike"],
+                                        rf,
+                                        days_to_exp,
+                                        y,
+                                        "c",
+                                    ),
+                                    axis=1,
                                 )
-                                
+
                                 # 풋 옵션 내재 변동성 계산
-                                exp_puts['implied_volatility'] = exp_puts.apply(
+                                exp_puts["implied_volatility"] = exp_puts.apply(
                                     lambda row: calculate_implied_volatility(
-                                        row['lastPrice'], 
-                                        s, 
-                                        row['strike'], 
-                                        rf, 
-                                        days_to_exp, 
-                                        y, 
-                                        "p"
-                                    ), 
-                                    axis=1
+                                        row["lastPrice"],
+                                        s,
+                                        row["strike"],
+                                        rf,
+                                        days_to_exp,
+                                        y,
+                                        "p",
+                                    ),
+                                    axis=1,
                                 )
-                                
+
                                 # 유효한 값만 선택 (inf 또는 너무 큰 값 제외)
-                                valid_calls = exp_calls[(exp_calls['implied_volatility'] < 200) & (exp_calls['implied_volatility'] > 1)]
-                                valid_puts = exp_puts[(exp_puts['implied_volatility'] < 200) & (exp_puts['implied_volatility'] > 1)]
-                                
+                                valid_calls = exp_calls[
+                                    (exp_calls["implied_volatility"] < 200)
+                                    & (exp_calls["implied_volatility"] > 1)
+                                ]
+                                valid_puts = exp_puts[
+                                    (exp_puts["implied_volatility"] < 200)
+                                    & (exp_puts["implied_volatility"] > 1)
+                                ]
+
                                 # 콜과 풋의 내재 변동성 각각 저장
                                 if not valid_calls.empty:
                                     exp_color = colors[i % len(colors)]
-                                    all_vols_data_call.append({
-                                        'x': valid_calls['strike'].tolist(),
-                                        'y': valid_calls['implied_volatility'].tolist(),
-                                        'name': exp_date,
-                                        'color': exp_color,
-                                        'days': days_to_exp
-                                    })
-                                    
+                                    all_vols_data_call.append(
+                                        {
+                                            "x": valid_calls["strike"].tolist(),
+                                            "y": valid_calls[
+                                                "implied_volatility"
+                                            ].tolist(),
+                                            "name": exp_date,
+                                            "color": exp_color,
+                                            "days": days_to_exp,
+                                        }
+                                    )
+
                                     # 3D 그래프용 콜 데이터 준비
                                     for _, row in valid_calls.iterrows():
-                                        vol_data.append({
-                                            'days': days_to_exp,
-                                            'strike': row['strike'],
-                                            'iv': row['implied_volatility'],
-                                            'type': 'Call',
-                                            'expiry': exp_date
-                                        })
-                                        
+                                        vol_data.append(
+                                            {
+                                                "days": days_to_exp,
+                                                "strike": row["strike"],
+                                                "iv": row["implied_volatility"],
+                                                "type": "Call",
+                                                "expiry": exp_date,
+                                            }
+                                        )
+
                                 if not valid_puts.empty:
                                     exp_color = colors[i % len(colors)]
-                                    all_vols_data_put.append({
-                                        'x': valid_puts['strike'].tolist(),
-                                        'y': valid_puts['implied_volatility'].tolist(),
-                                        'name': exp_date,
-                                        'color': exp_color,
-                                        'days': days_to_exp
-                                    })
-                                    
+                                    all_vols_data_put.append(
+                                        {
+                                            "x": valid_puts["strike"].tolist(),
+                                            "y": valid_puts[
+                                                "implied_volatility"
+                                            ].tolist(),
+                                            "name": exp_date,
+                                            "color": exp_color,
+                                            "days": days_to_exp,
+                                        }
+                                    )
+
                                     # 3D 그래프용 풋 데이터 준비
                                     for _, row in valid_puts.iterrows():
-                                        vol_data.append({
-                                            'days': days_to_exp,
-                                            'strike': row['strike'],
-                                            'iv': row['implied_volatility'],
-                                            'type': 'Put',
-                                            'expiry': exp_date
-                                        })
+                                        vol_data.append(
+                                            {
+                                                "days": days_to_exp,
+                                                "strike": row["strike"],
+                                                "iv": row["implied_volatility"],
+                                                "type": "Put",
+                                                "expiry": exp_date,
+                                            }
+                                        )
                         except Exception as e:
                             st.warning(f"Error processing expiry date {exp_date}: {e}")
                             continue
-                    
+
                     # 디버깅 정보
                     # st.write(f"Collected data: Call options: {len(all_vols_data_call)}, Put options: {len(all_vols_data_put)}")
                     # st.write(f"Total volatility points: {len(vol_data)}")
-                    
+
                     # 데이터를 session_state에 저장
                     st.session_state.vol_data = vol_data
                     st.session_state.all_vols_data_call = all_vols_data_call
                     st.session_state.all_vols_data_put = all_vols_data_put
-            
+
             # 2D 그래프용 탭
-            vol_tabs = st.tabs(["3D Surface", "Call Volatility Smile/Skew", "Put Volatility Smile/Skew"])
-            
+            vol_tabs = st.tabs(
+                [
+                    "3D Surface",
+                    "Call Volatility Smile/Skew",
+                    "Put Volatility Smile/Skew",
+                ]
+            )
+
             # 캐시된 데이터 사용
-            vol_data = st.session_state.vol_data if st.session_state.vol_data is not None else []
-            all_vols_data_call = st.session_state.all_vols_data_call if st.session_state.all_vols_data_call is not None else []
-            all_vols_data_put = st.session_state.all_vols_data_put if st.session_state.all_vols_data_put is not None else []
-            
+            vol_data = (
+                st.session_state.vol_data
+                if st.session_state.vol_data is not None
+                else []
+            )
+            all_vols_data_call = (
+                st.session_state.all_vols_data_call
+                if st.session_state.all_vols_data_call is not None
+                else []
+            )
+            all_vols_data_put = (
+                st.session_state.all_vols_data_put
+                if st.session_state.all_vols_data_put is not None
+                else []
+            )
+
             # 데이터 유효성 확인
             has_vol_data = len(vol_data) > 0
             has_call_data = len(all_vols_data_call) > 0
             has_put_data = len(all_vols_data_put) > 0
-            
+
             with vol_tabs[0]:  # 3D Surface 탭
                 if has_vol_data:
                     try:
                         # 데이터프레임으로 변환
                         vol_df = pd.DataFrame(vol_data)
-                        
+
                         # 콜 옵션 데이터프레임
-                        call_df = vol_df[vol_df['type'] == 'Call']
+                        call_df = vol_df[vol_df["type"] == "Call"]
                         # 풋 옵션 데이터프레임
-                        put_df = vol_df[vol_df['type'] == 'Put']
-                        
+                        put_df = vol_df[vol_df["type"] == "Put"]
+
                         # 데이터 유효성 검사 및 로그 출력
-                        st.write(f"Call Option Data Count: {len(call_df)}, Put Option Data Count: {len(put_df)}")
-                        
+                        st.write(
+                            f"Call Option Data Count: {len(call_df)}, Put Option Data Count: {len(put_df)}"
+                        )
+
                         if len(call_df) <= 1 and len(put_df) <= 1:
-                            st.warning("Not enough data to generate Volatility Surface.")
+                            st.warning(
+                                "Not enough data to generate Volatility Surface."
+                            )
                         else:
                             # 개별 표면 그래프로 변경
                             fig = make_subplots(
-                                rows=1, cols=2, 
-                                specs=[[{'type': 'surface'}, {'type': 'surface'}]],
-                                subplot_titles=('Call Options Volatility Surface', 'Put Options Volatility Surface')
+                                rows=1,
+                                cols=2,
+                                specs=[[{"type": "surface"}, {"type": "surface"}]],
+                                subplot_titles=(
+                                    "Call Options Volatility Surface",
+                                    "Put Options Volatility Surface",
+                                ),
                             )
-                            
+
                             # 충분한 데이터가 있는 경우에만 표면 추가
                             if len(call_df) > 1:
                                 try:
                                     # 콜 옵션 데이터를 표면에 적합하게 그리드화
-                                    call_pivoted = call_df.pivot_table(
-                                        values='iv', 
-                                        index='days', 
-                                        columns='strike',
-                                        aggfunc='mean'
-                                    ).fillna(method='ffill').fillna(method='bfill')
-                                    
+                                    call_pivoted = (
+                                        call_df.pivot_table(
+                                            values="iv",
+                                            index="days",
+                                            columns="strike",
+                                            aggfunc="mean",
+                                        )
+                                        .fillna(method="ffill")
+                                        .fillna(method="bfill")
+                                    )
+
                                     fig.add_trace(
                                         go.Surface(
                                             z=call_pivoted.values,
                                             x=call_pivoted.columns.tolist(),  # strike
-                                            y=call_pivoted.index.tolist(),    # days
-                                            colorscale='Blues',
+                                            y=call_pivoted.index.tolist(),  # days
+                                            colorscale="Blues",
                                             opacity=0.8,
-                                            name='Call Options',
-                                            showscale=False
+                                            name="Call Options",
+                                            showscale=False,
                                         ),
-                                        row=1, col=1
+                                        row=1,
+                                        col=1,
                                     )
                                 except Exception as e:
                                     st.warning(f"Error creating call surface: {e}")
-                            
+
                             if len(put_df) > 1:
                                 try:
                                     # 풋 옵션 데이터를 표면에 적합하게 그리드화
-                                    put_pivoted = put_df.pivot_table(
-                                        values='iv', 
-                                        index='days', 
-                                        columns='strike',
-                                        aggfunc='mean'
-                                    ).fillna(method='ffill').fillna(method='bfill')
-                                    
+                                    put_pivoted = (
+                                        put_df.pivot_table(
+                                            values="iv",
+                                            index="days",
+                                            columns="strike",
+                                            aggfunc="mean",
+                                        )
+                                        .fillna(method="ffill")
+                                        .fillna(method="bfill")
+                                    )
+
                                     fig.add_trace(
                                         go.Surface(
                                             z=put_pivoted.values,
                                             x=put_pivoted.columns.tolist(),  # strike
-                                            y=put_pivoted.index.tolist(),    # days
-                                            colorscale='Reds',
+                                            y=put_pivoted.index.tolist(),  # days
+                                            colorscale="Reds",
                                             opacity=0.8,
-                                            name='Put Options',
+                                            name="Put Options",
                                             showscale=True,
-                                            colorbar=dict(title='IV (%)', x=1.0, y=0.5)
+                                            colorbar=dict(title="IV (%)", x=1.0, y=0.5),
                                         ),
-                                        row=1, col=2
+                                        row=1,
+                                        col=2,
                                     )
                                 except Exception as e:
                                     st.warning(f"Error creating put surface: {e}")
-                                
+
                             # 그래프 레이아웃 업데이트
                             fig.update_layout(
-                                title='Option Volatility Surface',
+                                title="Option Volatility Surface",
                                 height=600,
                                 width=800,
                                 scene=dict(
-                                    xaxis_title='Strike Price',
-                                    yaxis_title='Days to Expiry',
-                                    zaxis_title='Implied Volatility (%)',
-                                    camera=dict(eye=dict(x=1.5, y=1.5, z=1.0))
+                                    xaxis_title="Strike Price",
+                                    yaxis_title="Days to Expiry",
+                                    zaxis_title="Implied Volatility (%)",
+                                    camera=dict(eye=dict(x=1.5, y=1.5, z=1.0)),
                                 ),
                                 scene2=dict(
-                                    xaxis_title='Strike Price',
-                                    yaxis_title='Days to Expiry',
-                                    zaxis_title='Implied Volatility (%)',
-                                    camera=dict(eye=dict(x=1.5, y=1.5, z=1.0))
+                                    xaxis_title="Strike Price",
+                                    yaxis_title="Days to Expiry",
+                                    zaxis_title="Implied Volatility (%)",
+                                    camera=dict(eye=dict(x=1.5, y=1.5, z=1.0)),
                                 ),
-                                margin=dict(l=65, r=50, b=65, t=90)
+                                margin=dict(l=65, r=50, b=65, t=90),
                             )
-                            
+
                             st.plotly_chart(fig, use_container_width=True)
                     except Exception as e:
                         st.error(f"Error generating volatility surface: {e}")
                         st.write("Original data:")
-                        st.write(pd.DataFrame(vol_data).head() if vol_data else "No data available")
+                        st.write(
+                            pd.DataFrame(vol_data).head()
+                            if vol_data
+                            else "No data available"
+                        )
                 else:
-                    st.warning("No data available to generate volatility surface. Try selecting a different ticker with more liquid options.")
-            
+                    st.warning(
+                        "No data available to generate volatility surface. Try selecting a different ticker with more liquid options."
+                    )
+
             with vol_tabs[1]:  # Call 옵션 Volatility Smile/Skew 탭
                 if has_call_data:
                     try:
                         # 2D smile plot for calls
                         fig = go.Figure()
-                        
+
                         # 각 만기일에 대한 콜 옵션 변동성 스마일 추가
                         for vol_data in all_vols_data_call:
-                            fig.add_trace(go.Scatter(
-                                x=vol_data['x'],
-                                y=vol_data['y'],
-                                mode='lines+markers',
-                                name=f"{vol_data['name']} ({vol_data['days']} days)",
-                                line=dict(color=vol_data['color'])
-                            ))
-                        
+                            fig.add_trace(
+                                go.Scatter(
+                                    x=vol_data["x"],
+                                    y=vol_data["y"],
+                                    mode="lines+markers",
+                                    name=f"{vol_data['name']} ({vol_data['days']} days)",
+                                    line=dict(color=vol_data["color"]),
+                                )
+                            )
+
                         # 현재 주가에 수직선 추가
                         fig.add_vline(
-                            x=s, 
-                            line_width=1, 
-                            line_dash="dash", 
-                            line_color="green"
+                            x=s, line_width=1, line_dash="dash", line_color="green"
                         )
-                        
+
                         fig.update_layout(
-                            title='Call Options Volatility Smile/Skew',
-                            xaxis_title='Strike Price',
-                            yaxis_title='Implied Volatility (%)',
+                            title="Call Options Volatility Smile/Skew",
+                            xaxis_title="Strike Price",
+                            yaxis_title="Implied Volatility (%)",
                             legend=dict(
                                 orientation="h",
                                 yanchor="bottom",
                                 y=1.02,
                                 xanchor="right",
-                                x=1
+                                x=1,
                             ),
                             width=800,
                             height=500,
-                            margin=dict(l=65, r=50, b=65, t=90)
+                            margin=dict(l=65, r=50, b=65, t=90),
                         )
-                        
+
                         st.plotly_chart(fig, use_container_width=True)
                     except Exception as e:
                         st.error(f"Error generating call volatility smile: {e}")
                 else:
-                    st.warning("Not enough data to generate call option volatility smile plot. Try selecting a ticker with more liquid options.")
-                    
+                    st.warning(
+                        "Not enough data to generate call option volatility smile plot. Try selecting a ticker with more liquid options."
+                    )
+
             with vol_tabs[2]:  # Put 옵션 Volatility Smile/Skew 탭
                 if has_put_data:
                     try:
                         # 2D smile plot for puts
                         fig = go.Figure()
-                        
+
                         # 각 만기일에 대한 풋 옵션 변동성 스마일 추가
                         for vol_data in all_vols_data_put:
-                            fig.add_trace(go.Scatter(
-                                x=vol_data['x'],
-                                y=vol_data['y'],
-                                mode='lines+markers',
-                                name=f"{vol_data['name']} ({vol_data['days']} days)",
-                                line=dict(color=vol_data['color'])
-                            ))
-                        
+                            fig.add_trace(
+                                go.Scatter(
+                                    x=vol_data["x"],
+                                    y=vol_data["y"],
+                                    mode="lines+markers",
+                                    name=f"{vol_data['name']} ({vol_data['days']} days)",
+                                    line=dict(color=vol_data["color"]),
+                                )
+                            )
+
                         # 현재 주가에 수직선 추가
                         fig.add_vline(
-                            x=s, 
-                            line_width=1, 
-                            line_dash="dash", 
-                            line_color="green"
+                            x=s, line_width=1, line_dash="dash", line_color="green"
                         )
-                        
+
                         fig.update_layout(
-                            title='Put Options Volatility Smile/Skew',
-                            xaxis_title='Strike Price',
-                            yaxis_title='Implied Volatility (%)',
+                            title="Put Options Volatility Smile/Skew",
+                            xaxis_title="Strike Price",
+                            yaxis_title="Implied Volatility (%)",
                             legend=dict(
                                 orientation="h",
                                 yanchor="bottom",
                                 y=1.02,
                                 xanchor="right",
-                                x=1
+                                x=1,
                             ),
                             width=800,
                             height=500,
-                            margin=dict(l=65, r=50, b=65, t=90)
+                            margin=dict(l=65, r=50, b=65, t=90),
                         )
-                        
+
                         st.plotly_chart(fig, use_container_width=True)
                     except Exception as e:
                         st.error(f"Error generating put volatility smile: {e}")
                 else:
-                    st.warning("Not enough data to generate put option volatility smile plot. Try selecting a ticker with more liquid options.")
-                
+                    st.warning(
+                        "Not enough data to generate put option volatility smile plot. Try selecting a ticker with more liquid options."
+                    )
+
             # 옵션 체인 선택 섹션 - 만기일 선택 후 해당 만기일의 옵션 체인만 업데이트
             st.subheader("Select Option Chain")
             expiry = st.selectbox(
@@ -2646,42 +2734,34 @@ def main():
                     calls, puts = get_option_chain(ticker, expiry)
                     if calls is not None and puts is not None:
                         # 콜 옵션 데이터프레임에 implied volatility 컬럼 추가
-                        calls['implied_volatility'] = calls.apply(
+                        calls["implied_volatility"] = calls.apply(
                             lambda row: calculate_implied_volatility(
-                                row['lastPrice'], 
-                                s, 
-                                row['strike'], 
-                                rf, 
-                                tau, 
-                                y, 
-                                "c"
-                            ), 
-                            axis=1
+                                row["lastPrice"], s, row["strike"], rf, tau, y, "c"
+                            ),
+                            axis=1,
                         )
-                        
+
                         # 풋 옵션 데이터프레임에 implied volatility 컬럼 추가
-                        puts['implied_volatility'] = puts.apply(
+                        puts["implied_volatility"] = puts.apply(
                             lambda row: calculate_implied_volatility(
-                                row['lastPrice'], 
-                                s, 
-                                row['strike'], 
-                                rf, 
-                                tau, 
-                                y, 
-                                "p"
-                            ), 
-                            axis=1
+                                row["lastPrice"], s, row["strike"], rf, tau, y, "p"
+                            ),
+                            axis=1,
                         )
-                        
+
                         # 옵션 체인 데이터 표시
                         st.subheader("Call Option Chain")
                         # implied volatility를 소수점으로 변환하여 표시
-                        calls['implied_volatility'] = calls['implied_volatility'].apply(lambda x: f"{x:.2f}%")
+                        calls["implied_volatility"] = calls["implied_volatility"].apply(
+                            lambda x: f"{x:.2f}%"
+                        )
                         st.dataframe(calls, use_container_width=True)
-                        
+
                         st.subheader("Put Option Chain")
                         # implied volatility를 소수점으로 변환하여 표시
-                        puts['implied_volatility'] = puts['implied_volatility'].apply(lambda x: f"{x:.2f}%")
+                        puts["implied_volatility"] = puts["implied_volatility"].apply(
+                            lambda x: f"{x:.2f}%"
+                        )
                         st.dataframe(puts, use_container_width=True)
                     else:
                         st.warning(
