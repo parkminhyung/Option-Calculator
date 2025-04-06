@@ -124,16 +124,10 @@ streamlit run app.py
 
 ## 📝 사용 방법
 
-<div align="center">
-  
-| 단계 | 설명 |
-|------|------|
-| 1️⃣ | 사이드바에 주식 티커 심볼을 입력하고 "Fetch Data" 버튼을 클릭합니다. |
-| 2️⃣ | 원하는 옵션 전략, 행사가, 만기일 등의 파라미터를 설정합니다. |
-| 3️⃣ | "Show Plot" 버튼을 클릭하여 전략의 손익 구조와 그릭스를 시각화합니다. |
-| 4️⃣ | "Option Chain" 탭에서는 특정 만기일에 대한 옵션 체인 정보를 확인할 수 있습니다. |
-
-</div>
+1️⃣ 사이드바에 주식 티커 심볼을 입력하고 "Fetch Data" 버튼을 클릭합니다.
+2️⃣ 원하는 옵션 전략, 행사가, 만기일 등의 파라미터를 설정합니다.
+3️⃣ "Show Plot" 버튼을 클릭하여 전략의 손익 구조와 그릭스를 시각화합니다.
+4️⃣ "Option Chain" 탭에서는 특정 만기일에 대한 옵션 체인 정보를 확인할 수 있습니다.
 
 ## 📌 참고 사항
 
@@ -253,16 +247,10 @@ streamlit run app.py
 
 ## 📝 How to Use
 
-<div align="center">
-  
-| Step | Description |
-|------|-------------|
-| 1️⃣ | Enter a stock ticker symbol in the sidebar and click the "Fetch Data" button. |
-| 2️⃣ | Set your desired parameters including option strategy, strike prices, expiry date, etc. |
-| 3️⃣ | Click the "Show Plot" button to visualize the strategy's profit/loss structure and Greeks. |
-| 4️⃣ | Use the "Option Chain" tab to view option chain information for specific expiry dates. |
-
-</div>
+1️⃣ Enter a stock ticker symbol in the sidebar and click the "Fetch Data" button.
+2️⃣ Set your desired parameters including option strategy, strike prices, expiry date, etc.
+3️⃣ Click the "Show Plot" button to visualize the strategy's profit/loss structure and Greeks.
+4️⃣ Use the "Option Chain" tab to view option chain information for specific expiry dates.
 
 ## 📌 Notes
 
@@ -382,16 +370,10 @@ streamlit run app.py
 
 ## 📝 使用方法
 
-<div align="center">
-  
-| 步骤 | 描述 |
-|------|------|
-| 1️⃣ | 在侧边栏输入股票代码并点击"Fetch Data"按钮。 |
-| 2️⃣ | 设置所需参数，包括期权策略、行权价、到期日等。 |
-| 3️⃣ | 点击"Show Plot"按钮可视化策略的盈亏结构和希腊字母。 |
-| 4️⃣ | 使用"Option Chain"标签页查看特定到期日的期权链信息。 |
-
-</div>
+1️⃣ 在侧边栏输入股票代码并点击"Fetch Data"按钮。
+2️⃣ 设置所需参数，包括期权策略、行权价、到期日等。
+3️⃣ 点击"Show Plot"按钮可视化策略的盈亏结构和希腊字母。
+4️⃣ 使用"Option Chain"标签页查看特定到期日的期权链信息。
 
 ## 📌 注意事项
 
@@ -511,19 +493,13 @@ streamlit run app.py
 
 ## 📝 使用方法
 
-<div align="center">
-  
-| ステップ | 説明 |
-|----------|------|
-| 1️⃣ | サイドバーに株式ティッカーシンボルを入力し、「Fetch Data」ボタンをクリックします。 |
-| 2️⃣ | オプション戦略、行使価格、満期日などの希望するパラメータを設定します。 |
-| 3️⃣ | 「Show Plot」ボタンをクリックして、戦略の損益構造とギリシャ指標を視覚化します。 |
-| 4️⃣ | 「Option Chain」タブを使用して、特定の満期日のオプションチェーン情報を表示します。 |
-
-</div>
+1️⃣ サイドバーに株式ティッカーシンボルを入力し、「Fetch Data」ボタンをクリックします。
+2️⃣ オプション戦略、行使価格、満期日などの希望するパラメータを設定します。
+3️⃣ 「Show Plot」ボタンをクリックして、戦略の損益構造とギリシャ指標を視覚化します。
+4️⃣ 「Option Chain」タブを使用して、特定の満期日のオプションチェーン情報を表示します。
 
 ## 📌 注意事項
 
 > ⚠️ **オプションチェーン情報はyfinanceパッケージに依存しているため、一部の市場や証券ではデータが制限される場合があります。**
 
-> 💡 **Option Prices下に
+> 💡 **Option Prices下に表示される価格はブラック・ショールズモデルに基づく理論価格です。オプションの前の+は買い、-は売りを示します。例えば、- callはコールの売りを意味し、+2x callはコールを2倍買うことを意味します。**
