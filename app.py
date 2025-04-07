@@ -2732,6 +2732,68 @@ def main():
                 options=data["expiry_dates"] if "expiry_dates" in data else [],
             )
 
+            # New section for Call and Put Volume Chart
+            st.subheader("Option Volume Chart")
+
+            if expiry:
+                with st.spinner("Fetching option volume data..."):
+                    calls, puts = get_option_chain(ticker, expiry)
+                    if calls is not None and puts is not None:
+                        # Prepare data for volume chart
+                        call_strikes = calls['strike'].tolist()
+                        put_strikes = puts['strike'].tolist()
+                        call_volumes = calls['volume'].tolist()
+                        put_volumes = puts['volume'].tolist()
+
+                        # Create volume chart
+                        volume_fig = go.Figure()
+
+                        # Add call volume bars
+                        volume_fig.add_trace(go.Bar(x=call_strikes, y=call_volumes, name='Calls', marker_color='red'))
+                        # Add put volume bars
+                        volume_fig.add_trace(go.Bar(x=put_strikes, y=put_volumes, name='Puts', marker_color='blue'))
+
+                        volume_fig.update_layout(
+                            title="Call and Put Volume by Strike Price",
+                            xaxis_title="Strike Price",
+                            yaxis_title="Volume",
+                            height=400,
+                            margin=dict(l=40, r=40, t=40, b=40),
+                        )
+
+                        st.plotly_chart(volume_fig, use_container_width=True)
+                        # Calculate and display the put-call ratio below the plot
+                        if call_volumes and put_volumes:  # 리스트가 비어있지 않은지 확인
+                            try:
+                                # 유효한 숫자만 합산
+                                call_volume_total = sum(v for v in call_volumes if isinstance(v, (int, float)) and v >= 0)
+                                put_volume_total = sum(v for v in put_volumes if isinstance(v, (int, float)) and v >= 0)
+                                
+                                # 3개의 열로 나누어 정보 표시
+                                vol_cols = st.columns(3)
+                                
+                                with vol_cols[0]:
+                                    st.metric("Total Call Volume", f"{call_volume_total:,}")
+                                
+                                with vol_cols[1]:
+                                    st.metric("Total Put Volume", f"{put_volume_total:,}")
+                                
+                                with vol_cols[2]:
+                                    if call_volume_total > 0:
+                                        put_call_ratio = put_volume_total / call_volume_total
+                                        st.metric("Put-Call Ratio", f"{put_call_ratio:.2f}")
+                                    else:
+                                        st.metric("Put-Call Ratio", "N/A")
+                                        
+                            except Exception as e:
+                                st.warning(f"Error calculating Put-Call Ratio: {e}")
+                        else:
+                            st.warning("Cannot calculate Put-Call Ratio: Volume data is missing")                 
+                    else:
+                        st.warning("Option volume data not available for the selected expiry date.")
+            else:
+                st.info("Please select an expiry date to view the option volume data.")
+
             if expiry:
                 with st.spinner("Fetching option chain..."):
                     calls, puts = get_option_chain(ticker, expiry)
