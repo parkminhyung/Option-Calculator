@@ -38,8 +38,11 @@
   <img width="800" alt="화면 4" src="https://github.com/user-attachments/assets/ef85e353-f66f-40a4-b79d-a5282f7c1d82" />
   <br><br>
   <img width="800" alt="화면 5" src="https://github.com/user-attachments/assets/aa6cc085-0502-4394-8f74-bbca63f865a9" />
+  <br><br>
+  <img width="800" alt="image" src="https://github.com/user-attachments/assets/f5c129b4-aa6c-4dfc-9fb6-fbad77ff3762" />
 </p>
 </details>
+
 
 ## 주요 기능
 
@@ -158,15 +161,18 @@ streamlit run app.py
 <details>
 <summary><b>📊 More Screenshots</b></summary>
 <p align="center">
-  <img width="800" alt="Screen 2" src="https://github.com/user-attachments/assets/44535153-5417-4d12-b9d8-d080582c0719" />
+  <img width="800" alt="화면 2" src="https://github.com/user-attachments/assets/44535153-5417-4d12-b9d8-d080582c0719" />
   <br><br>
-  <img width="800" alt="Screen 3" src="https://github.com/user-attachments/assets/2483ddce-1df5-4aae-9c14-10543384181f" />
+  <img width="800" alt="화면 3" src="https://github.com/user-attachments/assets/2483ddce-1df5-4aae-9c14-10543384181f" />
   <br><br>
-  <img width="800" alt="Screen 4" src="https://github.com/user-attachments/assets/ef85e353-f66f-40a4-b79d-a5282f7c1d82" />
+  <img width="800" alt="화면 4" src="https://github.com/user-attachments/assets/ef85e353-f66f-40a4-b79d-a5282f7c1d82" />
   <br><br>
-  <img width="800" alt="Screen 5" src="https://github.com/user-attachments/assets/aa6cc085-0502-4394-8f74-bbca63f865a9" />
+  <img width="800" alt="화면 5" src="https://github.com/user-attachments/assets/aa6cc085-0502-4394-8f74-bbca63f865a9" />
+  <br><br>
+  <img width="800" alt="image" src="https://github.com/user-attachments/assets/f5c129b4-aa6c-4dfc-9fb6-fbad77ff3762" />
 </p>
 </details>
+
 
 ## Key Features
 
@@ -285,13 +291,15 @@ streamlit run app.py
 <details>
 <summary><b>📊 更多截图</b></summary>
 <p align="center">
-  <img width="800" alt="屏幕 2" src="https://github.com/user-attachments/assets/44535153-5417-4d12-b9d8-d080582c0719" />
+  <img width="800" alt="화면 2" src="https://github.com/user-attachments/assets/44535153-5417-4d12-b9d8-d080582c0719" />
   <br><br>
-  <img width="800" alt="屏幕 3" src="https://github.com/user-attachments/assets/2483ddce-1df5-4aae-9c14-10543384181f" />
+  <img width="800" alt="화면 3" src="https://github.com/user-attachments/assets/2483ddce-1df5-4aae-9c14-10543384181f" />
   <br><br>
-  <img width="800" alt="屏幕 4" src="https://github.com/user-attachments/assets/ef85e353-f66f-40a4-b79d-a5282f7c1d82" />
+  <img width="800" alt="화면 4" src="https://github.com/user-attachments/assets/ef85e353-f66f-40a4-b79d-a5282f7c1d82" />
   <br><br>
-  <img width="800" alt="屏幕 5" src="https://github.com/user-attachments/assets/aa6cc085-0502-4394-8f74-bbca63f865a9" />
+  <img width="800" alt="화면 5" src="https://github.com/user-attachments/assets/aa6cc085-0502-4394-8f74-bbca63f865a9" />
+  <br><br>
+  <img width="800" alt="image" src="https://github.com/user-attachments/assets/f5c129b4-aa6c-4dfc-9fb6-fbad77ff3762" />
 </p>
 </details>
 
@@ -412,13 +420,15 @@ streamlit run app.py
 <details>
 <summary><b>📊 その他のスクリーンショット</b></summary>
 <p align="center">
-  <img width="800" alt="画面 2" src="https://github.com/user-attachments/assets/44535153-5417-4d12-b9d8-d080582c0719" />
+  <img width="800" alt="화면 2" src="https://github.com/user-attachments/assets/44535153-5417-4d12-b9d8-d080582c0719" />
   <br><br>
-  <img width="800" alt="画面 3" src="https://github.com/user-attachments/assets/2483ddce-1df5-4aae-9c14-10543384181f" />
+  <img width="800" alt="화면 3" src="https://github.com/user-attachments/assets/2483ddce-1df5-4aae-9c14-10543384181f" />
   <br><br>
-  <img width="800" alt="画面 4" src="https://github.com/user-attachments/assets/ef85e353-f66f-40a4-b79d-a5282f7c1d82" />
+  <img width="800" alt="화면 4" src="https://github.com/user-attachments/assets/ef85e353-f66f-40a4-b79d-a5282f7c1d82" />
   <br><br>
-  <img width="800" alt="画面 5" src="https://github.com/user-attachments/assets/aa6cc085-0502-4394-8f74-bbca63f865a9" />
+  <img width="800" alt="화면 5" src="https://github.com/user-attachments/assets/aa6cc085-0502-4394-8f74-bbca63f865a9" />
+  <br><br>
+  <img width="800" alt="image" src="https://github.com/user-attachments/assets/f5c129b4-aa6c-4dfc-9fb6-fbad77ff3762" />
 </p>
 </details>
 
