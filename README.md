@@ -1,3 +1,4 @@
+
 # Options Calculator
 
 <div align="center">
@@ -16,8 +17,6 @@
 
 <a id="한국어"></a>
 
-<div align="center">
-  
 # 옵션 계산기
 
 ### 금융 투자자를 위한 강력한 옵션 전략 시뮬레이션 및 분석 도구
@@ -26,8 +25,6 @@
 - 전략 성과 분석: 각 옵션 전략의 승률을 계산하여 표시합니다.
 - 확률 곡선 시각화: 손익 구조 플롯에 전략의 다양한 결과에 대한 확률 분포 곡선을 추가했습니다.
 - 향상된 옵션 가격 책정: 옵션 이론 가격 계산에 52주 변동성 대신 델타 중립 내재 변동성을 사용합니다.
-
-</div>
 
 <p align="center">
   <img width="800" alt="메인 화면" src="https://github.com/user-attachments/assets/4b458818-ff41-4510-a9cd-af7a28f6cbb9" />
@@ -45,7 +42,6 @@
   <img width="1663" alt="image" src="https://github.com/user-attachments/assets/438a0b48-c3e6-4013-a339-b6abb4b69702" />
 </p>
 </details>
-
 
 ## 주요 기능
 
@@ -143,14 +139,12 @@ streamlit run app.py
 
 > **옵션 체인 정보와 볼륨 데이터는 yfinance 패키지에 의존하므로 일부 시장이나 종목에서는 데이터가 제한되거나 정확하지 않을 수 있습니다.**
 
-> **Option Prices 하단에 나타나는 가격은 블랙숄즈모형을 기반으로 도출한 이론가격이며, 옵션 앞 +는 매수, -는 매도를 나타냅니다. 예를 들어 - call은 콜매도를 의미하며, +2x call은 콜을 2배로 매수한다는 뜻입니다.**
+> **Option Prices 하단에 나타나는 가격은 델타 중립 내재 변동성을 사용하여 블랙숄즈모형을 기반으로 도출한 이론가격입니다. 옵션 앞 +는 매수, -는 매도를 나타냅니다. 예를 들어 - call은 콜매도를 의미하며, +2x call은 콜을 2배로 매수한다는 뜻입니다.**
 
 ---
 
 <a id="english"></a>
 
-<div align="center">
-  
 # Options Calculator
 
 ### A powerful option strategy simulation and analysis tool for financial investors
@@ -159,8 +153,6 @@ streamlit run app.py
 - Strategy Performance Analysis: Now calculates and displays the win rate for each option strategy.
 - Probability Curve Visualization: Added a probability distribution curve to the profit/loss plot for strategy outcomes.
 - Enhanced Option Pricing: Uses delta-neutral implied volatility instead of 52-week volatility for theoretical option pricing.
-  
-</div>
 
 <p align="center">
   <img width="800" alt="Main Screen" src="https://github.com/user-attachments/assets/4b458818-ff41-4510-a9cd-af7a28f6cbb9" />
@@ -178,8 +170,6 @@ streamlit run app.py
   <img width="1663" alt="image" src="https://github.com/user-attachments/assets/438a0b48-c3e6-4013-a339-b6abb4b69702" />
 </p>
 </details>
-
-
 
 ## Key Features
 
@@ -277,14 +267,12 @@ streamlit run app.py
 
 > **Option chain information and volume data depend on the yfinance package, so data may be limited or inaccurate for some markets or securities.**
 
-> **The prices shown under Option Prices are theoretical prices based on the Black-Scholes model. The + sign in front of options indicates buying, while - indicates selling. For example, - call means selling a call, and +2x call means buying two call options.**
+> **The prices shown under Option Prices are theoretical prices based on the Black-Scholes model using delta-neutral implied volatility. The + sign in front of options indicates buying, while - indicates selling. For example, - call means selling a call, and +2x call means buying two call options.**
 
 ---
 
 <a id="中文"></a>
 
-<div align="center">
-  
 # 期权计算器
 
 ### 为金融投资者提供的强大期权策略模拟和分析工具
@@ -293,8 +281,6 @@ streamlit run app.py
 - 策略表现分析: 现在计算并显示每种期权策略的胜率。
 - 概率曲线可视化: 在损益图中添加了策略结果的概率分布曲线。
 - 增强的期权定价: 使用delta中性隐含波动率代替52周波动率进行理论期权定价。
-
-</div>
 
 <p align="center">
   <img width="800" alt="主屏幕" src="https://github.com/user-attachments/assets/4b458818-ff41-4510-a9cd-af7a28f6cbb9" />
@@ -313,10 +299,9 @@ streamlit run app.py
 </p>
 </details>
 
-
 ## 主要功能
 
-| 功能 | 描述 |
+| 功能 | 描述발표자료 | 
 |------|------|
 | **实时股票数据获取** | 输入股票代码获取实时价格和基本信息 |
 | **期权策略模拟** | 可视化各种期权策略的盈亏结构 |
@@ -410,14 +395,12 @@ streamlit run app.py
 
 > **期权链信息和交易量数据依赖于yfinance包，因此某些市场或证券的数据可能有限或不准确。**
 
-> **Option Prices下显示的价格是基于Black-Scholes模型的理论价格。期权前的+号表示买入，-号表示卖出。例如，-call表示卖出认购期权，+2x call表示买入两个认购期权。**
+> **Option Prices下显示的价格是使用delta中性隐含波动率基于Black-Scholes模型的理论价格。期权前的+号表示买入，-号表示卖出。例如，-call表示卖出认购期权，+2x call表示买入两个认购期权。**
 
 ---
 
 <a id="日本語"></a>
 
-<div align="center">
-  
 # オプション計算機
 
 ### 金融投資家のための強力なオプション戦略シミュレーションおよび分析ツール
@@ -426,8 +409,6 @@ streamlit run app.py
 - 戦略パフォーマンス分析: 各オプション戦略の勝率を計算して表示します。
 - 確率曲線の視覚化: 損益プロットに戦略結果の確率分布曲線を追加しました。
 - 強化されたオプション価格設定: 理論オプション価格の計算に52週ボラティリティの代わりにデルタ中立インプライドボラティリティを使用します。
-  
-</div>
 
 <p align="center">
   <img width="800" alt="メイン画面" src="https://github.com/user-attachments/assets/4b458818-ff41-4510-a9cd-af7a28f6cbb9" />
@@ -445,7 +426,6 @@ streamlit run app.py
   <img width="1663" alt="image" src="https://github.com/user-attachments/assets/438a0b48-c3e6-4013-a339-b6abb4b69702" />
 </p>
 </details>
-
 
 ## 主な機能
 
@@ -543,4 +523,5 @@ streamlit run app.py
 
 > **オプションチェーン情報とボリュームデータはyfinanceパッケージに依存しているため、一部の市場や証券ではデータが制限されたり正確でない場合があります。**
 
-> **Option Prices下に表示される価格はブラック・ショールズモデルに基づく理論価格です。オプションの前の+は買い、-は売りを示します。例えば、- callはコールの売りを意味し、+2x callはコールを2倍買うことを意味します。**
+> **Option Prices下に表示される価格はデルタ中立インプライドボラティリティを使用してブラック・ショールズモデルに基づく理論価格です。オプションの前の+は買い、-は売りを示します。例えば、- callはコールの売りを意味し、+2x callはコールを2倍買うことを意味します。**
+```
