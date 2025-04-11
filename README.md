@@ -21,7 +21,12 @@
 # 옵션 계산기
 
 ### 금융 투자자를 위한 강력한 옵션 전략 시뮬레이션 및 분석 도구
-  
+
+## 새로운 기능
+- 전략 성과 분석: 각 옵션 전략의 승률을 계산하여 표시합니다.
+- 확률 곡선 시각화: 손익 구조 플롯에 전략의 다양한 결과에 대한 확률 분포 곡선을 추가했습니다.
+- 향상된 옵션 가격 책정: 옵션 이론 가격 계산에 52주 변동성 대신 델타 중립 내재 변동성을 사용합니다.
+
 </div>
 
 <p align="center">
@@ -31,15 +36,13 @@
 <details open>
 <summary><b>📊 스크린샷 더 보기</b></summary>
 <p align="center">
-  <img width="800" alt="화면 2" src="https://github.com/user-attachments/assets/44535153-5417-4d12-b9d8-d080582c0719" />
+  <img width="1660" alt="image" src="https://github.com/user-attachments/assets/00ad355b-f8f9-4bea-8028-1941c8f25b1a" />
   <br><br>
-  <img width="800" alt="화면 3" src="https://github.com/user-attachments/assets/2483ddce-1df5-4aae-9c14-10543384181f" />
+  <img width="1667" alt="image" src="https://github.com/user-attachments/assets/c89913cc-ba1c-48fc-a96c-53aa76159067" />
   <br><br>
-  <img width="800" alt="화면 4" src="https://github.com/user-attachments/assets/ef85e353-f66f-40a4-b79d-a5282f7c1d82" />
+  <img width="1666" alt="image" src="https://github.com/user-attachments/assets/79551c01-8215-4fa3-9534-00c30679c6cc" />
   <br><br>
-  <img width="800" alt="화면 5" src="https://github.com/user-attachments/assets/aa6cc085-0502-4394-8f74-bbca63f865a9" />
-  <br><br>
-  <img width="800" alt="image" src="https://github.com/user-attachments/assets/f5c129b4-aa6c-4dfc-9fb6-fbad77ff3762" />
+  <img width="1663" alt="image" src="https://github.com/user-attachments/assets/438a0b48-c3e6-4013-a339-b6abb4b69702" />
 </p>
 </details>
 
@@ -151,6 +154,11 @@ streamlit run app.py
 # Options Calculator
 
 ### A powerful option strategy simulation and analysis tool for financial investors
+
+## What's New
+- Strategy Performance Analysis: Now calculates and displays the win rate for each option strategy.
+- Probability Curve Visualization: Added a probability distribution curve to the profit/loss plot for strategy outcomes.
+- Enhanced Option Pricing: Uses delta-neutral implied volatility instead of 52-week volatility for theoretical option pricing.
   
 </div>
 
@@ -161,17 +169,16 @@ streamlit run app.py
 <details>
 <summary><b>📊 More Screenshots</b></summary>
 <p align="center">
-  <img width="800" alt="화면 2" src="https://github.com/user-attachments/assets/44535153-5417-4d12-b9d8-d080582c0719" />
+  <img width="1660" alt="image" src="https://github.com/user-attachments/assets/00ad355b-f8f9-4bea-8028-1941c8f25b1a" />
   <br><br>
-  <img width="800" alt="화면 3" src="https://github.com/user-attachments/assets/2483ddce-1df5-4aae-9c14-10543384181f" />
+  <img width="1667" alt="image" src="https://github.com/user-attachments/assets/c89913cc-ba1c-48fc-a96c-53aa76159067" />
   <br><br>
-  <img width="800" alt="화면 4" src="https://github.com/user-attachments/assets/ef85e353-f66f-40a4-b79d-a5282f7c1d82" />
+  <img width="1666" alt="image" src="https://github.com/user-attachments/assets/79551c01-8215-4fa3-9534-00c30679c6cc" />
   <br><br>
-  <img width="800" alt="화면 5" src="https://github.com/user-attachments/assets/aa6cc085-0502-4394-8f74-bbca63f865a9" />
-  <br><br>
-  <img width="800" alt="image" src="https://github.com/user-attachments/assets/f5c129b4-aa6c-4dfc-9fb6-fbad77ff3762" />
+  <img width="1663" alt="image" src="https://github.com/user-attachments/assets/438a0b48-c3e6-4013-a339-b6abb4b69702" />
 </p>
 </details>
+
 
 
 ## Key Features
@@ -281,7 +288,12 @@ streamlit run app.py
 # 期权计算器
 
 ### 为金融投资者提供的强大期权策略模拟和分析工具
-  
+
+## 新功能
+- 策略表现分析: 现在计算并显示每种期权策略的胜率。
+- 概率曲线可视化: 在损益图中添加了策略结果的概率分布曲线。
+- 增强的期权定价: 使用delta中性隐含波动率代替52周波动率进行理论期权定价。
+
 </div>
 
 <p align="center">
@@ -291,17 +303,16 @@ streamlit run app.py
 <details>
 <summary><b>📊 更多截图</b></summary>
 <p align="center">
-  <img width="800" alt="화면 2" src="https://github.com/user-attachments/assets/44535153-5417-4d12-b9d8-d080582c0719" />
+  <img width="1660" alt="image" src="https://github.com/user-attachments/assets/00ad355b-f8f9-4bea-8028-1941c8f25b1a" />
   <br><br>
-  <img width="800" alt="화면 3" src="https://github.com/user-attachments/assets/2483ddce-1df5-4aae-9c14-10543384181f" />
+  <img width="1667" alt="image" src="https://github.com/user-attachments/assets/c89913cc-ba1c-48fc-a96c-53aa76159067" />
   <br><br>
-  <img width="800" alt="화면 4" src="https://github.com/user-attachments/assets/ef85e353-f66f-40a4-b79d-a5282f7c1d82" />
+  <img width="1666" alt="image" src="https://github.com/user-attachments/assets/79551c01-8215-4fa3-9534-00c30679c6cc" />
   <br><br>
-  <img width="800" alt="화면 5" src="https://github.com/user-attachments/assets/aa6cc085-0502-4394-8f74-bbca63f865a9" />
-  <br><br>
-  <img width="800" alt="image" src="https://github.com/user-attachments/assets/f5c129b4-aa6c-4dfc-9fb6-fbad77ff3762" />
+  <img width="1663" alt="image" src="https://github.com/user-attachments/assets/438a0b48-c3e6-4013-a339-b6abb4b69702" />
 </p>
 </details>
+
 
 ## 主要功能
 
@@ -410,6 +421,11 @@ streamlit run app.py
 # オプション計算機
 
 ### 金融投資家のための強力なオプション戦略シミュレーションおよび分析ツール
+
+## 新機能
+- 戦略パフォーマンス分析: 各オプション戦略の勝率を計算して表示します。
+- 確率曲線の視覚化: 損益プロットに戦略結果の確率分布曲線を追加しました。
+- 強化されたオプション価格設定: 理論オプション価格の計算に52週ボラティリティの代わりにデルタ中立インプライドボラティリティを使用します。
   
 </div>
 
@@ -420,17 +436,16 @@ streamlit run app.py
 <details>
 <summary><b>📊 その他のスクリーンショット</b></summary>
 <p align="center">
-  <img width="800" alt="화면 2" src="https://github.com/user-attachments/assets/44535153-5417-4d12-b9d8-d080582c0719" />
+  <img width="1660" alt="image" src="https://github.com/user-attachments/assets/00ad355b-f8f9-4bea-8028-1941c8f25b1a" />
   <br><br>
-  <img width="800" alt="화면 3" src="https://github.com/user-attachments/assets/2483ddce-1df5-4aae-9c14-10543384181f" />
+  <img width="1667" alt="image" src="https://github.com/user-attachments/assets/c89913cc-ba1c-48fc-a96c-53aa76159067" />
   <br><br>
-  <img width="800" alt="화면 4" src="https://github.com/user-attachments/assets/ef85e353-f66f-40a4-b79d-a5282f7c1d82" />
+  <img width="1666" alt="image" src="https://github.com/user-attachments/assets/79551c01-8215-4fa3-9534-00c30679c6cc" />
   <br><br>
-  <img width="800" alt="화면 5" src="https://github.com/user-attachments/assets/aa6cc085-0502-4394-8f74-bbca63f865a9" />
-  <br><br>
-  <img width="800" alt="image" src="https://github.com/user-attachments/assets/f5c129b4-aa6c-4dfc-9fb6-fbad77ff3762" />
+  <img width="1663" alt="image" src="https://github.com/user-attachments/assets/438a0b48-c3e6-4013-a339-b6abb4b69702" />
 </p>
 </details>
+
 
 ## 主な機能
 
