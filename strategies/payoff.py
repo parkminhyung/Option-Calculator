@@ -226,9 +226,6 @@ def calculate_payoff_df(
             strategy_type = "Neutral"
             risk_level = "High Risk"
 
-    # 나머지 전략들에 대한 계산...
-    # 코드가 너무 길어 일부 전략만 포함했습니다. 실제 구현 시 모든 전략을 구현해야 합니다.
-    
     elif strategy == "Spread":
         if side == "LONG" and option_type == "CALL":
             y_values = c1 - c2
@@ -266,7 +263,67 @@ def calculate_payoff_df(
             rho = -(put_rho1 - put_rho2)
             strategy_type = "Bearish"
             risk_level = "Moderate Risk"
-            
+
+    elif strategy == "Covered" and option_type == "PUT":
+        y_values = (s - x) - p1
+        delta = -1 + put_delta1
+        gamma = gamma1
+        vega = vega1
+        theta = -put_theta1
+        rho = -put_rho1
+        strategy_type = "Bearish"
+        risk_level = "Moderate Risk"
+
+    elif strategy == "Covered" and option_type == "CALL":
+        y_values = (x - s) - c1
+        delta = 1 - call_delta1
+        gamma = -gamma1
+        vega = -vega1
+        theta = -call_theta1
+        rho = -call_rho1
+        strategy_type = "Bullish"
+        risk_level = "Low Risk"
+
+    elif strategy == "Protective" and option_type == "PUT":
+        y_values = (x - s) + p1
+        delta = 1 + put_delta1
+        gamma = gamma1
+        vega = vega1
+        theta = put_theta1
+        rho = put_rho1
+        strategy_type = "Bullish"
+        risk_level = "Moderate Risk"
+
+    elif strategy == "Protective" and option_type == "CALL":
+        y_values = (s - x) + c1
+        delta = -1 + call_delta1
+        gamma = gamma1
+        vega = vega1
+        theta = call_theta1
+        rho = call_rho1
+        strategy_type = "Bearish"
+        risk_level = "Low Risk"
+
+    elif strategy == "Strip":
+        y_values = c1 + 2 * p1
+        delta = call_delta1 + 2 * put_delta1
+        gamma = 3 * gamma1
+        vega = 3 * vega1
+        theta = call_theta1 + 2 * put_theta1
+        rho = call_rho1 + 2 * put_rho1
+        strategy_type = "Bearish"
+        risk_level = "High Risk"
+
+    elif strategy == "Strap":
+        y_values = 2 * c1 + p1
+        delta = 2 * call_delta1 + put_delta1
+        gamma = 3 * gamma1
+        vega = 3 * vega1
+        theta = 2 * call_theta1 + put_theta1
+        rho = 2 * call_rho1 + put_rho1
+        strategy_type = "Bullish"
+        risk_level = "High Risk"
+
     elif strategy == "Butterfly":
         if side == "LONG" and option_type == "CALL":
             y_values = c1 - 2 * c2 + c3
@@ -304,9 +361,103 @@ def calculate_payoff_df(
             rho = -(put_rho1 - 2 * put_rho2 + put_rho3)
             strategy_type = "Neutral"
             risk_level = "Low Risk"
-    
-    # ... 더 많은 전략들 ...
-    
+
+    elif strategy == "Ladder":
+        if side == "LONG" and option_type == "CALL":
+            y_values = c1 - c2 - c3
+            delta = call_delta1 - call_delta2 - call_delta3
+            gamma = gamma1 - gamma2 - gamma3
+            vega = vega1 - vega2 - vega3
+            theta = call_theta1 - call_theta2 - call_theta3
+            rho = call_rho1 - call_rho2 - call_rho3
+            strategy_type = "Bullish"
+            risk_level = "High Risk"
+        elif side == "SHORT" and option_type == "CALL":
+            y_values = -(c1 - c2 - c3)
+            delta = -(call_delta1 - call_delta2 - call_delta3)
+            gamma = -(gamma1 - gamma2 - gamma3)
+            vega = -(vega1 - vega2 - vega3)
+            theta = -(call_theta1 - call_theta2 - call_theta3)
+            rho = -(call_rho1 - call_rho2 - call_rho3)
+            strategy_type = "Bearish"
+            risk_level = "High Risk"
+        elif side == "SHORT" and option_type == "PUT":
+            y_values = p1 + p2 - p3
+            delta = put_delta1 + put_delta2 - put_delta3
+            gamma = gamma1 + gamma2 - gamma3
+            vega = vega1 + vega2 - vega3
+            theta = put_theta1 + put_theta2 - put_theta3
+            rho = put_rho1 + put_rho2 - put_rho3
+            strategy_type = "Bullish"
+            risk_level = "High Risk"
+        elif side == "LONG" and option_type == "PUT":
+            y_values = -(p1 + p2 - p3)
+            delta = -(put_delta1 + put_delta2 - put_delta3)
+            gamma = -(gamma1 + gamma2 - gamma3)
+            vega = -(vega1 + vega2 - vega3)
+            theta = -(put_theta1 + put_theta2 - put_theta3)
+            rho = -(put_rho1 + put_rho2 - put_rho3)
+            strategy_type = "Bearish"
+            risk_level = "High Risk"
+
+    elif strategy == "Jade Lizard":
+        y_values = -p1 - c2 + c3
+        delta = -put_delta1 - call_delta2 + call_delta3
+        gamma = -gamma1 - gamma2 + gamma3
+        vega = -vega1 - vega2 + vega3
+        theta = -put_theta1 - call_theta2 + call_theta3
+        rho = -put_rho1 - call_rho2 + call_rho3
+        strategy_type = "Bullish"
+        risk_level = "Moderate Risk"
+
+    elif strategy == "Reverse Jade Lizard":
+        y_values = p1 - p2 - c3
+        delta = put_delta1 - put_delta2 - call_delta3
+        gamma = gamma1 - gamma2 - gamma3
+        vega = vega1 - vega2 - vega3
+        theta = put_theta1 - put_theta2 - call_theta3
+        rho = put_rho1 - put_rho2 - call_rho3
+        strategy_type = "Bearish"
+        risk_level = "Moderate Risk"
+
+    elif strategy == "Condor":
+        if side == "LONG" and option_type == "CALL":
+            y_values = c1 - c2 - c3 + c4
+            delta = call_delta1 - call_delta2 - call_delta3 + call_delta4
+            gamma = gamma1 - gamma2 - gamma3 + gamma4
+            vega = vega1 - vega2 - vega3 + vega4
+            theta = call_theta1 - call_theta2 - call_theta3 + call_theta4
+            rho = call_rho1 - call_rho2 - call_rho3 + call_rho4
+            strategy_type = "Neutral"
+            risk_level = "Low Risk"
+        elif side == "SHORT" and option_type == "CALL":
+            y_values = -(c1 - c2 - c3 + c4)
+            delta = -(call_delta1 - call_delta2 - call_delta3 + call_delta4)
+            gamma = -(gamma1 - gamma2 - gamma3 + gamma4)
+            vega = -(vega1 - vega2 - vega3 + vega4)
+            theta = -(call_theta1 - call_theta2 - call_theta3 + call_theta4)
+            rho = -(call_rho1 - call_rho2 - call_rho3 + call_rho4)
+            strategy_type = "Neutral"
+            risk_level = "Low Risk"
+        elif side == "LONG" and option_type == "PUT":
+            y_values = p1 - p2 - p3 + p4
+            delta = put_delta1 - put_delta2 - put_delta3 + put_delta4
+            gamma = gamma1 - gamma2 - gamma3 + gamma4
+            vega = vega1 - vega2 - vega3 + vega4
+            theta = put_theta1 - put_theta2 - put_theta3 + put_theta4
+            rho = put_rho1 - put_rho2 - put_rho3 + put_rho4
+            strategy_type = "Neutral"
+            risk_level = "Low Risk"
+        elif side == "SHORT" and option_type == "PUT":
+            y_values = -(p1 - p2 - p3 + p4)
+            delta = -(put_delta1 - put_delta2 - put_delta3 + put_delta4)
+            gamma = -(gamma1 - gamma2 - gamma3 + gamma4)
+            vega = -(vega1 - vega2 - vega3 + vega4)
+            theta = -(put_theta1 - put_theta2 - put_theta3 + put_theta4)
+            rho = -(put_rho1 - put_rho2 - put_rho3 + put_rho4)
+            strategy_type = "Neutral"
+            risk_level = "Low Risk"
+
     else:
         y_values = np.zeros(len(x))
         delta = np.zeros(len(x))
