@@ -1266,17 +1266,25 @@ def main():
                         vega = df["Vega"].iloc[idx]
                         theta = df["Theta"].iloc[idx]
                         rho = df["Rho"].iloc[idx]
+
+                        # Greek descriptions - updated to English
+                        delta_tooltip = "Delta: Rate of change in option value per $1 change in underlying price"
+                        gamma_tooltip = "Gamma: Rate of change in Delta per $1 change in underlying price"
+                        vega_tooltip = "Vega: Change in option value per 1% change in volatility"
+                        theta_tooltip = "Theta: Option's time decay; change in value as one day passes"
+                        rho_tooltip = "Rho: Change in option value per 1% change in interest rates"
+
                         col_g1, col_g2, col_g3, col_g4, col_g5 = st.columns(5)
                         with col_g1:
-                            st.metric("Delta", f"{delta:.4f}")
+                            st.metric("Delta", f"{delta:.4f}", help=delta_tooltip)
                         with col_g2:
-                            st.metric("Gamma", f"{gamma:.4f}")
+                            st.metric("Gamma", f"{gamma:.4f}", help=gamma_tooltip)
                         with col_g3:
-                            st.metric("Vega", f"{vega:.4f}")
+                            st.metric("Vega", f"{vega:.4f}", help=vega_tooltip)
                         with col_g4:
-                            st.metric("Theta", f"{theta:.4f}")
+                            st.metric("Theta", f"{theta:.4f}", help=theta_tooltip)
                         with col_g5:
-                            st.metric("Rho", f"{rho:.4f}")
+                            st.metric("Rho", f"{rho:.4f}", help=rho_tooltip)
 
                     except Exception as e:
                         st.error(f"Error creating plot: {e}")
