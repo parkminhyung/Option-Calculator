@@ -504,11 +504,11 @@ def calculate_payoff_df(
             max_profit = calculated_max_profit  # 최대 이익은 프리미엄
             min_profit = float("-inf")  # 콜 매도: 무제한 손실
         elif side == "LONG" and option_type == "PUT":
-            max_profit = k1  # 풋 매수: 최대 이익은 행사가격에서 프리미엄 차감
+            max_profit = float("inf")  # 스트래들 매수: 무제한 이익 가능
             min_profit = calculated_min_profit  # 최대 손실은 프리미엄
         elif side == "SHORT" and option_type == "PUT":
             max_profit = calculated_max_profit  # 최대 이익은 프리미엄
-            min_profit = -k1  # 풋 매도: 최대 손실은 행사가격
+            min_profit = float("-inf")  # 스트래들 매도: 무제한 손실 가능
 
     elif strategy == "Straddle":
         if side == "LONG":
