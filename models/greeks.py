@@ -45,12 +45,14 @@ def option_greeks(s, k, rf, sigma, tau, y):
     gamma = nd1 / (s * sigma * np.sqrt(tau))
 
     call_theta = (
-        -((s * sigma) / (2 * np.sqrt(tau))) * nd1
-        - k * np.exp(-rf * tau) * rf * stats.norm.cdf(d2)
+        -((s * sigma * np.exp(-y * tau)) / (2 * np.sqrt(tau))) * nd1
+        - rf * k * np.exp(-rf * tau) * stats.norm.cdf(d2)
+        + y * s * np.exp(-y * tau) * stats.norm.cdf(d1)
     ) / T
     put_theta = (
-        -((s * sigma) / (2 * np.sqrt(tau))) * nd1
-        - k * np.exp(-rf * tau) * rf * (stats.norm.cdf(d2) - 1)
+        -((s * sigma * np.exp(-y * tau)) / (2 * np.sqrt(tau))) * nd1
+        + rf * k * np.exp(-rf * tau) * stats.norm.cdf(-d2)
+        - y * s * np.exp(-y * tau) * stats.norm.cdf(-d1)
     ) / T
 
     call_rho = (k * tau * np.exp(-rf * tau) * stats.norm.cdf(d2)) / pct
