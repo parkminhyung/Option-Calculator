@@ -495,31 +495,113 @@ def calculate_payoff_df(
     bep1 = x[sign_changes[0]] if len(sign_changes) > 0 else None
     bep2 = x[sign_changes[1]] if len(sign_changes) > 1 else None
 
-    # 전략별 최대/최소 손익 계산
-    # (무한대 처리 등 기존 코드 유지)
+    # 각 전략별 최대/최소 손익 계산 (무한대 손익 적절하게 처리)
     if strategy == "Single":
+        if side == "LONG" and option_type == "CALL":
+            max_profit = float("inf")  # 콜 매수: 무제한 이익
+            min_profit = calculated_min_profit  # 최대 손실은 프리미엄
+        elif side == "SHORT" and option_type == "CALL":
+            max_profit = calculated_max_profit  # 최대 이익은 프리미엄
+            min_profit = float("-inf")  # 콜 매도: 무제한 손실
+        elif side == "LONG" and option_type == "PUT":
+            max_profit = k1  # 풋 매수: 최대 이익은 행사가격에서 프리미엄 차감
+            min_profit = calculated_min_profit  # 최대 손실은 프리미엄
+        elif side == "SHORT" and option_type == "PUT":
+            max_profit = calculated_max_profit  # 최대 이익은 프리미엄
+            min_profit = -k1  # 풋 매도: 최대 손실은 행사가격
+
+    elif strategy == "Straddle":
         if side == "LONG":
-            max_profit = float("inf")
-            min_profit = calculated_min_profit
+            max_profit = float("inf")  # 스트래들 매수: 무제한 이익 가능
+            min_profit = calculated_min_profit  # 최대 손실은 양쪽 프리미엄 합계
         elif side == "SHORT":
-            max_profit = calculated_max_profit
-            min_profit = float("-inf")
-    
-    # ... 다른 전략들에 대한 손익 계산 ...
-    
-    elif strategy == "Straddle" or strategy == "Strangle":
+            max_profit = calculated_max_profit  # 최대 이익은 양쪽 프리미엄 합계
+            min_profit = float("-inf")  # 스트래들 매도: 무제한 손실 가능
+
+    elif strategy == "Strangle":
         if side == "LONG":
-            max_profit = float("inf")
-            min_profit = calculated_min_profit
+            max_profit = float("inf")  # 스트랭글 매수: 무제한 이익 가능
+            min_profit = calculated_min_profit  # 최대 손실은 양쪽 프리미엄 합계
         elif side == "SHORT":
-            max_profit = calculated_max_profit
-            min_profit = float("-inf")
+            max_profit = calculated_max_profit  # 최대 이익은 양쪽 프리미엄 합계
+            min_profit = float("-inf")  # 스트랭글 매도: 무제한 손실 가능
 
     elif strategy == "Spread":
+        if option_type == "CALL":
+            if side == "LONG":  # 불 콜 스프레드
+                max_profit = calculated_max_profit  # 최대 이익은 스프레드 차이에서 프리미엄 차감
+                min_profit = calculated_min_profit  # 최대 손실은 지불한 순 프리미엄
+            else:  # 베어 콜 스프레드
+                max_profit = calculated_max_profit  # 최대 이익은 수취한 순 프리미엄
+                min_profit = calculated_min_profit  # 최대 손실은 스프레드 차이에서 프리미엄 가산
+        else:  # option_type == "PUT"
+            if side == "LONG":  # 베어 풋 스프레드
+                max_profit = calculated_max_profit  # 최대 이익은 스프레드 차이에서 프리미엄 차감
+                min_profit = calculated_min_profit  # 최대 손실은 지불한 순 프리미엄
+            else:  # 불 풋 스프레드
+                max_profit = calculated_max_profit  # 최대 이익은 수취한 순 프리미엄
+                min_profit = calculated_min_profit  # 최대 손실은 스프레드 차이에서 프리미엄 가산
+
+    elif strategy == "Butterfly":
+        # 버터플라이는 양쪽이 제한됨
         max_profit = calculated_max_profit
         min_profit = calculated_min_profit
 
+    elif strategy == "Condor":
+        # 콘도르도 양쪽이 제한됨
+        max_profit = calculated_max_profit
+        min_profit = calculated_min_profit
+
+    elif strategy == "Covered" and option_type == "CALL":
+        max_profit = calculated_max_profit  # 최대 이익은 행사가격에서 매수가 차감 + 프리미엄
+        min_profit = float("-inf")  # 기초자산 하락에 따른 손실은 이론상 무제한
+
+    elif strategy == "Covered" and option_type == "PUT":
+        max_profit = calculated_max_profit  # 최대 이익은 프리미엄
+        min_profit = float("-inf")  # 기초자산 하락에 따른 손실은 이론상 무제한
+
+    elif strategy == "Protective" and option_type == "PUT":
+        max_profit = float("inf")  # 기초자산 상승에 따른 이익은 이론상 무제한
+        min_profit = calculated_min_profit  # 최대 손실은 프리미엄 + 행사가격과 현재가격 차이
+
+    elif strategy == "Protective" and option_type == "CALL":
+        max_profit = float("inf")  # 기초자산 상승에 따른 이익은 이론상 무제한
+        min_profit = calculated_min_profit  # 최대 손실은 프리미엄 + 행사가격과 현재가격 차이
+
+    elif strategy == "Strip":
+        max_profit = float("inf")  # 최대 이익은 하방 움직임에서 제한적임 (풋 2개 행사)
+        min_profit = calculated_min_profit  # 상방 움직임에서 손실은 이론상 무제한
+
+    elif strategy == "Strap":
+        max_profit = float("inf")  # 상방 움직임에서 이익은 이론상 무제한 (콜 2개)
+        min_profit = calculated_min_profit  # 최대 손실은 프리미엄 합계
+
+    elif strategy == "Ladder":
+        if option_type == "CALL":
+            if side == "LONG":
+                max_profit = calculated_max_profit  # 최대 이익은 프리미엄 차액
+                min_profit = float("-inf")  # 상방 극단 움직임에서 손실은 무제한
+            else:  # SHORT
+                max_profit = float("inf")  # 상방 극단 움직임에서 이익은 무제한
+                min_profit = calculated_min_profit  # 최대 손실은 프리미엄 차액
+        else:  # option_type == "PUT"
+            if side == "LONG":
+                max_profit = calculated_max_profit  # 최대 이익은 제한적
+                min_profit = float("-inf")  # 상방 극단 움직임에서 손실은 무제한
+            else:  # SHORT
+                max_profit = float("inf")  # 상방 극단 움직임에서 이익은 무제한
+                min_profit = calculated_min_profit  # 최대 손실은 제한적
+
+    elif strategy == "Jade Lizard":
+        max_profit = calculated_max_profit  # 최대 이익은 받은 프리미엄 합계
+        min_profit = float("-inf")  # 최대 손실은 상방 극단 움직임에서 무제한
+
+    elif strategy == "Reverse Jade Lizard":
+        max_profit = calculated_max_profit  # 최대 이익은 제한적
+        min_profit = float("-inf")  # 최대 손실은 상방 극단 움직임에서 무제한
+
     else:
+        # 기타 전략은 계산된 값 사용
         max_profit = calculated_max_profit
         min_profit = calculated_min_profit
 
