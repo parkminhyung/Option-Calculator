@@ -27,6 +27,13 @@ def main():
         st.session_state.strategy_info = None
     if 'df' not in st.session_state:
         st.session_state.df = None
+    # Initialize plot parameter storage
+    if 'plot_side' not in st.session_state:
+        st.session_state.plot_side = None
+    if 'plot_option_type' not in st.session_state:
+        st.session_state.plot_option_type = None
+    if 'plot_strategy' not in st.session_state:
+        st.session_state.plot_strategy = None
     
     st.sidebar.title("Option Calculator")
 
@@ -1193,6 +1200,11 @@ def main():
                         st.session_state.df = df
                         st.session_state.strategy_info = strategy_info
                         
+                        # Save current parameters to session state (for display)
+                        st.session_state.plot_side = side
+                        st.session_state.plot_option_type = option_type
+                        st.session_state.plot_strategy = strategy
+                        
                         # Generate and save the plot
                         st.session_state.plot_fig = plot_option_strategy(df, s, greeks, strategy_info, tau, sigma, y)
                     except Exception as e:
@@ -1205,9 +1217,31 @@ def main():
                 strategy_info = st.session_state.strategy_info
 
                 with col_info1:
-                    st.markdown(
-                        f"### {side} {option_type if strategy not in ['Straddle', 'Strangle', 'Strip', 'Strap', 'Jade Lizard', 'Reverse Jade Lizard'] else ''} {strategy}"
-                    )
+                    # Get the saved parameters from session state
+                    plot_side = st.session_state.plot_side if "plot_side" in st.session_state else side
+                    plot_option_type = st.session_state.plot_option_type if "plot_option_type" in st.session_state else option_type
+                    plot_strategy = st.session_state.plot_strategy if "plot_strategy" in st.session_state else strategy
+                    
+                    # Define strategies that don't need side and/or option_type in their name
+                    side_independent_strategies = ["Strip", "Strap", "Jade Lizard", "Reverse Jade Lizard"]
+                    option_type_independent_strategies = ["Straddle", "Strangle", "Strip", "Strap", "Jade Lizard", "Reverse Jade Lizard"]
+                    covered_protective_strategies = ["Covered", "Protective"]  # These need option_type but not side
+                    
+                    # Format the strategy title based on strategy type
+                    if plot_strategy in side_independent_strategies:
+                        # Strategies that don't need side or option_type
+                        strategy_title = f"### {plot_strategy}"
+                    elif plot_strategy in covered_protective_strategies:
+                        # Strategies that need option_type but not side
+                        strategy_title = f"### {plot_option_type} {plot_strategy}"
+                    elif plot_strategy in option_type_independent_strategies:
+                        # Strategies that need side but not option_type
+                        strategy_title = f"### {plot_side} {plot_strategy}"
+                    else:
+                        # Strategies that need both side and option_type
+                        strategy_title = f"### {plot_side} {plot_option_type} {plot_strategy}"
+                    
+                    st.markdown(strategy_title)
 
                     strategy_color = {
                         "Bullish": "#f05f3e",
@@ -1864,7 +1898,6 @@ def main():
         $$d_2 = d_1 - \\sigma \\sqrt{\\tau}$$
         
         **Call price:**
-        
         $$C(S_0, \\tau) = S_0 N(d_1) e^{-y \\tau} - K e^{-r_f \\tau} N(d_2)$$
         
         **Put price:**
