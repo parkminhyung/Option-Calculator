@@ -68,7 +68,7 @@ def plot_option_strategy(df, s, greeks, strategy_info, tau=30, sigma=30, y=0):
             x=[s],
             y=[current_pl],
             mode="markers",
-            name="Current P/L",
+            name="Current Value",  # P/L 대신 Value로 변경
             marker=dict(color="blue", size=8),
             showlegend=True
         )
@@ -154,7 +154,7 @@ def plot_option_strategy(df, s, greeks, strategy_info, tau=30, sigma=30, y=0):
         line=dict(color="green", width=1.5, dash="dash"),
     )
 
-    # 확률 곡선 추가 (파란색 점선 - 더 얇게)
+    # 확률 곡선 추가 (파란색 점선 - 더 얇게) - 호버 정보 추가
     try:
         # 가격 범위에 대한 확률 곡선 계산
         prob_curve = calculate_probability_curve(s, x_vals, tau, sigma, y)
@@ -162,15 +162,31 @@ def plot_option_strategy(df, s, greeks, strategy_info, tau=30, sigma=30, y=0):
         # 시각화를 위해 스케일링
         prob_curve = (prob_curve / np.max(prob_curve)) * (y_max - y_min) * 0.4 + y_min
         
-        # 확률 곡선 추가 (더 얇은 선으로)
+        # 각 가격에 대한 확률 계산 - 호버 정보용
+        prob_above_values = []
+        prob_below_values = []
+        
+        for price in x_vals:
+            prob_above, prob_below = calculate_price_probability(s, price, tau, sigma, y)
+            prob_above_values.append(prob_above * 100)  # 퍼센트로 변환
+            prob_below_values.append(prob_below * 100)  # 퍼센트로 변환
+        
+        # 호버 텍스트 생성
+        hover_texts = []
+        for i, price in enumerate(x_vals):
+            hover_texts.append(f"Price: {price:.2f}<br>Above: {prob_above_values[i]:.1f}%<br>Below: {prob_below_values[i]:.1f}%")
+        
+        # 확률 곡선 추가 (호버 정보 포함)
         fig.add_trace(
             go.Scatter(
                 x=x_vals,
                 y=prob_curve,
                 mode="lines",
                 name="Probability",
-                line=dict(color="blue", width=1, dash="dash"),  # 두께를 1로 줄임
-                hoverinfo="x+y",
+                line=dict(color="blue", width=1, dash="dash"),
+                hoverinfo="text",
+                hovertext=hover_texts,
+                hoverlabel=dict(bgcolor="white"),
             )
         )
         
@@ -232,8 +248,8 @@ def plot_option_strategy(df, s, greeks, strategy_info, tau=30, sigma=30, y=0):
             )
         )
 
-    # 호버 템플릿 설정
-    hover_template = "<b>Price:</b> %{x:.2f}<br><b>P/L:</b> %{y:.2f}"
+    # 호버 템플릿 설정 - P/L을 Value로 변경
+    hover_template = "<b>Price:</b> %{x:.2f}<br><b>Value:</b> %{y:.2f}"
     for trace in fig.data:
         if 'hovertemplate' in trace:
             trace.hovertemplate = hover_template
@@ -251,7 +267,7 @@ def plot_option_strategy(df, s, greeks, strategy_info, tau=30, sigma=30, y=0):
             spikedash="solid",
         ),
         yaxis=dict(
-            title="P/L",
+            title="Value",  # P/L을 Value로 변경
             range=[y_min, y_max],
             zeroline=True,
             zerolinecolor="black",
