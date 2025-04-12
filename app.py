@@ -19,7 +19,15 @@ from visualizations.strategy_plot import plot_option_strategy
 def main():
     # 페이지 설정
     apply_page_styles()
-
+    
+    # Initialize session state variables for plot storage
+    if 'plot_fig' not in st.session_state:
+        st.session_state.plot_fig = None
+    if 'strategy_info' not in st.session_state:
+        st.session_state.strategy_info = None
+    if 'df' not in st.session_state:
+        st.session_state.df = None
+    
     st.sidebar.title("Option Calculator")
 
     ticker = st.sidebar.text_input("Enter Ticker Symbol:", "AAPL").upper()
@@ -1180,114 +1188,121 @@ def main():
                             sigma=sigma,
                             y=y,
                         )
-
-                        col_info1, col_info2, col_info3 = st.columns(3)
-
-                        with col_info1:
-                            st.markdown(
-                                f"### {side} {option_type if strategy not in ['Straddle', 'Strangle', 'Strip', 'Strap', 'Jade Lizard', 'Reverse Jade Lizard'] else ''} {strategy}"
-                            )
-
-                            strategy_color = {
-                                "Bullish": "#f05f3e",
-                                "Bearish": "#34b4eb",
-                                "Neutral": "#59d9b5",
-                            }.get(strategy_info["strategy_type"], "#808080")
-
-                            risk_color = {
-                                "High Risk": "#f03ec6",
-                                "Moderate Risk": "#37ad8c",
-                                "Low Risk": "#3ebaf0",
-                            }.get(strategy_info["risk_level"], "#808080")
-
-                            strategy_text = f"<code style='color:{strategy_color};'>{strategy_info['strategy_type']}</code>"
-                            risk_text = f"<code style='color:{risk_color};'>{strategy_info['risk_level']}</code>"
-
-                            st.markdown(
-                                f"{strategy_text} | {risk_text}", unsafe_allow_html=True
-                            )
-
-                        # 차트 생성 (수정된 함수 사용)
-                        fig = plot_option_strategy(df, s, greeks, strategy_info, tau, sigma, y)
-                        st.plotly_chart(fig, use_container_width=True)
-
-                        # Win Rate 계산
-                        win_rate = calculate_win_rate(df, s, strategy_info["bep1"], strategy_info["bep2"])
                         
-                        # 현재 기초자산 가격에서의 확률 계산
-                        if option_type == "CALL":
-                            itm_prob = calculate_itm_probability(s, k1, tau, sigma, 'c', y)
-                        else:
-                            itm_prob = calculate_itm_probability(s, k1, tau, sigma, 'p', y)
-
-                        st.subheader("Strategy Performance")
-                        max_profit_text = (
-                            "+∞"
-                            if np.isinf(strategy_info["max_profit"])
-                            else f"${strategy_info['max_profit']:.2f}"
-                        )
-                        min_profit_text = (
-                            "-∞"
-                            if np.isinf(strategy_info["min_profit"])
-                            else f"${strategy_info['min_profit']:.2f}"
-                        )
-                        idx = np.abs(df["x"] - s).argmin()
-                        current_pl = df["y"].iloc[idx].round(2)
+                        # Save calculated data to session state
+                        st.session_state.df = df
+                        st.session_state.strategy_info = strategy_info
                         
-                        # 성능 지표 표시 - Win Rate와 Break-Even 위치 변경
-                        col_p1, col_p2, col_p3, col_p4, col_p5 = st.columns(5)
-                        
-                        with col_p1:
-                            st.metric("Underlying price", f"${s:.2f}")
-                        with col_p2:
-                            st.metric("Max Profit", max_profit_text)
-                        with col_p3:
-                            st.metric("Max Loss", min_profit_text)
-                        with col_p4:
-                            # Win Rate 표시(위치 변경됨)
-                            st.metric("Win Rate", f"{win_rate:.2f}%")
-                        with col_p5:
-                            # Break-Even Point 표시(위치 변경됨)
-                            # BEP가 두 개인 경우 쉼표로 구분하여 생략되지 않도록 함
-                            if strategy_info["bep1"] is not None and strategy_info["bep2"] is not None:
-                                bep_text = f"${strategy_info['bep1']:.2f}, ${strategy_info['bep2']:.2f}"
-                            elif strategy_info["bep1"] is not None:
-                                bep_text = f"${strategy_info['bep1']:.2f}"
-                            else:
-                                bep_text = "N/A"
-                            st.metric("Break-Even", bep_text)
-
-                        st.markdown("<br>", unsafe_allow_html=True)
-
-                        st.subheader("Greeks at Current Price")
-                        idx = np.abs(df["x"] - s).argmin()
-                        delta = df["Delta"].iloc[idx]
-                        gamma = df["Gamma"].iloc[idx]
-                        vega = df["Vega"].iloc[idx]
-                        theta = df["Theta"].iloc[idx]
-                        rho = df["Rho"].iloc[idx]
-
-                        # Greek descriptions - updated to English
-                        delta_tooltip = "Delta: Rate of change in option value per $1 change in underlying price"
-                        gamma_tooltip = "Gamma: Rate of change in Delta per $1 change in underlying price"
-                        vega_tooltip = "Vega: Change in option value per 1% change in volatility"
-                        theta_tooltip = "Theta: Option's time decay; change in value as one day passes"
-                        rho_tooltip = "Rho: Change in option value per 1% change in interest rates"
-
-                        col_g1, col_g2, col_g3, col_g4, col_g5 = st.columns(5)
-                        with col_g1:
-                            st.metric("Delta", f"{delta:.4f}", help=delta_tooltip)
-                        with col_g2:
-                            st.metric("Gamma", f"{gamma:.4f}", help=gamma_tooltip)
-                        with col_g3:
-                            st.metric("Vega", f"{vega:.4f}", help=vega_tooltip)
-                        with col_g4:
-                            st.metric("Theta", f"{theta:.4f}", help=theta_tooltip)
-                        with col_g5:
-                            st.metric("Rho", f"{rho:.4f}", help=rho_tooltip)
-
+                        # Generate and save the plot
+                        st.session_state.plot_fig = plot_option_strategy(df, s, greeks, strategy_info, tau, sigma, y)
                     except Exception as e:
                         st.error(f"Error creating plot: {e}")
+            
+            # Display the saved plot if it exists
+            if st.session_state.plot_fig is not None:
+                col_info1, col_info2, col_info3 = st.columns(3)
+                df = st.session_state.df
+                strategy_info = st.session_state.strategy_info
+
+                with col_info1:
+                    st.markdown(
+                        f"### {side} {option_type if strategy not in ['Straddle', 'Strangle', 'Strip', 'Strap', 'Jade Lizard', 'Reverse Jade Lizard'] else ''} {strategy}"
+                    )
+
+                    strategy_color = {
+                        "Bullish": "#f05f3e",
+                        "Bearish": "#34b4eb",
+                        "Neutral": "#59d9b5",
+                    }.get(strategy_info["strategy_type"], "#808080")
+
+                    risk_color = {
+                        "High Risk": "#f03ec6",
+                        "Moderate Risk": "#37ad8c",
+                        "Low Risk": "#3ebaf0",
+                    }.get(strategy_info["risk_level"], "#808080")
+
+                    strategy_text = f"<code style='color:{strategy_color};'>{strategy_info['strategy_type']}</code>"
+                    risk_text = f"<code style='color:{risk_color};'>{strategy_info['risk_level']}</code>"
+
+                    st.markdown(
+                        f"{strategy_text} | {risk_text}", unsafe_allow_html=True
+                    )
+
+                # Display the chart
+                st.plotly_chart(st.session_state.plot_fig, use_container_width=True)
+
+                # Calculate Win Rate
+                win_rate = calculate_win_rate(df, s, strategy_info["bep1"], strategy_info["bep2"])
+                
+                # Calculate ITM probability
+                if option_type == "CALL":
+                    itm_prob = calculate_itm_probability(s, k1, tau, sigma, 'c', y)
+                else:
+                    itm_prob = calculate_itm_probability(s, k1, tau, sigma, 'p', y)
+
+                st.subheader("Strategy Performance")
+                max_profit_text = (
+                    "+∞"
+                    if np.isinf(strategy_info["max_profit"])
+                    else f"${strategy_info['max_profit']:.2f}"
+                )
+                min_profit_text = (
+                    "-∞"
+                    if np.isinf(strategy_info["min_profit"])
+                    else f"${strategy_info['min_profit']:.2f}"
+                )
+                idx = np.abs(df["x"] - s).argmin()
+                current_pl = df["y"].iloc[idx].round(2)
+                
+                # Display performance metrics
+                col_p1, col_p2, col_p3, col_p4, col_p5 = st.columns(5)
+                
+                with col_p1:
+                    st.metric("Underlying price", f"${s:.2f}")
+                with col_p2:
+                    st.metric("Max Profit", max_profit_text)
+                with col_p3:
+                    st.metric("Max Loss", min_profit_text)
+                with col_p4:
+                    st.metric("Win Rate", f"{win_rate:.2f}%")
+                with col_p5:
+                    if strategy_info["bep1"] is not None and strategy_info["bep2"] is not None:
+                        bep_text = f"${strategy_info['bep1']:.2f}, ${strategy_info['bep2']:.2f}"
+                    elif strategy_info["bep1"] is not None:
+                        bep_text = f"${strategy_info['bep1']:.2f}"
+                    else:
+                        bep_text = "N/A"
+                    st.metric("Break-Even", bep_text)
+
+                st.markdown("<br>", unsafe_allow_html=True)
+
+                st.subheader("Greeks at Current Price")
+                idx = np.abs(df["x"] - s).argmin()
+                delta = df["Delta"].iloc[idx]
+                gamma = df["Gamma"].iloc[idx]
+                vega = df["Vega"].iloc[idx]
+                theta = df["Theta"].iloc[idx]
+                rho = df["Rho"].iloc[idx]
+
+                # Greek descriptions
+                delta_tooltip = "Delta: Rate of change in option value per $1 change in underlying price"
+                gamma_tooltip = "Gamma: Rate of change in Delta per $1 change in underlying price"
+                vega_tooltip = "Vega: Change in option value per 1% change in volatility"
+                theta_tooltip = "Theta: Option's time decay; change in value as one day passes"
+                rho_tooltip = "Rho: Change in option value per 1% change in interest rates"
+
+                col_g1, col_g2, col_g3, col_g4, col_g5 = st.columns(5)
+                with col_g1:
+                    st.metric("Delta", f"{delta:.4f}", help=delta_tooltip)
+                with col_g2:
+                    st.metric("Gamma", f"{gamma:.4f}", help=gamma_tooltip)
+                with col_g3:
+                    st.metric("Vega", f"{vega:.4f}", help=vega_tooltip)
+                with col_g4:
+                    st.metric("Theta", f"{theta:.4f}", help=theta_tooltip)
+                with col_g5:
+                    st.metric("Rho", f"{rho:.4f}", help=rho_tooltip)
+
         else:
             st.info("Please enter a ticker symbol and fetch data in the sidebar first.")
 
