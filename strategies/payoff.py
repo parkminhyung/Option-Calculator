@@ -88,6 +88,10 @@ def calculate_payoff_df(
     put_theta1, put_theta2, put_theta3, put_theta4 = np.zeros(len(x)), np.zeros(len(x)), np.zeros(len(x)), np.zeros(len(x))
     call_rho1, call_rho2, call_rho3, call_rho4 = np.zeros(len(x)), np.zeros(len(x)), np.zeros(len(x)), np.zeros(len(x))
     put_rho1, put_rho2, put_rho3, put_rho4 = np.zeros(len(x)), np.zeros(len(x)), np.zeros(len(x)), np.zeros(len(x))
+    # Initialize Vanna and Charm vectors
+    vanna1, vanna2, vanna3, vanna4 = np.zeros(len(x)), np.zeros(len(x)), np.zeros(len(x)), np.zeros(len(x))
+    call_charm1, call_charm2, call_charm3, call_charm4 = np.zeros(len(x)), np.zeros(len(x)), np.zeros(len(x)), np.zeros(len(x))
+    put_charm1, put_charm2, put_charm3, put_charm4 = np.zeros(len(x)), np.zeros(len(x)), np.zeros(len(x)), np.zeros(len(x))
 
     # 각 행사가격에 대한 그릭스 계산
     if k1 is not None:
@@ -100,6 +104,9 @@ def calculate_payoff_df(
         put_theta1 = np.array([g["put_theta"] for g in greeks1])
         call_rho1 = np.array([g["call_rho"] for g in greeks1])
         put_rho1 = np.array([g["put_rho"] for g in greeks1])
+        vanna1 = np.array([g["vanna"] for g in greeks1])
+        call_charm1 = np.array([g["call_charm"] for g in greeks1])
+        put_charm1 = np.array([g["put_charm"] for g in greeks1])
 
     if k2 is not None:
         greeks2 = [option_greeks(price, k2, rf, sigma, tau, y) for price in x]
@@ -111,6 +118,9 @@ def calculate_payoff_df(
         put_theta2 = np.array([g["put_theta"] for g in greeks2])
         call_rho2 = np.array([g["call_rho"] for g in greeks2])
         put_rho2 = np.array([g["put_rho"] for g in greeks2])
+        vanna2 = np.array([g["vanna"] for g in greeks2])
+        call_charm2 = np.array([g["call_charm"] for g in greeks2])
+        put_charm2 = np.array([g["put_charm"] for g in greeks2])
 
     if k3 is not None:
         greeks3 = [option_greeks(price, k3, rf, sigma, tau, y) for price in x]
@@ -122,6 +132,9 @@ def calculate_payoff_df(
         put_theta3 = np.array([g["put_theta"] for g in greeks3])
         call_rho3 = np.array([g["call_rho"] for g in greeks3])
         put_rho3 = np.array([g["put_rho"] for g in greeks3])
+        vanna3 = np.array([g["vanna"] for g in greeks3])
+        call_charm3 = np.array([g["call_charm"] for g in greeks3])
+        put_charm3 = np.array([g["put_charm"] for g in greeks3])
 
     if k4 is not None:
         greeks4 = [option_greeks(price, k4, rf, sigma, tau, y) for price in x]
@@ -133,6 +146,9 @@ def calculate_payoff_df(
         put_theta4 = np.array([g["put_theta"] for g in greeks4])
         call_rho4 = np.array([g["call_rho"] for g in greeks4])
         put_rho4 = np.array([g["put_rho"] for g in greeks4])
+        vanna4 = np.array([g["vanna"] for g in greeks4])
+        call_charm4 = np.array([g["call_charm"] for g in greeks4])
+        put_charm4 = np.array([g["put_charm"] for g in greeks4])
 
     # 각 행사가격에 대한 페이오프 계산
     c1 = calculate_call_payoff(x, k1, price1) if k1 is not None and price1 is not None else 0
@@ -156,6 +172,8 @@ def calculate_payoff_df(
             vega = vega1
             theta = call_theta1
             rho = call_rho1
+            vanna = vanna1
+            charm = call_charm1
             strategy_type = "Bullish"
             risk_level = "Moderate Risk"
         elif side == "SHORT" and option_type == "CALL":
@@ -165,6 +183,8 @@ def calculate_payoff_df(
             vega = -vega1
             theta = -call_theta1
             rho = -call_rho1
+            vanna = -vanna1
+            charm = -call_charm1
             strategy_type = "Bearish"
             risk_level = "High Risk"
         elif side == "LONG" and option_type == "PUT":
@@ -174,6 +194,8 @@ def calculate_payoff_df(
             vega = vega1
             theta = put_theta1
             rho = put_rho1
+            vanna = vanna1
+            charm = put_charm1
             strategy_type = "Bearish"
             risk_level = "Moderate Risk"
         elif side == "SHORT" and option_type == "PUT":
@@ -183,6 +205,8 @@ def calculate_payoff_df(
             vega = -vega1
             theta = -put_theta1
             rho = -put_rho1
+            vanna = -vanna1
+            charm = -put_charm1
             strategy_type = "Bullish"
             risk_level = "High Risk"
 
@@ -194,6 +218,8 @@ def calculate_payoff_df(
             vega = vega1 + vega1
             theta = put_theta1 + call_theta1
             rho = put_rho1 + call_rho1
+            vanna = vanna1 + vanna1
+            charm = put_charm1 + call_charm1
             strategy_type = "Neutral"
             risk_level = "High Risk"
         elif side == "SHORT":
@@ -203,6 +229,8 @@ def calculate_payoff_df(
             vega = -(vega1 + vega1)
             theta = -(put_theta1 + call_theta1)
             rho = -(put_rho1 + call_rho1)
+            vanna = -(vanna1 + vanna1)
+            charm = -(put_charm1 + call_charm1)
             strategy_type = "Neutral"
             risk_level = "High Risk"
 
@@ -214,6 +242,8 @@ def calculate_payoff_df(
             vega = vega1 + vega2
             theta = put_theta1 + call_theta2
             rho = put_rho1 + call_rho2
+            vanna = vanna1 + vanna2
+            charm = put_charm1 + call_charm2
             strategy_type = "Neutral"
             risk_level = "High Risk"
         elif side == "SHORT":
@@ -223,6 +253,8 @@ def calculate_payoff_df(
             vega = -(vega1 + vega2)
             theta = -(put_theta1 + call_theta2)
             rho = -(put_rho1 + call_rho2)
+            vanna = -(vanna1 + vanna2)
+            charm = -(put_charm1 + call_charm2)
             strategy_type = "Neutral"
             risk_level = "High Risk"
 
@@ -234,6 +266,8 @@ def calculate_payoff_df(
             vega = vega1 - vega2
             theta = call_theta1 - call_theta2
             rho = call_rho1 - call_rho2
+            vanna = vanna1 - vanna2
+            charm = call_charm1 - call_charm2
             strategy_type = "Bullish"
             risk_level = "Moderate Risk"
         elif side == "SHORT" and option_type == "CALL":
@@ -243,6 +277,8 @@ def calculate_payoff_df(
             vega = -(vega1 - vega2)
             theta = -(call_theta1 - call_theta2)
             rho = -(call_rho1 - call_rho2)
+            vanna = -(vanna1 - vanna2)
+            charm = -(call_charm1 - call_charm2)
             strategy_type = "Bearish"
             risk_level = "Moderate Risk"
         elif side == "SHORT" and option_type == "PUT":
@@ -252,6 +288,8 @@ def calculate_payoff_df(
             vega = vega1 - vega2
             theta = put_theta1 - put_theta2
             rho = put_rho1 - put_rho2
+            vanna = vanna1 - vanna2
+            charm = put_charm1 - put_charm2
             strategy_type = "Bullish"
             risk_level = "Moderate Risk"
         elif side == "LONG" and option_type == "PUT":
@@ -261,6 +299,8 @@ def calculate_payoff_df(
             vega = -(vega1 - vega2)
             theta = -(put_theta1 - put_theta2)
             rho = -(put_rho1 - put_rho2)
+            vanna = -(vanna1 - vanna2)
+            charm = -(put_charm1 - put_charm2)
             strategy_type = "Bearish"
             risk_level = "Moderate Risk"
 
@@ -271,6 +311,8 @@ def calculate_payoff_df(
         vega = vega1
         theta = -put_theta1
         rho = -put_rho1
+        vanna = vanna1
+        charm = put_charm1
         strategy_type = "Bearish"
         risk_level = "Moderate Risk"
 
@@ -281,6 +323,8 @@ def calculate_payoff_df(
         vega = -vega1
         theta = -call_theta1
         rho = -call_rho1
+        vanna = -vanna1
+        charm = -call_charm1
         strategy_type = "Bullish"
         risk_level = "Low Risk"
 
@@ -291,6 +335,8 @@ def calculate_payoff_df(
         vega = vega1
         theta = put_theta1
         rho = put_rho1
+        vanna = vanna1
+        charm = put_charm1
         strategy_type = "Bullish"
         risk_level = "Moderate Risk"
 
@@ -301,6 +347,8 @@ def calculate_payoff_df(
         vega = vega1
         theta = call_theta1
         rho = call_rho1
+        vanna = vanna1
+        charm = call_charm1
         strategy_type = "Bearish"
         risk_level = "Low Risk"
 
@@ -311,6 +359,8 @@ def calculate_payoff_df(
         vega = 3 * vega1
         theta = call_theta1 + 2 * put_theta1
         rho = call_rho1 + 2 * put_rho1
+        vanna = 3 * vanna1
+        charm = call_charm1 + 2 * put_charm1
         strategy_type = "Bearish"
         risk_level = "High Risk"
 
@@ -321,6 +371,8 @@ def calculate_payoff_df(
         vega = 3 * vega1
         theta = 2 * call_theta1 + put_theta1
         rho = 2 * call_rho1 + put_rho1
+        vanna = 3 * vanna1
+        charm = 2 * call_charm1 + put_charm1
         strategy_type = "Bullish"
         risk_level = "High Risk"
 
@@ -332,6 +384,8 @@ def calculate_payoff_df(
             vega = vega1 - 2 * vega2 + vega3
             theta = call_theta1 - 2 * call_theta2 + call_theta3
             rho = call_rho1 - 2 * call_rho2 + call_rho3
+            vanna = vanna1 - 2 * vanna2 + vanna3
+            charm = call_charm1 - 2 * call_charm2 + call_charm3
             strategy_type = "Neutral"
             risk_level = "Low Risk"
         elif side == "SHORT" and option_type == "CALL":
@@ -341,6 +395,8 @@ def calculate_payoff_df(
             vega = -(vega1 - 2 * vega2 + vega3)
             theta = -(call_theta1 - 2 * call_theta2 + call_theta3)
             rho = -(call_rho1 - 2 * call_rho2 + call_rho3)
+            vanna = -(vanna1 - 2 * vanna2 + vanna3)
+            charm = -(call_charm1 - 2 * call_charm2 + call_charm3)
             strategy_type = "Neutral"
             risk_level = "Low Risk"
         elif side == "LONG" and option_type == "PUT":
@@ -350,6 +406,8 @@ def calculate_payoff_df(
             vega = vega1 - 2 * vega2 + vega3
             theta = put_theta1 - 2 * put_theta2 + put_theta3
             rho = put_rho1 - 2 * put_rho2 + put_rho3
+            vanna = vanna1 - 2 * vanna2 + vanna3
+            charm = put_charm1 - 2 * put_charm2 + put_charm3
             strategy_type = "Neutral"
             risk_level = "Low Risk"
         elif side == "SHORT" and option_type == "PUT":
@@ -359,6 +417,8 @@ def calculate_payoff_df(
             vega = -(vega1 - 2 * vega2 + vega3)
             theta = -(put_theta1 - 2 * put_theta2 + put_theta3)
             rho = -(put_rho1 - 2 * put_rho2 + put_rho3)
+            vanna = -(vanna1 - 2 * vanna2 + vanna3)
+            charm = -(put_charm1 - 2 * put_charm2 + put_charm3)
             strategy_type = "Neutral"
             risk_level = "Low Risk"
 
@@ -370,6 +430,8 @@ def calculate_payoff_df(
             vega = vega1 - vega2 - vega3
             theta = call_theta1 - call_theta2 - call_theta3
             rho = call_rho1 - call_rho2 - call_rho3
+            vanna = vanna1 - vanna2 - vanna3
+            charm = call_charm1 - call_charm2 - call_charm3
             strategy_type = "Bullish"
             risk_level = "High Risk"
         elif side == "SHORT" and option_type == "CALL":
@@ -379,6 +441,8 @@ def calculate_payoff_df(
             vega = -(vega1 - vega2 - vega3)
             theta = -(call_theta1 - call_theta2 - call_theta3)
             rho = -(call_rho1 - call_rho2 - call_rho3)
+            vanna = -(vanna1 - vanna2 - vanna3)
+            charm = -(call_charm1 - call_charm2 - call_charm3)
             strategy_type = "Bearish"
             risk_level = "High Risk"
         elif side == "SHORT" and option_type == "PUT":
@@ -388,6 +452,8 @@ def calculate_payoff_df(
             vega = vega1 + vega2 - vega3
             theta = put_theta1 + put_theta2 - put_theta3
             rho = put_rho1 + put_rho2 - put_rho3
+            vanna = vanna1 + vanna2 - vanna3
+            charm = put_charm1 + put_charm2 - put_charm3
             strategy_type = "Bullish"
             risk_level = "High Risk"
         elif side == "LONG" and option_type == "PUT":
@@ -397,6 +463,8 @@ def calculate_payoff_df(
             vega = -(vega1 + vega2 - vega3)
             theta = -(put_theta1 + put_theta2 - put_theta3)
             rho = -(put_rho1 + put_rho2 - put_rho3)
+            vanna = -(vanna1 + vanna2 - vanna3)
+            charm = -(put_charm1 + put_charm2 - put_charm3)
             strategy_type = "Bearish"
             risk_level = "High Risk"
 
@@ -407,6 +475,8 @@ def calculate_payoff_df(
         vega = -vega1 - vega2 + vega3
         theta = -put_theta1 - call_theta2 + call_theta3
         rho = -put_rho1 - call_rho2 + call_rho3
+        vanna = -vanna1 - vanna2 + vanna3
+        charm = -put_charm1 - call_charm2 + call_charm3
         strategy_type = "Bullish"
         risk_level = "Moderate Risk"
 
@@ -417,6 +487,8 @@ def calculate_payoff_df(
         vega = vega1 - vega2 - vega3
         theta = put_theta1 - put_theta2 - call_theta3
         rho = put_rho1 - put_rho2 - call_rho3
+        vanna = vanna1 - vanna2 - vanna3
+        charm = put_charm1 - put_charm2 - call_charm3
         strategy_type = "Bearish"
         risk_level = "Moderate Risk"
 
@@ -428,6 +500,8 @@ def calculate_payoff_df(
             vega = vega1 - vega2 - vega3 + vega4
             theta = call_theta1 - call_theta2 - call_theta3 + call_theta4
             rho = call_rho1 - call_rho2 - call_rho3 + call_rho4
+            vanna = vanna1 - vanna2 - vanna3 + vanna4
+            charm = call_charm1 - call_charm2 - call_charm3 + call_charm4
             strategy_type = "Neutral"
             risk_level = "Low Risk"
         elif side == "SHORT" and option_type == "CALL":
@@ -437,6 +511,8 @@ def calculate_payoff_df(
             vega = -(vega1 - vega2 - vega3 + vega4)
             theta = -(call_theta1 - call_theta2 - call_theta3 + call_theta4)
             rho = -(call_rho1 - call_rho2 - call_rho3 + call_rho4)
+            vanna = -(vanna1 - vanna2 - vanna3 + vanna4)
+            charm = -(call_charm1 - call_charm2 - call_charm3 + call_charm4)
             strategy_type = "Neutral"
             risk_level = "Low Risk"
         elif side == "LONG" and option_type == "PUT":
@@ -446,6 +522,8 @@ def calculate_payoff_df(
             vega = vega1 - vega2 - vega3 + vega4
             theta = put_theta1 - put_theta2 - put_theta3 + put_theta4
             rho = put_rho1 - put_rho2 - put_rho3 + put_rho4
+            vanna = vanna1 - vanna2 - vanna3 + vanna4
+            charm = put_charm1 - put_charm2 - put_charm3 + put_charm4
             strategy_type = "Neutral"
             risk_level = "Low Risk"
         elif side == "SHORT" and option_type == "PUT":
@@ -455,6 +533,8 @@ def calculate_payoff_df(
             vega = -(vega1 - vega2 - vega3 + vega4)
             theta = -(put_theta1 - put_theta2 - put_theta3 + put_theta4)
             rho = -(put_rho1 - put_rho2 - put_rho3 + put_rho4)
+            vanna = -(vanna1 - vanna2 - vanna3 + vanna4)
+            charm = -(put_charm1 - put_charm2 - put_charm3 + put_charm4)
             strategy_type = "Neutral"
             risk_level = "Low Risk"
 
@@ -465,6 +545,8 @@ def calculate_payoff_df(
         vega = np.zeros(len(x))
         theta = np.zeros(len(x))
         rho = np.zeros(len(x))
+        vanna = np.zeros(len(x))
+        charm = np.zeros(len(x))
         strategy_type = "Unknown"
         risk_level = "Unknown"
 
@@ -475,6 +557,8 @@ def calculate_payoff_df(
     vega = vega * size
     theta = theta * size
     rho = rho * size
+    vanna = vanna * size
+    charm = charm * size
 
     # 손익 데이터 저장
     df["y"] = y_values
@@ -485,6 +569,8 @@ def calculate_payoff_df(
     df["Vega"] = vega
     df["Theta"] = theta
     df["Rho"] = rho
+    df["Vanna"] = vanna
+    df["Charm"] = charm
 
     # 손익 계산
     calculated_max_profit = np.max(y_values)

@@ -59,6 +59,25 @@ def option_greeks(s, k, rf, sigma, tau, y):
     put_rho = (k * tau * np.exp(-rf * tau) * (stats.norm.cdf(d2) - 1)) / pct
 
     vega = (s * np.sqrt(tau) * nd1) / pct
+    
+    # Vanna calculation - second-order cross Greek (dDelta/dVol or dVega/dSpot)
+    vanna = -(np.exp(-y * tau) * d1 / sigma * nd1) / pct
+    
+    # Charm calculation (delta decay) - rate of change of delta with respect to time
+    call_charm = -(
+        np.exp(-y * tau) * (
+            nd1 * (2 * (rf - y) * tau - d2 * sigma * np.sqrt(tau)) / 
+            (2 * tau * sigma * np.sqrt(tau))
+        )
+    ) / T
+    
+    put_charm = -(
+        np.exp(-y * tau) * (
+            nd1 * (2 * (rf - y) * tau - d2 * sigma * np.sqrt(tau)) / 
+            (2 * tau * sigma * np.sqrt(tau))
+        ) - 
+        y * np.exp(-y * tau) * stats.norm.cdf(-d1)
+    ) / T
 
     return {
         "call_delta": call_delta,
@@ -69,4 +88,7 @@ def option_greeks(s, k, rf, sigma, tau, y):
         "put_theta": put_theta,
         "call_rho": call_rho,
         "put_rho": put_rho,
+        "vanna": vanna,
+        "call_charm": call_charm,
+        "put_charm": put_charm,
     }

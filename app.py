@@ -160,7 +160,7 @@ def main():
 
                 greeks = st.selectbox(
                     "Greeks",
-                    options=["Delta", "Gamma", "Vega", "Theta", "Rho"],
+                    options=["Delta", "Gamma", "Vega", "Theta", "Rho", "Vanna", "Charm"],
                     key="greeks_select",
                 )
                 # 최초 변동성 값으로 52주 역사적 변동성 사용
@@ -1324,7 +1324,14 @@ def main():
                 vega_tooltip = "Vega: Change in option value per 1% change in volatility"
                 theta_tooltip = "Theta: Option's time decay; change in value as one day passes"
                 rho_tooltip = "Rho: Change in option value per 1% change in interest rates"
+                vanna_tooltip = "Vanna: Rate of change of delta with respect to volatility (or vega with respect to price)"
+                charm_tooltip = "Charm: Rate of change of delta with respect to time (delta decay)"
 
+                # Get Vanna and Charm values
+                vanna = df["Vanna"].iloc[idx]
+                charm = df["Charm"].iloc[idx]
+
+                # 첫 번째 줄에 기본 그릭스 5개를 표시
                 col_g1, col_g2, col_g3, col_g4, col_g5 = st.columns(5)
                 with col_g1:
                     st.metric("Delta", f"{delta:.4f}", help=delta_tooltip)
@@ -1336,6 +1343,14 @@ def main():
                     st.metric("Theta", f"{theta:.4f}", help=theta_tooltip)
                 with col_g5:
                     st.metric("Rho", f"{rho:.4f}", help=rho_tooltip)
+                
+                # 두 번째 줄에 Vanna와 Charm을 Delta와 Gamma 아래에 표시
+                col_h1, col_h2, col_h3, col_h4, col_h5 = st.columns(5)
+                with col_h1:
+                    st.metric("Vanna", f"{vanna:.4f}", help=vanna_tooltip)
+                with col_h2:
+                    st.metric("Charm", f"{charm:.4f}", help=charm_tooltip)
+                # 나머지 열은 비워둠
 
         else:
             st.info("Please enter a ticker symbol and fetch data in the sidebar first.")
@@ -1942,15 +1957,15 @@ def main():
         
         Vega measures the change in an option's price for a one-percentage-point change in the implied volatility of the underlying asset.
         
-        $$\\nu = S_0N'(d_1)\\sqrt{\\tau}$$
+        $$\\nu = S_0e^{-y\\tau}N'(d_1)\\sqrt{\\tau}$$
         
         **Theta:**
         
         Theta measures the daily decrease in an option's price as it approaches expiration, reflecting time decay.
         
-        $$\\text{Call: } \\theta_c = 1/T(-(\\frac{S_0\\sigma e^{-y\\tau}}{2\\sqrt{\\tau}}N'(d_1)) - r_fKe^{r_f\\tau} N(d_2) + yS_0e^{-y\\tau}N(d_1))$$
+        $$\\text{Call: } \\theta_c = 1/T(-(\\frac{S_0\\sigma e^{-y\\tau}}{2\\sqrt{\\tau}}N'(d_1)) - r_fKe^{-r_f\\tau} N(d_2) + yS_0e^{-y\\tau}N(d_1))$$
         
-        $$\\text{Put: } \\theta_p = 1/T(-(\\frac{S_0\\sigma e^{-y\\tau}}{2\\sqrt{\\tau}}N'(d_1)) + r_fKe^{r_f\\tau} N(-d_2) - yS_0e^{-y\\tau}N(-d_1))$$
+        $$\\text{Put: } \\theta_p = 1/T(-(\\frac{S_0\\sigma e^{-y\\tau}}{2\\sqrt{\\tau}}N'(d_1)) + r_fKe^{-r_f\\tau} N(-d_2) - yS_0e^{-y\\tau}N(-d_1))$$
         
         **Rho:**
         
@@ -1959,6 +1974,24 @@ def main():
         $$\\text{Call: } \\rho_c = K\\tau e^{-r_f\\tau}N(d_2)$$
         
         $$\\text{Put: } \\rho_p = -K\\tau e^{-r_f\\tau}N(-d_2)$$
+        
+        **Vanna:**
+        
+        Vanna (also known as DvegaDspot or DdeltaDvol) measures the rate of change of delta with respect to a change in volatility, or equivalently, the rate of change of vega with respect to a change in the underlying price. Vanna is a second-order Greek that helps traders understand how their delta hedges will change when volatility changes.
+        
+        $$\\text{Vanna} = -e^{-y\\tau}\\frac{d_1}{\\sigma}N'(d_1)$$
+        
+        Vanna is highest for at-the-money options with moderate time to expiration. Positive vanna means that as volatility increases, delta increases (becomes more positive). Vanna is the same for both calls and puts with the same strike and expiration.
+        
+        **Charm:**
+        
+        Charm (also known as delta decay) measures the instantaneous rate of change of delta over the passage of time. It tells option traders how much delta will change each day if all other factors remain constant. Charm helps traders maintain delta-neutral positions as time passes.
+        
+        $$\\text{Call Charm} = -e^{-y\\tau}\\frac{N'(d_1)(2(r_f-y)\\tau-d_2\\sigma\\sqrt{\\tau})}{2\\tau\\sigma\\sqrt{\\tau}}$$
+        
+        $$\\text{Put Charm} = -e^{-y\\tau}\\frac{N'(d_1)(2(r_f-y)\\tau-d_2\\sigma\\sqrt{\\tau})}{2\\tau\\sigma\\sqrt{\\tau}} - ye^{-y\\tau}N(-d_1)$$
+        
+        Charm can be particularly significant for options close to expiration, helping traders understand how quickly delta changes as time runs out.
         """
         )
 

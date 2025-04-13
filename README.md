@@ -22,6 +22,7 @@
 ### 금융 투자자를 위한 강력한 옵션 전략 시뮬레이션 및 분석 도구
 
 ## 새로운 기능
+- 고급 그릭스 추가: 고급 옵션 분석을 위한 Vanna와 Charm 그릭스가 추가되었습니다.
 - 전략 성과 분석: 각 옵션 전략의 승률을 계산하여 표시합니다.
 - 확률 곡선 시각화: 손익 구조 플롯에 전략의 다양한 결과에 대한 확률 분포 곡선을 추가했습니다.
 - 향상된 옵션 가격 책정: 옵션 이론 가격 계산에 52주 변동성 대신 델타 중립 내재 변동성을 사용합니다.
@@ -49,7 +50,7 @@
 |------|------|
 | **실시간 주식 데이터** | 주식 티커 심볼을 입력하여 실시간 주가 및 기본 정보 확인 |
 | **옵션 전략 시뮬레이션** | 다양한 옵션 전략의 손익 구조를 시각화 |
-| **그릭스 분석** | 델타, 감마, 베가, 세타, 로 등 옵션 그릭스 계산 및 시각화 |
+| **그릭스 분석** | 델타, 감마, 베가, 세타, 로, 바나, 참 등 옵션 그릭스 계산 및 시각화 |
 | **내재 변동성 분석** | 변동성 스마일/스큐 및 3D 변동성 표면 생성 |
 | **옵션 체인 조회** | 특정 만기일에 대한 전체 옵션 체인 데이터 확인 |
 | **볼륨 차트 및 풋콜 비율** | 각 옵션의 볼륨 차트와 풋콜 비율 시각화 |
@@ -150,6 +151,7 @@ streamlit run app.py
 ### A powerful option strategy simulation and analysis tool for financial investors
 
 ## What's New
+- Advanced Greeks Added: Vanna and Charm greeks have been added for sophisticated option analysis.
 - Strategy Performance Analysis: Now calculates and displays the win rate for each option strategy.
 - Probability Curve Visualization: Added a probability distribution curve to the profit/loss plot for strategy outcomes.
 - Enhanced Option Pricing: Uses delta-neutral implied volatility instead of 52-week volatility for theoretical option pricing.
@@ -177,7 +179,7 @@ streamlit run app.py
 |---------|-------------|
 | **Real-time Stock Data** | Input a stock ticker symbol to get real-time prices and basic information |
 | **Option Strategy Simulation** | Visualize the profit/loss structure of various option strategies |
-| **Greeks Analysis** | Calculate and visualize option Greeks including Delta, Gamma, Vega, Theta, and Rho |
+| **Greeks Analysis** | Calculate and visualize option Greeks including Delta, Gamma, Vega, Theta, Rho, Vanna, and Charm |
 | **Implied Volatility Analysis** | Generate volatility smiles/skews and 3D volatility surfaces |
 | **Option Chain Lookup** | View complete option chain data for specific expiry dates |
 | **Volume Chart and Put-Call Ratio** | Visualize volume chart and put-call ratio for each option |
@@ -278,6 +280,7 @@ streamlit run app.py
 ### 为金融投资者提供的强大期权策略模拟和分析工具
 
 ## 新功能
+- 添加高级希腊字母: 添加了Vanna和Charm高级希腊字母，用于复杂期权分析。
 - 策略表现分析: 现在计算并显示每种期权策略的胜率。
 - 概率曲线可视化: 在损益图中添加了策略结果的概率分布曲线。
 - 增强的期权定价: 使用delta中性隐含波动率代替52周波动率进行理论期权定价。
@@ -305,7 +308,7 @@ streamlit run app.py
 |------|------|
 | **实时股票数据获取** | 输入股票代码获取实时价格和基本信息 |
 | **期权策略模拟** | 可视化各种期权策略的盈亏结构 |
-| **希腊字母分析** | 计算并可视化期权希腊字母，包括Delta、Gamma、Vega、Theta和Rho |
+| **希腊字母分析** | 计算并可视化期权希腊字母，包括Delta、Gamma、Vega、Theta、Rho、Vanna和Charm |
 | **隐含波动率分析** | 生成波动率微笑/偏斜和3D波动率曲面 |
 | **期权链查询** | 查看特定到期日的完整期权链数据 |
 | **交易量图表和看跌/看涨比率** | 可视化每个期权的交易量图表和看跌/看涨比率 |
@@ -406,6 +409,7 @@ streamlit run app.py
 ### 金融投資家のための強力なオプション戦略シミュレーションおよび分析ツール
 
 ## 新機能
+- 高度なギリシャ指標の追加: 高度なオプション分析のためのVannaとCharmギリシャ指標が追加されました。
 - 戦略パフォーマンス分析: 各オプション戦略の勝率を計算して表示します。
 - 確率曲線の視覚化: 損益プロットに戦略結果の確率分布曲線を追加しました。
 - 強化されたオプション価格設定: 理論オプション価格の計算に52週ボラティリティの代わりにデルタ中立インプライドボラティリティを使用します。
@@ -433,7 +437,7 @@ streamlit run app.py
 |------|------|
 | **リアルタイム株式データ取得** | 株式ティッカーシンボルを入力してリアルタイム価格と基本情報を取得 |
 | **オプション戦略シミュレーション** | 様々なオプション戦略の損益構造を視覚化 |
-| **ギリシャ指標分析** | デルタ、ガンマ、ベガ、シータ、ローなどのオプションギリシャ指標を計算・視覚化 |
+| **ギリシャ指標分析** | デルタ、ガンマ、ベガ、シータ、ロー、バンナ、チャームなどのオプションギリシャ指標を計算・視覚化 |
 | **インプライドボラティリティ分析** | ボラティリティスマイル/スキューおよび3Dボラティリティサーフェスを生成 |
 | **オプションチェーン検索** | 特定の満期日の完全なオプションチェーンデータを表示 |
 | **ボリュームチャートとプット・コール比率** | 各オプションのボリュームチャートとプット・コール比率を視覚化 |

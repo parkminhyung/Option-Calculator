@@ -135,6 +135,30 @@ def plot_option_strategy(df, s, greeks, strategy_info, tau=30, sigma=30, y=0):
                 hoverinfo="x+y",
             )
         )
+    elif greeks == "Vanna":
+        fig.add_trace(
+            go.Scatter(
+                x=df["x"],
+                y=df["Vanna"],
+                mode="lines",
+                name="Vanna",
+                line=dict(dash="dot", color="green", width=1.5),
+                yaxis="y2",
+                hoverinfo="x+y",
+            )
+        )
+    elif greeks == "Charm":
+        fig.add_trace(
+            go.Scatter(
+                x=df["x"],
+                y=df["Charm"],
+                mode="lines",
+                name="Charm",
+                line=dict(dash="dot", color="purple", width=1.5),
+                yaxis="y2",
+                hoverinfo="x+y",
+            )
+        )
 
     y_min = min(df["y"]) * 1.1 if min(df["y"]) < 0 else -1
     y_max = max(df["y"]) * 1.1 if max(df["y"]) > 0 else 1
