@@ -8,6 +8,6 @@ def calculate_days_to_expiry(expiry_date):
         
     expiry = datetime.strptime(expiry_date, "%Y-%m-%d")
     # 만기일에 하루를 더함
-    expiry = expiry + timedelta(days=1)
+    expiry = expiry + timedelta(days=2)
     today = datetime.now()
     return (expiry - today).days
