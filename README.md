@@ -28,7 +28,7 @@
 - 향상된 옵션 가격 책정: 옵션 이론 가격 계산에 52주 변동성 대신 델타 중립 내재 변동성을 사용합니다.
 
 <p align="center">
-  <img width="800" alt="메인 화면" src="https://github.com/user-attachments/assets/4b458818-ff41-4510-a9cd-af7a28f6cbb9" />
+  <img width="800" alt="메인 화면" src="https://github.com/user-attachments/assets/9980e92c-fc72-49a1-aea5-41a27981b55f" />
 </p>
 
 <details open>
@@ -163,7 +163,7 @@ streamlit run app.py
 - Enhanced Option Pricing: Uses delta-neutral implied volatility instead of 52-week volatility for theoretical option pricing.
 
 <p align="center">
-  <img width="800" alt="Main Screen" src="https://github.com/user-attachments/assets/4b458818-ff41-4510-a9cd-af7a28f6cbb9" />
+  <img width="800" alt="Main Screen" src="https://github.com/user-attachments/assets/9980e92c-fc72-49a1-aea5-41a27981b55f" />
 </p>
 
 <details>
@@ -292,7 +292,7 @@ streamlit run app.py
 - 增强的期权定价: 使用delta中性隐含波动率代替52周波动率进行理论期权定价。
 
 <p align="center">
-  <img width="800" alt="主屏幕" src="https://github.com/user-attachments/assets/4b458818-ff41-4510-a9cd-af7a28f6cbb9" />
+  <img width="800" alt="主屏幕" src="https://github.com/user-attachments/assets/9980e92c-fc72-49a1-aea5-41a27981b55f" />
 </p>
 
 <details>
@@ -421,7 +421,7 @@ streamlit run app.py
 - 強化されたオプション価格設定: 理論オプション価格の計算に52週ボラティリティの代わりにデルタ中立インプライドボラティリティを使用します。
 
 <p align="center">
-  <img width="800" alt="メイン画面" src="https://github.com/user-attachments/assets/4b458818-ff41-4510-a9cd-af7a28f6cbb9" />
+  <img width="800" alt="メイン画面" src="https://github.com/user-attachments/assets/9980e92c-fc72-49a1-aea5-41a27981b55f" />
 </p>
 
 <details>
