@@ -130,7 +130,7 @@ def main():
                 if data:
                     st.session_state.data = data
                     st.success(f"Successfully fetched data for {ticker}")
-                    st.rerun()  # Rerun to update the UI with new data
+                    st.rerun()  
                 else:
                     st.error("Failed to fetch data. Please check the ticker symbol.")
     
@@ -147,10 +147,8 @@ def main():
 
             st.subheader("Option Parameters")
 
-            # 파라미터 스타일 적용
             apply_parameter_styles()
 
-            # 5개 컬럼 유지 - 하지만 5번째 컬럼은 빈 컬럼으로 남겨둠
             param_cols = st.columns(5)
 
             with param_cols[0]:
@@ -227,7 +225,7 @@ def main():
                     options=["Delta", "Gamma", "Vega", "Theta", "Rho", "Vanna", "Charm"],
                     key="greeks_select",
                 )
-                # 최초 변동성 값으로 52주 역사적 변동성 사용
+
                 default_vol = float(data["vol"])
                 
                 # 내재변동성 계산 (만기일 및 행사가격 선택 시 델타 중립 변동성 사용)
@@ -236,10 +234,8 @@ def main():
                         calls, puts = get_option_chain(ticker, expiry)
                         
                         if calls is not None and puts is not None:
-                            # 모든 행사가격 가져오기
                             all_strikes = sorted(set(calls["strike"].tolist() + puts["strike"].tolist()))
                             
-                            # 현재 선택된 행사가격 확인
                             selected_strikes = []
                             if "k1_select_single" in st.session_state:
                                 selected_strikes.append(st.session_state.k1_select_single)
@@ -256,12 +252,9 @@ def main():
                                 selected_strikes.append(st.session_state.k3_select_condor)
                                 selected_strikes.append(st.session_state.k4_select_condor)
                             
-                            # 선택된 행사가격이 있는 경우
                             if selected_strikes:
-                                # 델타 중립 변동성 계산을 위한 준비
-                                atm_strike = all_strikes[len(all_strikes) // 2]  # 가장 ATM에 가까운 행사가격
+                                atm_strike = all_strikes[len(all_strikes) // 2]  
                                 
-                                # ATM 옵션의 내재변동성 계산
                                 if option_type == "CALL":
                                     atm_option = calls[calls["strike"] == atm_strike]
                                     calc_type = "c"
@@ -1352,7 +1345,7 @@ def main():
                 idx = np.abs(df["x"] - s).argmin()
                 current_pl = df["y"].iloc[idx].round(2)
                 
-                # Display performance metrics
+                # Display performance metrics - First row
                 col_p1, col_p2, col_p3, col_p4, col_p5 = st.columns(5)
                 
                 with col_p1:
@@ -1363,14 +1356,22 @@ def main():
                     st.metric("Max Loss (@100)", min_profit_text)
                 with col_p4:
                     st.metric("Win Rate", f"{win_rate:.2f}%")
-                with col_p5:
-                    if strategy_info["bep1"] is not None and strategy_info["bep2"] is not None:
-                        bep_text = f"${strategy_info['bep1']:.2f}, ${strategy_info['bep2']:.2f}"
-                    elif strategy_info["bep1"] is not None:
-                        bep_text = f"${strategy_info['bep1']:.2f}"
-                    else:
-                        bep_text = "N/A"
-                    st.metric("Break-Even", bep_text)
+                
+                # Second row for Break-Even points
+                col_b1, col_b2, col_b3, col_b4, col_b5 = st.columns(5)
+                
+                # Display Break-Even points
+                if strategy_info["bep1"] is not None and strategy_info["bep2"] is not None:
+                    with col_b1:
+                        st.metric("Break-Even ₁", f"${strategy_info['bep1']:.2f}")
+                    with col_b2:
+                        st.metric("Break-Even ₂", f"${strategy_info['bep2']:.2f}")
+                elif strategy_info["bep1"] is not None:
+                    with col_b1:
+                        st.metric("Break-Even", f"${strategy_info['bep1']:.2f}")
+                else:
+                    with col_b1:
+                        st.metric("Break-Even", "N/A")
 
                 st.markdown("<br>", unsafe_allow_html=True)
 
