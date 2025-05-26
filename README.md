@@ -34,15 +34,21 @@
 <details open>
 <summary><b>📊 스크린샷 더 보기</b></summary>
 <p align="center">
-  <img width="1660" alt="image" src="https://github.com/user-attachments/assets/00ad355b-f8f9-4bea-8028-1941c8f25b1a" />
+  <img width="1660" alt="image" src="https://github.com/user-attachments/assets/9980e92c-fc72-49a1-aea5-41a27981b55f" />
   <br><br>
-  <img width="1667" alt="image" src="https://github.com/user-attachments/assets/c89913cc-ba1c-48fc-a96c-53aa76159067" />
+  <img width="1667" alt="image" src="https://github.com/user-attachments/assets/733ad5d4-8d30-448d-acc4-c83bf6e66e1e" />
   <br><br>
   <img width="1666" alt="image" src="https://github.com/user-attachments/assets/79551c01-8215-4fa3-9534-00c30679c6cc" />
   <br><br>
   <img width="1663" alt="image" src="https://github.com/user-attachments/assets/438a0b48-c3e6-4013-a339-b6abb4b69702" />
 </p>
 </details>
+
+
+
+
+
+
 
 ## 주요 기능
 
@@ -163,9 +169,9 @@ streamlit run app.py
 <details>
 <summary><b>📊 More Screenshots</b></summary>
 <p align="center">
-  <img width="1660" alt="image" src="https://github.com/user-attachments/assets/00ad355b-f8f9-4bea-8028-1941c8f25b1a" />
+  <img width="1660" alt="image" src="https://github.com/user-attachments/assets/9980e92c-fc72-49a1-aea5-41a27981b55f" />
   <br><br>
-  <img width="1667" alt="image" src="https://github.com/user-attachments/assets/c89913cc-ba1c-48fc-a96c-53aa76159067" />
+  <img width="1667" alt="image" src="https://github.com/user-attachments/assets/733ad5d4-8d30-448d-acc4-c83bf6e66e1e" />
   <br><br>
   <img width="1666" alt="image" src="https://github.com/user-attachments/assets/79551c01-8215-4fa3-9534-00c30679c6cc" />
   <br><br>
@@ -292,9 +298,9 @@ streamlit run app.py
 <details>
 <summary><b>📊 更多截图</b></summary>
 <p align="center">
-  <img width="1660" alt="image" src="https://github.com/user-attachments/assets/00ad355b-f8f9-4bea-8028-1941c8f25b1a" />
+  <img width="1660" alt="image" src="https://github.com/user-attachments/assets/9980e92c-fc72-49a1-aea5-41a27981b55f" />
   <br><br>
-  <img width="1667" alt="image" src="https://github.com/user-attachments/assets/c89913cc-ba1c-48fc-a96c-53aa76159067" />
+  <img width="1667" alt="image" src="https://github.com/user-attachments/assets/733ad5d4-8d30-448d-acc4-c83bf6e66e1e" />
   <br><br>
   <img width="1666" alt="image" src="https://github.com/user-attachments/assets/79551c01-8215-4fa3-9534-00c30679c6cc" />
   <br><br>
@@ -421,9 +427,9 @@ streamlit run app.py
 <details>
 <summary><b>📊 その他のスクリーンショット</b></summary>
 <p align="center">
-  <img width="1660" alt="image" src="https://github.com/user-attachments/assets/00ad355b-f8f9-4bea-8028-1941c8f25b1a" />
+  <img width="1660" alt="image" src="https://github.com/user-attachments/assets/9980e92c-fc72-49a1-aea5-41a27981b55f" />
   <br><br>
-  <img width="1667" alt="image" src="https://github.com/user-attachments/assets/c89913cc-ba1c-48fc-a96c-53aa76159067" />
+  <img width="1667" alt="image" src="https://github.com/user-attachments/assets/733ad5d4-8d30-448d-acc4-c83bf6e66e1e" />
   <br><br>
   <img width="1666" alt="image" src="https://github.com/user-attachments/assets/79551c01-8215-4fa3-9534-00c30679c6cc" />
   <br><br>
