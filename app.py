@@ -35,45 +35,109 @@ def main():
     if 'plot_strategy' not in st.session_state:
         st.session_state.plot_strategy = None
     
+    # Sidebar header
     st.sidebar.title("Option Calculator")
-
-    ticker = st.sidebar.text_input("Enter Ticker Symbol:", "AAPL").upper()
-
+    
+    # Ticker input - only fetch on Enter or button click
+    ticker = st.sidebar.text_input("Enter Ticker Symbol:", "AAPL", key="ticker_input").upper()
     fetch_button = st.sidebar.button("Fetch Data")
+    
+    # Add JavaScript to detect Enter key in the ticker input
+    st.markdown("""
+    <script>
+    const input = document.querySelector('input[data-testid="stTextInput"]');
+    if (input) {
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const value = this.value;
+                const data = {data: value};
+                const jsonData = JSON.stringify(data);
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', window.location.href, true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        window.location.reload();
+                    }
+                };
+                xhr.send(jsonData);
+            }
+        });
+    }
+    </script>
+    """, unsafe_allow_html=True)
 
+    # Display company information if data is available
+    if "data" in st.session_state:
+        data = st.session_state.data
+        
+        # Company info and metrics in a clean layout
+        with st.container():
+            # Company name and sector
+            st.markdown(f"""
+                <h1 style='margin: 0; padding: 0; font-size: 3.5rem; font-weight: 300; 
+                            color: #1E88E5; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", 
+                            Roboto, Helvetica, Arial, sans-serif; margin-bottom: 0.2rem;'>
+                    {data['name']} <span style='font-size: 1.4rem; color: #666;'>({ticker})</span>
+                </h1>
+                <div style='font-size: 1.0rem; color: #666; margin-bottom: 0.8rem;'>{data['sector']}</div>
+            """, unsafe_allow_html=True)
+            
+            # Price and metrics in a modern layout
+            change_color = '#1cd4c8' if data['chg'] >= 0 else '#d41c78'
+            st.markdown(f"""
+                <div style='margin-bottom: 1.5rem;'>
+                    <div style='display: flex; align-items: baseline; margin-bottom: 0.8rem;'>
+                        <span style='font-size: 2.5rem; font-weight: 400;'>${data['underlying_price']:.2f}</span>
+                        <span style='font-size: 1.1rem; color: {change_color}; margin-left: 0.8rem;'>
+                            {'+' if data['chg'] > 0 else ''}{data['chg']:.2f}%
+                        </span>
+                    </div>
+                    <div style='display: flex; flex-wrap: wrap; gap: 0.8rem;'>
+                        <div style='background: #f8f9fa; border-radius: 8px; padding: 0.6rem 0.8rem; flex: 1; min-width: 120px;'>
+                            <div style='font-size: 0.8rem; color: #6c757d; margin-bottom: 0.2rem;'>
+                                <i class='fas fa-door-open' style='margin-right: 0.4rem;'></i>Open
+                            </div>
+                            <div style='font-size: 1.1rem; font-weight: 500;'>${data['open_price']:.2f}</div>
+                        </div>
+                        <div style='background: #f8f9fa; border-radius: 8px; padding: 0.6rem 0.8rem; flex: 1; min-width: 120px;'>
+                            <div style='font-size: 0.8rem; color: #6c757d; margin-bottom: 0.2rem;'>
+                                <i class='fas fa-arrow-up' style='margin-right: 0.4rem; color: #28a745;'></i>High
+                            </div>
+                            <div style='font-size: 1.1rem; font-weight: 500; color: #28a745;'>${data['high']:.2f}</div>
+                        </div>
+                        <div style='background: #f8f9fa; border-radius: 8px; padding: 0.6rem 0.8rem; flex: 1; min-width: 120px;'>
+                            <div style='font-size: 0.8rem; color: #6c757d; margin-bottom: 0.2rem;'>
+                                <i class='fas fa-arrow-down' style='margin-right: 0.4rem; color: #dc3545;'></i>Low
+                            </div>
+                            <div style='font-size: 1.1rem; font-weight: 500; color: #dc3545;'>${data['low']:.2f}</div>
+                        </div>
+                        <div style='background: #f8f9fa; border-radius: 8px; padding: 0.6rem 0.8rem; flex: 1; min-width: 120px;'>
+                            <div style='font-size: 0.8rem; color: #6c757d; margin-bottom: 0.2rem;'>
+                                <i class='fas fa-chart-line' style='margin-right: 0.4rem;'></i>52w Vol
+                            </div>
+                            <div style='font-size: 1.1rem; font-weight: 500;'>{data['vol']:.2f}%</div>
+                        </div>
+                    </div>
+                </div>
+            """, unsafe_allow_html=True)
+    
+    # Fetch data if button is clicked
     if fetch_button:
         with st.sidebar:
             with st.spinner("Fetching data..."):
                 data = fetch_data(ticker)
-
                 if data:
                     st.session_state.data = data
                     st.success(f"Successfully fetched data for {ticker}")
+                    st.rerun()  # Rerun to update the UI with new data
                 else:
                     st.error("Failed to fetch data. Please check the ticker symbol.")
-
-    if "data" in st.session_state:
-        data = st.session_state.data
-
-        with st.sidebar:
-            st.markdown(f"### {data['name']} ({ticker})")
-            st.markdown(f"**Sector:** {data['sector']}")
-
-            st.markdown("#### Stock Information")
-            col1, col2 = st.columns(2)
-
-            with col1:
-                st.metric(
-                    "Price", f"${data['underlying_price']:.2f}", f"{data['chg']:.2f}%"
-                )
-                st.metric("High", f"${data['high']:.2f}")
-
-            with col2:
-                st.metric("Open", f"${data['open_price']:.2f}")
-                st.metric("Low", f"${data['low']:.2f}")
-
-            st.metric("Volatility (52w)", f"{data['vol']:.2f}%")
-
+    
+    # Add some space before the tabs
+    st.markdown("<br>", unsafe_allow_html=True)
+    
+    # Main content tabs
     tab1, tab3, tab2 = st.tabs(
         ["Option Calculator & Strategy", "Option Chain", "About"]
     )
@@ -1294,9 +1358,9 @@ def main():
                 with col_p1:
                     st.metric("Underlying price", f"${s:.2f}")
                 with col_p2:
-                    st.metric("Max Profit", max_profit_text)
+                    st.metric("Max Profit (@100)", max_profit_text)
                 with col_p3:
-                    st.metric("Max Loss", min_profit_text)
+                    st.metric("Max Loss (@100)", min_profit_text)
                 with col_p4:
                     st.metric("Win Rate", f"{win_rate:.2f}%")
                 with col_p5:
@@ -1312,45 +1376,152 @@ def main():
 
                 st.subheader("Greeks at Current Price")
                 idx = np.abs(df["x"] - s).argmin()
+                
+                # Get Greek values
                 delta = df["Delta"].iloc[idx]
                 gamma = df["Gamma"].iloc[idx]
                 vega = df["Vega"].iloc[idx]
                 theta = df["Theta"].iloc[idx]
                 rho = df["Rho"].iloc[idx]
-
-                # Greek descriptions
-                delta_tooltip = "Delta: Rate of change in option value per $1 change in underlying price"
-                gamma_tooltip = "Gamma: Rate of change in Delta per $1 change in underlying price"
-                vega_tooltip = "Vega: Change in option value per 1% change in volatility"
-                theta_tooltip = "Theta: Option's time decay; change in value as one day passes"
-                rho_tooltip = "Rho: Change in option value per 1% change in interest rates"
-                vanna_tooltip = "Vanna: Rate of change of delta with respect to volatility (or vega with respect to price)"
-                charm_tooltip = "Charm: Rate of change of delta with respect to time (delta decay)"
-
-                # Get Vanna and Charm values
                 vanna = df["Vanna"].iloc[idx]
                 charm = df["Charm"].iloc[idx]
 
-                # 첫 번째 줄에 기본 그릭스 5개를 표시
-                col_g1, col_g2, col_g3, col_g4, col_g5 = st.columns(5)
-                with col_g1:
-                    st.metric("Delta", f"{delta:.4f}", help=delta_tooltip)
-                with col_g2:
-                    st.metric("Gamma", f"{gamma:.4f}", help=gamma_tooltip)
-                with col_g3:
-                    st.metric("Vega", f"{vega:.4f}", help=vega_tooltip)
-                with col_g4:
-                    st.metric("Theta", f"{theta:.4f}", help=theta_tooltip)
-                with col_g5:
-                    st.metric("Rho", f"{rho:.4f}", help=rho_tooltip)
+                # Define Greek information with symbols
+                greeks_info = [
+                    {
+                        "name": "Δ Delta",
+                        "value": delta,
+                        "good_high": True if strategy_info.get('option_type', '').upper() == 'CALL' else False,
+                        "description": "Price sensitivity to underlying asset ($1 change)",
+                        "interpretation": "Higher delta means more sensitivity to price changes"
+                    },
+                    {
+                        "name": "Γ Gamma",
+                        "value": gamma,
+                        "good_high": True,
+                        "description": "Rate of change in Delta per $1 move",
+                        "interpretation": "Higher gamma means delta changes more rapidly"
+                    },
+                    {
+                        "name": "ν Vega",
+                        "value": vega,
+                        "good_high": True,
+                        "description": "Sensitivity to 1% change in volatility",
+                        "interpretation": "Higher vega means more sensitive to volatility changes"
+                    },
+                    {
+                        "name": "Θ Theta",
+                        "value": theta,
+                        "good_high": False,  # Negative theta is generally bad for option buyers
+                        "description": "Daily time decay of option value",
+                        "interpretation": "Negative theta means losing value each day"
+                    },
+                    {
+                        "name": "ρ Rho",
+                        "value": rho,
+                        "good_high": True,
+                        "description": "Sensitivity to 1% change in interest rates",
+                        "interpretation": "Higher rates generally increase call values, decrease put values"
+                    },
+                    {
+                        "name": "Δν/ΔS Vanna",
+                        "value": vanna,
+                        "description": "Delta's sensitivity to volatility changes",
+                        "interpretation": "Shows how delta changes with volatility"
+                    },
+                    {
+                        "name": "Δδ/Δt Charm",
+                        "value": charm,
+                        "description": "Delta's sensitivity to time passing",
+                        "interpretation": "Shows how delta changes as expiration approaches"
+                    }
+                ]
+
+                # Display Greeks in a more organized way
+                st.markdown("""
+                <style>
+                .greek-card {
+                    background: #f8f9fa;
+                    border-radius: 6px;
+                    padding: 12px;
+                    margin-bottom: 8px;
+                    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+                }
+                .greek-name {
+                    font-weight: 600;
+                    font-size: 1.1em;
+                    margin-bottom: 5px;
+                    font-family: monospace;
+                }
+                .greek-value {
+                    font-size: 1.3em;
+                    font-weight: 600;
+                    margin: 4px 0;
+                }
+                .greek-desc {
+                    font-size: 0.85em;
+                    color: #666;
+                    margin-top: 4px;
+                }
+                .positive {
+                    color: #1cd4c8;
+                }
+                .negative {
+                    color: #d41c78;
+                }
+                </style>
+                """, unsafe_allow_html=True)
+
+                # Create two columns for better layout
+                col1, col2 = st.columns(2)
                 
-                # 두 번째 줄에 Vanna와 Charm을 Delta와 Gamma 아래에 표시
-                col_h1, col_h2, col_h3, col_h4, col_h5 = st.columns(5)
-                with col_h1:
-                    st.metric("Vanna", f"{vanna:.4f}", help=vanna_tooltip)
-                with col_h2:
-                    st.metric("Charm", f"{charm:.4f}", help=charm_tooltip)
-                # 나머지 열은 비워둠
+                with col1:
+                    for greek in greeks_info[:4]:
+                        value_color = 'positive' if (greek['value'] >= 0 and greek.get('good_high', True)) or \
+                                                    (greek['value'] < 0 and not greek.get('good_high', True)) else 'negative'
+                        
+                        st.markdown(f"""
+                        <div class='greek-card'>
+                            <div style='display: flex; justify-content: space-between; align-items: center;'>
+                                <div>
+                                    <div class='greek-name'> {greek['name']}</div>
+                                    <div class='greek-value {value_color}'>{greek['value']:+.4f}</div>
+                                </div>
+                                <div style='text-align: right;'>
+                                    <div class='greek-desc'>{greek['description']}</div>
+                                    <div style='font-size: 0.8em; color: #888;'>{greek['interpretation']}</div>
+                                </div>
+                            </div>
+                        </div>
+                        """, unsafe_allow_html=True)
+                
+                with col2:
+                    for greek in greeks_info[4:]:
+                        value_color = 'positive' if (greek['value'] >= 0 and greek.get('good_high', True)) or \
+                                                    (greek['value'] < 0 and not greek.get('good_high', True)) else 'negative'
+                        
+                        st.markdown(f"""
+                        <div class='greek-card'>
+                            <div style='display: flex; justify-content: space-between; align-items: center;'>
+                                <div>
+                                    <div class='greek-name'> {greek['name']}</div>
+                                    <div class='greek-value {value_color}'>{greek['value']:+.4f}</div>
+                                </div>
+                                <div style='text-align: right;'>
+                                    <div class='greek-desc'>{greek['description']}</div>
+                                    <div style='font-size: 0.8em; color: #888;'>{greek['interpretation']}</div>
+                                </div>
+                            </div>
+                        </div>
+                        """, unsafe_allow_html=True)
+                        
+                    # Add a small legend explaining the colors
+                    st.markdown("""
+                    <div style='margin-top: 15px; font-size: 0.85em; color: #666;'>
+                        <div><span style='color: #1cd4c8;'>Green:</span> Desirable direction for this position</div>
+                        <div><span style='color: #d41c78;'>Pink:</span> Less desirable direction</div>
+                    </div>
+                    """, unsafe_allow_html=True)
 
         else:
             st.info("Please enter a ticker symbol and fetch data in the sidebar first.")
