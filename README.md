@@ -22,10 +22,8 @@
 ### 금융 투자자를 위한 강력한 옵션 전략 시뮬레이션 및 분석 도구
 
 ## 새로운 기능
-- 고급 그릭스 추가: 고급 옵션 분석을 위한 Vanna와 Charm 그릭스가 추가되었습니다.
-- 전략 성과 분석: 각 옵션 전략의 승률을 계산하여 표시합니다.
-- 확률 곡선 시각화: 손익 구조 플롯에 전략의 다양한 결과에 대한 확률 분포 곡선을 추가했습니다.
-- 향상된 옵션 가격 책정: 옵션 이론 가격 계산에 52주 변동성 대신 델타 중립 내재 변동성을 사용합니다.
+- 회사명, 가격정보 및 그릭스의 디자인을 변경하였습니다 
+
 
 <p align="center">
   <img width="800" alt="메인 화면" src="https://github.com/user-attachments/assets/9980e92c-fc72-49a1-aea5-41a27981b55f" />
@@ -46,10 +44,6 @@
 
 
 
-
-
-
-
 ## 주요 기능
 
 | 기능 | 설명 |
@@ -60,6 +54,10 @@
 | **내재 변동성 분석** | 변동성 스마일/스큐 및 3D 변동성 표면 생성 |
 | **옵션 체인 조회** | 특정 만기일에 대한 전체 옵션 체인 데이터 확인 |
 | **볼륨 차트 및 풋콜 비율** | 각 옵션의 볼륨 차트와 풋콜 비율 시각화 |
+| **고급 그릭스 추가** | 고급 옵션 분석을 위한 Vanna와 Charm 그릭스가 추가되었습니다.|
+| **전략 성과 분석** | 각 옵션 전략의 승률을 계산하여 표시합니다.|
+| **확률 곡선 시각화** | 손익 구조 플롯에 전략의 다양한 결과에 대한 확률 분포 곡선을 추가합니다.|
+| **향상된 옵션 가격 책정** | 옵션 이론 가격 계산에 52주 변동성 대신 델타 중립 내재 변동성을 사용합니다.|
 
 ## 사용 가능한 옵션 전략
 
@@ -157,10 +155,7 @@ streamlit run app.py
 ### A powerful option strategy simulation and analysis tool for financial investors
 
 ## What's New
-- Advanced Greeks Added: Vanna and Charm greeks have been added for sophisticated option analysis.
-- Strategy Performance Analysis: Now calculates and displays the win rate for each option strategy.
-- Probability Curve Visualization: Added a probability distribution curve to the profit/loss plot for strategy outcomes.
-- Enhanced Option Pricing: Uses delta-neutral implied volatility instead of 52-week volatility for theoretical option pricing.
+- The design of the company name, pricing information, and Greeks has been updated.
 
 <p align="center">
   <img width="800" alt="Main Screen" src="https://github.com/user-attachments/assets/9980e92c-fc72-49a1-aea5-41a27981b55f" />
@@ -189,6 +184,11 @@ streamlit run app.py
 | **Implied Volatility Analysis** | Generate volatility smiles/skews and 3D volatility surfaces |
 | **Option Chain Lookup** | View complete option chain data for specific expiry dates |
 | **Volume Chart and Put-Call Ratio** | Visualize volume chart and put-call ratio for each option |
+| **Advanced Greeks Added** | Vanna and Charm greeks have been added for sophisticated option analysis. |
+| **Strategy Performance Analysis** Now calculates and displays the win rate for each option strategy. |
+| **Probability Curve Visualization** | Added a probability distribution curve to the profit/loss plot for strategy outcomes. |
+| **Enhanced Option Pricing** | Uses delta-neutral implied volatility instead of 52-week volatility for theoretical option pricing. |
+
 
 ## Available Option Strategies
 
@@ -286,10 +286,7 @@ streamlit run app.py
 ### 为金融投资者提供的强大期权策略模拟和分析工具
 
 ## 新功能
-- 添加高级希腊字母: 添加了Vanna和Charm高级希腊字母，用于复杂期权分析。
-- 策略表现分析: 现在计算并显示每种期权策略的胜率。
-- 概率曲线可视化: 在损益图中添加了策略结果的概率分布曲线。
-- 增强的期权定价: 使用delta中性隐含波动率代替52周波动率进行理论期权定价。
+- 更新公司名称、价格信息以及希腊值的设计。
 
 <p align="center">
   <img width="800" alt="主屏幕" src="https://github.com/user-attachments/assets/9980e92c-fc72-49a1-aea5-41a27981b55f" />
@@ -318,6 +315,10 @@ streamlit run app.py
 | **隐含波动率分析** | 生成波动率微笑/偏斜和3D波动率曲面 |
 | **期权链查询** | 查看特定到期日的完整期权链数据 |
 | **交易量图表和看跌/看涨比率** | 可视化每个期权的交易量图表和看跌/看涨比率 |
+| **添加高级希腊字母** | 添加了Vanna和Charm高级希腊字母，用于复杂期权分析。|
+| **策略表现分析** | 现在计算并显示每种期权策略的胜率。 |
+| **概率曲线可视化** | 在损益图中添加了策略结果的概率分布曲线。 |
+| **增强的期权定价** | 使用delta中性隐含波动率代替52周波动率进行理论期权定价。 |
 
 ## 可用期权策略
 
@@ -415,10 +416,7 @@ streamlit run app.py
 ### 金融投資家のための強力なオプション戦略シミュレーションおよび分析ツール
 
 ## 新機能
-- 高度なギリシャ指標の追加: 高度なオプション分析のためのVannaとCharmギリシャ指標が追加されました。
-- 戦略パフォーマンス分析: 各オプション戦略の勝率を計算して表示します。
-- 確率曲線の視覚化: 損益プロットに戦略結果の確率分布曲線を追加しました。
-- 強化されたオプション価格設定: 理論オプション価格の計算に52週ボラティリティの代わりにデルタ中立インプライドボラティリティを使用します。
+- 会社名、価格情報、およびグリークスのデザインを変更しました。
 
 <p align="center">
   <img width="800" alt="メイン画面" src="https://github.com/user-attachments/assets/9980e92c-fc72-49a1-aea5-41a27981b55f" />
@@ -447,6 +445,10 @@ streamlit run app.py
 | **インプライドボラティリティ分析** | ボラティリティスマイル/スキューおよび3Dボラティリティサーフェスを生成 |
 | **オプションチェーン検索** | 特定の満期日の完全なオプションチェーンデータを表示 |
 | **ボリュームチャートとプット・コール比率** | 各オプションのボリュームチャートとプット・コール比率を視覚化 |
+| **高度なギリシャ指標の追加** | 高度なオプション分析のためのVannaとCharmギリシャ指標が追加されました。 |
+| **戦略パフォーマンス分析** | 各オプション戦略の勝率を計算して表示します。 |
+| **確率曲線の視覚化** | 損益プロットに戦略結果の確率分布曲線を追加しました。 |
+| **強化されたオプション価格設定** | 理論オプション価格の計算に52週ボラティリティの代わりにデルタ中立インプライドボラティリティを使用します。 |
 
 ## 利用可能なオプション戦略
 
