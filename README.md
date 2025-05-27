@@ -5,8 +5,8 @@
   
 ### 금융 시장을 위한 최고의 옵션 분석 도구
 
-[![Stars](https://img.shields.io/badge/Stars-⭐⭐⭐⭐⭐-yellow)](https://github.com/parkminhyung/Option-Calculator)
-[![Version](https://img.shields.io/badge/Version-1.0.0-blue)](https://github.com/parkminhyung/Option-Calculator/releases)
+[![Stars](https://img.shields.io/badge/Stars-⭐⭐⭐⭐⭐-yellow)](https://github.com/parkminhyung/Option_Calculator)
+[![Version](https://img.shields.io/badge/Version-1.0.0-blue)](https://github.com/parkminhyung/Option_Calculator/releases)
 [![License](https://img.shields.io/badge/License-MIT-green)](https://opensource.org/licenses/MIT)
 
 **[한국어](#한국어) | [English](#english) | [中文](#中文) | [日本語](#日本語)**
@@ -120,8 +120,8 @@
 
 ```bash
 # 저장소 복제
-git clone https://github.com/parkminhyung/Option-Calculator.git
-cd Option-Calculator
+git clone https://github.com/parkminhyung/Option_Calculator.git
+cd Option_Calculator
 
 # 필요한 패키지 설치
 pip install streamlit pandas numpy yfinance plotly scipy
@@ -251,8 +251,8 @@ streamlit run app.py
 
 ```bash
 # Clone the repository
-git clone https://github.com/parkminhyung/Option-Calculator.git
-cd Option-Calculator
+git clone https://github.com/parkminhyung/Option_Calculator.git
+cd Option_Calculator
 
 # Install required packages
 pip install streamlit pandas numpy yfinance plotly scipy
@@ -381,8 +381,8 @@ streamlit run app.py
 
 ```bash
 # 克隆仓库
-git clone https://github.com/parkminhyung/Option-Calculator.git
-cd Option-Calculator
+git clone https://github.com/parkminhyung/Option_Calculator.git
+cd Option_Calculator
 
 # 安装所需包
 pip install streamlit pandas numpy yfinance plotly scipy
@@ -511,8 +511,8 @@ streamlit run app.py
 
 ```bash
 # リポジトリをクローン
-git clone https://github.com/parkminhyung/Option-Calculator.git
-cd Option-Calculator
+git clone https://github.com/parkminhyung/Option_Calculator.git
+cd Option_Calculator
 
 # 必要なパッケージをインストール
 pip install streamlit pandas numpy yfinance plotly scipy
